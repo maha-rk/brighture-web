@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Labs — Brighture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
+    :root { --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    html, body { height: 100%; background: #000; font-family: var(--font); overflow-x: hidden; }
+    html { scroll-behavior: smooth; }
+
+    /* CURSOR */
+    #custom-cursor { position: fixed; top: 0; left: 0; width: 16px; height: 10px; pointer-events: none; z-index: 99999; transform: translate(-50%,-100%); transition: transform .06s ease, opacity .2s; }
+    #custom-cursor svg { width: 100%; height: 100%; }
+    body:not(:hover) #custom-cursor { opacity: 0; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; height: 96px; display: flex; align-items: center; justify-content: space-between; padding: 0 52px; z-index: 1000; background: rgba(0,0,0,.5); backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%); border-bottom: 1px solid rgba(255,255,255,.07); }
+    .nav-logo { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
+    .nav-logo svg { height: 38px; width: auto; overflow: visible; }
+    .nav-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.65); text-transform: lowercase; white-space: nowrap; }
+    .nav-links { display: flex; align-items: center; list-style: none; gap: 4px; }
+    .nav-item { position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 8px 16px; height: 96px; text-decoration: none; background: none; border: none; font-family: var(--font); }
+    .nav-item .label { font-size: 16.8px; font-weight: 400; color: #fff; letter-spacing: .01em; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+    .chevron { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); transition: transform .22s ease; margin-top: -3px; display: inline-block; flex-shrink: 0; }
+    .has-dropdown:hover .chevron { transform: rotate(225deg); margin-top: 3px; }
+    .has-dropdown { position: relative; }
+    .dropdown { position: absolute; top: 100%; left: 0; background: rgba(8,8,8,.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.09); border-top: 2px solid #a100ff; min-width: 170px; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity .2s ease, transform .2s ease; z-index: 200; }
+    .has-dropdown:hover .dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .dropdown li { display: block; }
+    .dropdown a { display: flex; align-items: center; gap: 10px; padding: 13px 20px; font-size: 13px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.06); transition: background .15s, color .15s, padding-left .15s; }
+    .dropdown li:last-child a { border-bottom: none; }
+    .dropdown a:hover { background: rgba(161,0,255,.1); color: #fff; padding-left: 26px; }
+    .dropdown a.active { color: #fff; background: rgba(161,0,255,.08); }
+    .d-arrow { font-size: 10px; color: #a100ff; font-weight: 600; }
+
+    /* HERO */
+    .hero {
+      display: flex; align-items: center;
+      padding: 96px 0 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero > * { position: relative; z-index: 1; }
+
+    /* Animated dot grid */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(255,255,255,.032) 1px, transparent 1px);
+      background-size: 38px 38px;
+      animation: heroDotDrift 28s linear infinite;
+    }
+    @keyframes heroDotDrift {
+      from { background-position: 0 0; }
+      to   { background-position: 38px 38px; }
+    }
+
+    /* Mouse spotlight */
+    #hero-spotlight {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    }
+
+    /* Image entrance */
+    .hero-img-wrap {
+      flex: 0 0 48%;
+      opacity: 0; transform: translateX(-28px);
+      animation: heroImgIn .9s cubic-bezier(.4,0,.2,1) .05s forwards;
+    }
+    @keyframes heroImgIn {
+      to { opacity: 1; transform: none; }
+    }
+    .hero-img-wrap img { width: 100%; height: auto; display: block; }
+
+    .hero-text { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 60px 0 72px; }
+
+    /* Word-by-word title entrance */
+    .hero-title { font-size: clamp(42px,5.8vw,88px); font-weight: 800; letter-spacing: -.03em; line-height: 1.02; color: #fff; margin-bottom: 28px; }
+    .ht-word {
+      display: inline-block;
+      opacity: 0; transform: translateY(30px);
+      animation: htWordIn .65s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    .ht-word:nth-child(1) { animation-delay: .12s; }
+    .ht-word:nth-child(2) { animation-delay: .21s; }
+    .ht-word:nth-child(3) { animation-delay: .30s; }
+    .ht-word:nth-child(4) { animation-delay: .39s; }
+    @keyframes htWordIn {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* Description entrance */
+    .hero-desc {
+      font-size: clamp(15px,1.4vw,20px); font-weight: 400; line-height: 1.75; color: #fff;
+      opacity: 0; transform: translateY(16px);
+      animation: heroDescIn .65s ease .54s forwards;
+    }
+    @keyframes heroDescIn {
+      to { opacity: 1; transform: none; }
+    }
+
+    /* ── PROGRAMS ─────────────────────────────── */
+    .programs-wrapper { background: #0a0a0c; }
+
+    .program-block { display: flex; min-height: 100vh; overflow: hidden; border-top: 2px solid var(--dc, rgba(255,255,255,.08)); }
+    .program-block.reverse { flex-direction: row-reverse; }
+
+    .prog-img-wrap {
+      flex: 0 0 42%; overflow: hidden;
+      opacity: 0;
+      transition: opacity .85s ease .08s, transform .85s cubic-bezier(.4,0,.2,1) .08s;
+    }
+    .program-block:not(.reverse) .prog-img-wrap { transform: translateX(40px); }
+    .program-block.reverse .prog-img-wrap { transform: translateX(-40px); }
+    .program-block.in-view .prog-img-wrap { opacity: 1; transform: translateX(0); }
+    .prog-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+
+    .prog-content {
+      flex: 1; display: flex; flex-direction: column; justify-content: center;
+      padding: 60px 52px 60px 60px;
+      position: relative; overflow: hidden;
+      background-color: #0a0a0c;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.024) 1px, transparent 1px),
+        var(--dc-bg, radial-gradient(ellipse at 20% 50%, rgba(161,0,255,.05) 0%, transparent 60%));
+      background-size: 28px 28px, auto;
+      opacity: 0;
+      transition: opacity .85s ease .08s, transform .85s cubic-bezier(.4,0,.2,1) .08s;
+    }
+    .program-block:not(.reverse) .prog-content { transform: translateX(-40px); }
+    .program-block.reverse .prog-content { transform: translateX(40px); padding: 60px 60px 60px 52px; }
+    .program-block.in-view .prog-content { opacity: 1; transform: translateX(0); }
+
+    /* Ghost number — top-right of content area */
+    .prog-bg-num {
+      position: absolute; font-size: clamp(160px,20vw,270px);
+      font-weight: 900; line-height: 1; letter-spacing: -.07em;
+      color: var(--dc,#fff); opacity: .04;
+      top: -10px; right: -16px;
+      pointer-events: none; user-select: none; z-index: 0;
+    }
+    .program-block.reverse .prog-bg-num { right: -16px; left: auto; }
+    .prog-content > *:not(.prog-bg-num) { position: relative; z-index: 1; }
+
+    /* ── Category label ── */
+    .prog-category {
+      font-size: 9px; font-weight: 800; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--dc,#a100ff);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
+    }
+    .prog-category::before { content: ''; width: 22px; height: 1.5px; background: currentColor; display: inline-block; flex-shrink: 0; }
+
+    /* ── Program title — stands alone, full width ── */
+    .prog-name {
+      font-size: clamp(52px,6.5vw,92px); font-weight: 900;
+      letter-spacing: -.05em; color: #fff; line-height: .92;
+      margin-bottom: 16px;
+    }
+
+    /* ── Body row: bullets | vsep | lab-focus + ideal stacked ── */
+    .prog-body-row {
+      display: grid;
+      grid-template-columns: 1fr auto minmax(260px, 0.6fr);
+      align-items: stretch;
+      margin-bottom: 32px;
+    }
+
+    /* vsep */
+    .prog-vsep {
+      width: 1px; margin: 0 28px; align-self: stretch;
+      background: var(--dc,#a100ff); opacity: .55;
+    }
+
+    /* Right column: lab-focus stacked above ideal */
+    .prog-body-right { display: flex; flex-direction: column; }
+
+    /* Lab focus panel */
+    .prog-lab-focus {
+      display: flex; flex-direction: column;
+    }
+    .prog-focus-label { font-size: 9px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--dc,#a100ff); margin-bottom: 10px; }
+    .prog-focus-text { font-size: 15px; font-weight: 400; color: #fff; line-height: 1.72; }
+
+    /* Bullets */
+    .prog-bullets { list-style: none; padding: 0 0 0 14px; border-left: 2px solid var(--dc,#a100ff); display: flex; flex-direction: column; justify-content: space-between; }
+    .prog-bullets li { display: flex; align-items: center; gap: 12px; transition: transform .2s ease; }
+    .prog-bullets li:hover { transform: translateX(5px); }
+    .prog-bullets li span { font-size: 16px; font-weight: 700; color: #fff; line-height: 1.4; transition: color .2s ease; }
+    .prog-bullets li:hover span { color: #fff; }
+    .bi { width: 20px; height: 20px; flex-shrink: 0; color: var(--dc,#a100ff); display: flex; align-items: center; transition: opacity .2s ease; }
+    .prog-bullets li:hover .bi { opacity: 1; }
+    .bi svg { width: 100%; height: 100%; }
+
+    /* Ideal-for — caption block below lab focus */
+    .prog-ideal {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-top: 20px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .prog-ideal-icon { color: var(--dc,#a100ff); font-size: 14px; line-height: 1.6; flex-shrink: 0; margin-top: 2px; }
+    .prog-ideal-label { font-style: normal; font-weight: 900; font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--dc,#a100ff); display: block; margin-bottom: 5px; }
+    .prog-ideal-text { font-size: 15px; font-weight: 400; color: #fff; line-height: 1.5; letter-spacing: .01em; }
+
+    /* ── Detail table ── */
+    .prog-details { position: relative; padding-top: 40px; }
+    .prog-details::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--dc,#a100ff); opacity: .4; }
+
+    .prog-table { display: grid; grid-template-columns: 1fr 1px 1fr; grid-template-rows: auto 1px auto; }
+    .prog-table::before { content: ''; grid-column: 2; grid-row: 1/4; background: var(--dc,#a100ff); opacity: .35; }
+    .prog-table::after  { content: ''; grid-column: 1/4; grid-row: 2; background: var(--dc,#a100ff); opacity: .35; }
+
+    .prog-table-cell:nth-child(1) { grid-column: 1; grid-row: 1; padding: 0 22px 18px 0; }
+    .prog-table-cell:nth-child(2) { grid-column: 3; grid-row: 1; padding: 0 0 18px 22px; }
+    .prog-table-cell:nth-child(3) { grid-column: 1; grid-row: 3; padding: 18px 22px 0 0; }
+    .prog-table-cell:nth-child(4) { grid-column: 3; grid-row: 3; padding: 18px 0 0 22px; }
+
+    .prog-cell-label { display: flex; align-items: flex-end; gap: 14px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,.12); }
+    .prog-cell-num { font-size: clamp(28px,3vw,38px); font-weight: 900; color: var(--dc,#a100ff); letter-spacing: -.04em; line-height: 1; flex-shrink: 0; opacity: .75; }
+    .prog-cell-title { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #fff; padding-bottom: 3px; }
+
+    .prog-detail-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+    .prog-detail-list li { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.45; display: flex; align-items: flex-start; gap: 9px; transition: color .18s ease, transform .18s ease; }
+    .prog-detail-list li:hover { color: #fff; transform: translateX(3px); }
+    .prog-detail-list li::before { content: '→'; color: var(--dc,#a100ff); font-weight: 800; font-size: 12px; flex-shrink: 0; margin-top: 2px; }
+
+    /* ── Program overview strip ── */
+    .program-block { scroll-margin-top: 96px; }
+
+    .prog-overview { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .prog-overview-grid { display: grid; grid-template-columns: repeat(4,1fr); }
+
+    .prog-ov-card {
+      display: flex; flex-direction: column;
+      padding: 40px 36px;
+      border-right: 1px solid rgba(255,255,255,.06);
+      border-top: 2px solid var(--dc);
+      text-decoration: none;
+      position: relative; overflow: hidden;
+      transition: background .25s ease;
+    }
+    .prog-ov-card:last-child { border-right: none; }
+    .prog-ov-card:hover { background: rgba(255,255,255,.028); }
+    .prog-ov-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: var(--dc); transform: scaleX(0); transform-origin: left;
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .prog-ov-card:hover::after { transform: scaleX(1); }
+
+    .prog-ov-num { font-size: 9px; font-weight: 900; letter-spacing: .22em; text-transform: uppercase; color: var(--dc); margin-bottom: 14px; }
+    .prog-ov-name { font-size: clamp(18px,1.8vw,24px); font-weight: 900; letter-spacing: -.03em; color: #fff; line-height: 1.1; margin-bottom: 14px; }
+    .prog-ov-desc { font-size: 14px; font-weight: 500; color: #fff; line-height: 1.65; flex: 1; margin-bottom: 22px; }
+    .prog-ov-for { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #fff; margin-bottom: 20px; }
+    .prog-ov-link { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--dc); transition: gap .2s ease; }
+    .prog-ov-card:hover .prog-ov-link { gap: 11px; }
+
+    /* ── Overview card entrance animations ── */
+    .prog-ov-card {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .55s ease, transform .55s cubic-bezier(.4,0,.2,1), background .25s ease;
+    }
+    .prog-overview.ov-in .prog-ov-card:nth-child(1) { opacity: 1; transform: none; transition-delay: .04s; }
+    .prog-overview.ov-in .prog-ov-card:nth-child(2) { opacity: 1; transform: none; transition-delay: .13s; }
+    .prog-overview.ov-in .prog-ov-card:nth-child(3) { opacity: 1; transform: none; transition-delay: .22s; }
+    .prog-overview.ov-in .prog-ov-card:nth-child(4) { opacity: 1; transform: none; transition-delay: .31s; }
+
+    /* ── Overview active card (tracks current scroll position) ── */
+    .prog-ov-card.ov-active { background: rgba(255,255,255,.04); }
+    .prog-ov-card.ov-active .prog-ov-name { color: var(--dc); }
+    .prog-ov-card.ov-active .prog-ov-link { gap: 9px; }
+
+    /* ── Programs intro divider ── */
+    .programs-intro {
+      background: #0a0a0c;
+      padding: 52px 60px 44px;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+      position: relative; overflow: hidden;
+      cursor: default;
+    }
+    .programs-intro::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.3) 30%, rgba(255,255,255,.3) 70%, transparent 100%);
+    }
+    .programs-intro-row {
+      display: flex; align-items: center; gap: 24px;
+      width: 100%; max-width: 600px;
+      transition: opacity .2s ease;
+    }
+    .programs-intro:hover .programs-intro-row { opacity: 1; }
+    .programs-intro-line { flex: 1; height: 1px; }
+    .programs-intro-row .programs-intro-line:first-child {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.45));
+    }
+    .programs-intro-row .programs-intro-line:last-child {
+      background: linear-gradient(90deg, rgba(255,255,255,.45), transparent);
+    }
+    .programs-intro-label {
+      font-size: 15px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.8); white-space: nowrap; flex-shrink: 0;
+      transition: color .2s ease;
+    }
+    .programs-intro:hover .programs-intro-label { color: #fff; }
+    .programs-intro-arrow {
+      color: rgba(255,255,255,.45);
+      animation: introArrow 1.9s ease-in-out infinite;
+      transition: color .2s ease;
+    }
+    .programs-intro:hover .programs-intro-arrow { color: rgba(255,255,255,.9); }
+    @keyframes introArrow {
+      0%, 100% { transform: translateY(0); }
+      55%       { transform: translateY(6px); }
+    }
+
+    /* ── Table cell hover lift ── */
+    .prog-table-cell { position: relative; transition: background .22s ease; }
+    .prog-table-cell::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--dc,#a100ff); opacity: 0; transition: opacity .22s ease;
+    }
+    .prog-table-cell:hover { background: rgba(255,255,255,.03); }
+    .prog-table-cell:hover::before { opacity: .65; }
+
+    /* ── Section break divider ── */
+    .section-break {
+      background: #0a0a0c;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .section-break::before, .section-break::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,.07);
+    }
+    .section-break-orn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 28px;
+      flex-shrink: 0;
+    }
+    .section-break-orn svg { display: block; overflow: visible; }
+
+    /* ── Package Notes Section ── */
+    .pkg-section {
+      background: #0a0a0c;
+      padding: 96px 52px 112px;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .pkg-layout {
+      display: flex; align-items: center; gap: 80px;
+      max-width: 1060px; width: 100%;
+    }
+    .pkg-left { flex: 1; }
+    .pkg-left-heading {
+      font-size: clamp(32px, 3.8vw, 54px); font-weight: 800;
+      color: #fff; line-height: 1.08; letter-spacing: -.028em;
+      margin-bottom: 22px;
+    }
+    .pkg-left-heading .purple { color: #a100ff; }
+    .pkg-left-desc {
+      font-size: 17px; font-weight: 400;
+      color: #fff; line-height: 1.75;
+    }
+
+    /* iPad tablet frame (portrait) */
+    .tablet-outer {
+      position: relative;
+      background: linear-gradient(160deg, #3e3e40 0%, #1e1e20 55%, #141416 100%);
+      border-radius: 20px;
+      padding: 14px;
+      flex-shrink: 0;
+      width: 460px;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.15),
+        inset 0 -1px 0 rgba(255,255,255,.04),
+        0 0 0 1px rgba(255,255,255,.07),
+        0 0 0 3px #080808,
+        0 50px 100px rgba(0,0,0,.88),
+        0 16px 36px rgba(0,0,0,.45);
+    }
+    /* Front camera dot — top center */
+    .tablet-outer::before {
+      content: '';
+      position: absolute;
+      top: 7px; left: 50%; transform: translateX(-50%);
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #252527;
+      box-shadow: inset 0 0 0 1.5px #1a1a1c;
+    }
+    /* Power button top-right + volume pair on right edge */
+    .tablet-btn-power { position: absolute; top: -3px; right: 56px; width: 32px; height: 3px; background: #2a2a2c; border-radius: 2px 2px 0 0; pointer-events: none; }
+    .tablet-btn-vol-up { position: absolute; right: -3px; top: 70px; width: 3px; height: 28px; background: #2a2a2c; border-radius: 0 2px 2px 0; pointer-events: none; }
+    .tablet-btn-vol-dn { position: absolute; right: -3px; top: 108px; width: 3px; height: 28px; background: #2a2a2c; border-radius: 0 2px 2px 0; pointer-events: none; }
+
+    .tablet-screen {
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* iOS Notes chrome */
+    .notes-chrome {
+      background: #f2f2f7;
+      padding: 12px 16px 0;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+    }
+    .notes-status-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 4px;
+    }
+    .notes-time {
+      font-family: -apple-system, 'SF Pro Text', var(--font);
+      font-size: 14px; font-weight: 600; color: #000; letter-spacing: -.01em;
+    }
+    .notes-status-icons { display: flex; align-items: center; gap: 5px; }
+    .notes-batt-pct {
+      font-family: -apple-system, 'SF Pro Text', var(--font);
+      font-size: 11px; font-weight: 400; color: #000;
+    }
+    .notes-nav-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 10px;
+    }
+    .notes-back {
+      display: flex; align-items: center; gap: 1px;
+      font-family: -apple-system, 'SF Pro Text', var(--font);
+      font-size: 16px; font-weight: 400; color: #ff9f0a; text-decoration: none;
+    }
+    .notes-back-chevron { font-size: 24px; font-weight: 200; line-height: 1; margin-top: -1px; }
+    .notes-nav-actions { display: flex; align-items: center; gap: 12px; }
+    .notes-icon-btn { color: #ff9f0a; display: flex; align-items: center; }
+    .notes-more-btn {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(0,0,0,.08);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .notes-done {
+      font-family: -apple-system, 'SF Pro Text', var(--font);
+      font-size: 16px; font-weight: 600; color: #ff9f0a;
+    }
+
+    /* Note body */
+    .pkg-body { padding: 20px 18px 28px; }
+    .pkg-title-wrap { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,.08); }
+    .pkg-title {
+      font-family: -apple-system, 'SF Pro Display', var(--font);
+      font-size: 19px; font-weight: 700; color: #000;
+      line-height: 1.2; letter-spacing: -.01em;
+    }
+    .pkg-sub {
+      font-family: -apple-system, 'SF Pro Text', var(--font);
+      font-size: 12px; font-weight: 400; color: #6e6e73;
+      margin-top: 4px; line-height: 1.5;
+    }
+    .pkg-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .pkg-list li {
+      display: flex; align-items: center; gap: 12px;
+      font-family: -apple-system, 'SF Pro Text', var(--font);
+      font-size: 15px; font-weight: 400; color: #000; line-height: 1.4;
+      padding: 10px 0;
+      border-bottom: 1px solid #e5e5ea;
+    }
+    .pkg-list li:last-child { border-bottom: none; }
+    .pkg-check {
+      width: 21px; height: 21px; border-radius: 50%;
+      background: transparent;
+      border: 2px solid #c8c8cc;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.22s ease, border-color 0.22s ease;
+    }
+    .pkg-check svg { width: 10px; height: 10px; }
+    .pkg-check svg polyline {
+      stroke-dasharray: 16;
+      stroke-dashoffset: 16;
+      transition: stroke-dashoffset 0.28s ease 0.12s;
+    }
+    .pkg-list li.tick-done .pkg-check {
+      background: #ff9f0a;
+      border-color: #ff9f0a;
+    }
+    .pkg-list li.tick-done .pkg-check svg polyline {
+      stroke-dashoffset: 0;
+    }
+
+    /* ── Why Institutions Section ── */
+    .why-section {
+      background: #020204;
+      position: relative; min-height: 900px; overflow: hidden;
+    }
+    .why-section::before {
+      content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(161,0,255,.055) 1px, transparent 1px);
+      background-size: 46px 46px;
+    }
+    .why-section::after {
+      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(600px circle at var(--wmx,50%) var(--wmy,50%), rgba(161,0,255,.10) 0%, transparent 60%);
+    }
+    .why-orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
+    .why-orb-1 { width: 700px; height: 700px; top: -150px; left: -130px;
+      background: radial-gradient(circle, rgba(110,0,255,.18) 0%, transparent 55%);
+      animation: orbDrift 20s ease-in-out infinite; }
+    .why-orb-2 { width: 620px; height: 620px; bottom: -140px; right: -120px;
+      background: radial-gradient(circle, rgba(161,0,255,.15) 0%, transparent 55%);
+      animation: orbDrift 24s ease-in-out 4s infinite reverse; }
+    .why-orb-3 { width: 360px; height: 360px; top: 30%; left: 42%;
+      background: radial-gradient(circle, rgba(90,0,200,.09) 0%, transparent 60%);
+      animation: orbDrift 16s ease-in-out 8s infinite; }
+    @keyframes orbDrift {
+      0%,100%{transform:translate(0,0)} 33%{transform:translate(28px,-18px)} 66%{transform:translate(-16px,22px)}
+    }
+
+    .why-vignette {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 62% 56% at 50% 50%,
+        rgba(255,255,255,.075) 0%,
+        rgba(140,0,255,.19) 26%,
+        rgba(60,0,160,.07) 54%,
+        transparent 76%);
+      animation: vigBreath 5s ease-in-out infinite;
+    }
+    @keyframes vigBreath { 0%,100%{opacity:.68} 50%{opacity:1} }
+
+    .why-heading {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      text-align: center;
+      font-size: clamp(36px, 4.2vw, 58px); font-weight: 800;
+      color: #fff; line-height: 1.08; letter-spacing: -.03em;
+      z-index: 5; pointer-events: none;
+      width: clamp(280px, 35vw, 480px);
+      animation: headingGlow 4s ease-in-out infinite;
+    }
+    @keyframes headingGlow {
+      0%,100%{text-shadow:0 0 80px rgba(161,0,255,.28),0 0 28px rgba(161,0,255,.12)}
+      50%{text-shadow:0 0 180px rgba(161,0,255,.68),0 0 70px rgba(161,0,255,.32),0 0 130px rgba(210,120,255,.22)}
+    }
+
+    /* Float keyframes — varied axes for organic feel */
+    @keyframes fA { 0%,100%{transform:translate(0,0)    } 40%{transform:translate(-4px,-11px)} 70%{transform:translate(3px,-6px)} }
+    @keyframes fB { 0%,100%{transform:translate(0,0)    } 50%{transform:translate(5px,-9px)} }
+    @keyframes fC { 0%,100%{transform:translateY(0)     } 50%{transform:translateY(-13px)} }
+    @keyframes fD { 0%,100%{transform:translate(0,0)    } 33%{transform:translate(6px,-8px)} 66%{transform:translate(-3px,-12px)} }
+    @keyframes fE { 0%,100%{transform:translateY(0)     } 50%{transform:translateY(-7px)} }
+    @keyframes fF { 0%,100%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(-5px,-10px) rotate(1.5deg)} }
+    @keyframes fG { 0%,100%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(4px,-8px) rotate(-1deg)} }
+
+    /* Content blocks — outer floats, inner handles hover */
+    .why-block {
+      position: absolute; z-index: 4;
+      opacity: 0; transition: opacity .7s cubic-bezier(.4,0,.2,1);
+    }
+    .why-block-inner {
+      background: rgba(100,0,240,.13);
+      border: 1px solid rgba(161,0,255,.4);
+      border-radius: 14px; padding: 15px 18px;
+      width: 210px;
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; font-weight: 500;
+      color: rgba(255,255,255,.92); line-height: 1.6;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 6px 24px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
+      transition: border-color .28s, background .28s, box-shadow .28s, transform .28s cubic-bezier(.4,0,.2,1);
+    }
+    .why-block-inner:hover {
+      border-color: rgba(161,0,255,.8);
+      background: rgba(100,0,240,.24);
+      box-shadow: 0 10px 40px rgba(161,0,255,.32), 0 0 0 1px rgba(161,0,255,.25), inset 0 1px 0 rgba(255,255,255,.12);
+      transform: scale(1.06);
+    }
+    .why-block-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #a100ff; flex-shrink: 0; margin-top: 4px;
+      box-shadow: 0 0 8px rgba(161,0,255,.9);
+      animation: dotPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%,100%{box-shadow:0 0 6px rgba(161,0,255,.7)}
+      50%{box-shadow:0 0 18px rgba(161,0,255,1),0 0 36px rgba(161,0,255,.45)}
+    }
+    .why-block.revealed { opacity: 1; }
+
+    /* Star-shape — 5 blocks at pentagon points around the heading */
+    .wb-1 { top:calc(50% - 258px); left:calc(50% - 105px); animation: fA 6.8s ease-in-out infinite; }
+    .wb-2 { top:calc(50% - 122px); left:calc(50% + 258px); animation: fB 7.3s ease-in-out .6s infinite; }
+    .wb-3 { top:calc(50% + 198px); left:calc(50% + 170px); animation: fD 7.9s ease-in-out .3s infinite; }
+    .wb-4 { top:calc(50% + 198px); left:calc(50% - 380px); animation: fC 6.3s ease-in-out 1s infinite; }
+    .wb-5 { top:calc(50% - 122px); left:calc(50% - 468px); animation: fE 6.6s ease-in-out .8s infinite; }
+
+    /* Ghost deco blocks — scattered ALL AROUND the section */
+    .why-deco {
+      position: absolute; border-radius: 10px; pointer-events: none; z-index: 2;
+      backdrop-filter: blur(3px);
+    }
+    /* Edges & corners */
+    .wd-1  { width:86px;  height:50px; top:4%;    left:3%;    background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.24); animation:fF 9s   ease-in-out        infinite; }
+    .wd-2  { width:56px;  height:34px; top:2%;    left:28%;   background:rgba(130,0,255,.07); border:1px solid rgba(161,0,255,.18); animation:fB 10.5s ease-in-out .8s   infinite; }
+    .wd-3  { width:78px;  height:46px; top:3%;    right:22%;  background:rgba(161,0,255,.08); border:1px solid rgba(161,0,255,.2);  animation:fE 8.4s  ease-in-out 1.5s  infinite; }
+    .wd-4  { width:94px;  height:54px; top:4%;    right:3%;   background:rgba(100,0,200,.10); border:1px solid rgba(161,0,255,.26); animation:fG 7.8s  ease-in-out        infinite; }
+    .wd-5  { width:80px;  height:48px; top:22%;   left:2%;    background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.22); animation:fC 9.6s  ease-in-out 2s    infinite; }
+    .wd-6  { width:64px;  height:38px; top:18%;   right:3%;   background:rgba(130,0,255,.08); border:1px solid rgba(161,0,255,.2);  animation:fA 8.8s  ease-in-out .4s   infinite; }
+    .wd-7  { width:96px;  height:56px; top:45%;   left:1.5%;  background:rgba(161,0,255,.10); border:1px solid rgba(161,0,255,.25); animation:fD 10s   ease-in-out 1.2s  infinite; }
+    .wd-8  { width:70px;  height:42px; top:42%;   right:2%;   background:rgba(100,0,200,.09); border:1px solid rgba(161,0,255,.22); animation:fF 9.2s  ease-in-out .7s   infinite; }
+    .wd-9  { width:82px;  height:48px; bottom:4%; left:3%;    background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.23); animation:fB 8.6s  ease-in-out 1.8s  infinite; }
+    .wd-10 { width:52px;  height:32px; bottom:2%; left:30%;   background:rgba(130,0,255,.07); border:1px solid rgba(161,0,255,.17); animation:fE 11s   ease-in-out .5s   infinite; }
+    .wd-11 { width:90px;  height:52px; bottom:3%; right:3%;   background:rgba(161,0,255,.10); border:1px solid rgba(161,0,255,.25); animation:fG 9.4s  ease-in-out 1s    infinite; }
+    .wd-12 { width:62px;  height:36px; bottom:5%; right:22%;  background:rgba(100,0,200,.08); border:1px solid rgba(161,0,255,.2);  animation:fC 8.2s  ease-in-out 2.2s  infinite; }
+    /* Mid-section — fills visual gaps */
+    .wd-13 { width:66px;  height:40px; top:14%;   left:16%;   background:rgba(161,0,255,.08); border:1px solid rgba(161,0,255,.19); animation:fA 10.2s ease-in-out .9s   infinite; }
+    .wd-14 { width:50px;  height:30px; top:12%;   right:14%;  background:rgba(130,0,255,.07); border:1px solid rgba(161,0,255,.16); animation:fD 9.8s  ease-in-out 1.6s  infinite; }
+    .wd-15 { width:74px;  height:44px; top:70%;   left:14%;   background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.21); animation:fB 10.6s ease-in-out .3s   infinite; }
+    .wd-16 { width:58px;  height:34px; top:68%;   right:12%;  background:rgba(100,0,200,.08); border:1px solid rgba(161,0,255,.18); animation:fF 9s    ease-in-out 2.5s  infinite; }
+    /* Extra mid-zone ghost blocks */
+    .wd-17 { width:72px;  height:42px; top:31%;   left:9%;    background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.22); animation:fA 10.4s ease-in-out .4s   infinite; }
+    .wd-18 { width:58px;  height:34px; top:60%;   left:10%;   background:rgba(130,0,255,.08); border:1px solid rgba(161,0,255,.18); animation:fB 9.2s  ease-in-out 1.4s  infinite; }
+    .wd-19 { width:80px;  height:46px; top:29%;   right:9%;   background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.21); animation:fE 10.8s ease-in-out .7s   infinite; }
+    .wd-20 { width:60px;  height:36px; top:63%;   right:10%;  background:rgba(100,0,200,.08); border:1px solid rgba(161,0,255,.19); animation:fG 9.6s  ease-in-out 1.9s  infinite; }
+    .wd-21 { width:48px;  height:28px; top:7%;    left:54%;   background:rgba(130,0,255,.07); border:1px solid rgba(161,0,255,.15); animation:fC 11.2s ease-in-out .2s   infinite; }
+    .wd-22 { width:64px;  height:38px; bottom:6%; left:20%;   background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.20); animation:fD 9.8s  ease-in-out 2.3s  infinite; }
+    .wd-23 { width:56px;  height:32px; bottom:7%; right:20%;  background:rgba(100,0,200,.08); border:1px solid rgba(161,0,255,.18); animation:fF 10.2s ease-in-out 1.1s  infinite; }
+    .wd-24 { width:44px;  height:26px; top:16%;   left:40%;   background:rgba(130,0,255,.07); border:1px solid rgba(161,0,255,.14); animation:fB 12s   ease-in-out .6s   infinite; }
+    .wd-25 { width:70px;  height:40px; top:54%;   left:22%;   background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.21); animation:fA 9.4s  ease-in-out 1.7s  infinite; }
+    .wd-26 { width:54px;  height:32px; top:50%;   right:22%;  background:rgba(100,0,200,.08); border:1px solid rgba(161,0,255,.18); animation:fG 10.6s ease-in-out .9s   infinite; }
+    .wd-27 { width:38px;  height:22px; top:38%;   left:30%;   background:rgba(161,0,255,.07); border:1px solid rgba(161,0,255,.13); animation:fE 11.8s ease-in-out 2.8s  infinite; }
+    .wd-28 { width:46px;  height:28px; top:36%;   right:30%;  background:rgba(130,0,255,.07); border:1px solid rgba(161,0,255,.14); animation:fC 10.9s ease-in-out 1.3s  infinite; }
+
+  </style>
+</head>
+<body>
+
+<div id="custom-cursor">
+  <svg viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1 11 L10 2 L19 11" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg viewBox="20 10 490 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M61.232 117.48C56.24 117.48 51.728 116.328 47.696 114.024C43.728 111.72 40.56 108.584 38.192 104.616C35.888 100.584 34.704 96.072 34.64 91.08V45.768C34.64 44.616 34.96 43.72 35.6 43.08C36.304 42.376 37.232 42.024 38.384 42.024C39.472 42.024 40.336 42.376 40.976 43.08C41.68 43.72 42.032 44.616 42.032 45.768V73.992C44.144 70.984 46.928 68.584 50.384 66.792C53.904 64.936 57.808 64.008 62.096 64.008C67.024 64.008 71.44 65.192 75.344 67.56C79.248 69.864 82.32 73.032 84.56 77.064C86.864 81.096 88.016 85.64 88.016 90.696C88.016 95.816 86.832 100.392 84.464 104.424C82.16 108.456 78.992 111.656 74.96 114.024C70.928 116.328 66.352 117.48 61.232 117.48ZM61.232 110.76C64.944 110.76 68.272 109.896 71.216 108.168C74.16 106.376 76.464 103.976 78.128 100.968C79.856 97.96 80.72 94.536 80.72 90.696C80.72 86.92 79.856 83.528 78.128 80.52C76.464 77.448 74.16 75.048 71.216 73.32C68.272 71.592 64.944 70.728 61.232 70.728C57.584 70.728 54.288 71.592 51.344 73.32C48.4 75.048 46.096 77.448 44.432 80.52C42.768 83.528 41.936 86.92 41.936 90.696C41.936 94.536 42.768 97.96 44.432 100.968C46.096 103.976 48.4 106.376 51.344 108.168C54.288 109.896 57.584 110.76 61.232 110.76ZM105.587 84.648C105.779 80.68 106.803 77.128 108.659 73.992C110.579 70.856 113.043 68.392 116.051 66.6C119.123 64.808 122.515 63.912 126.227 63.912C129.171 63.912 131.443 64.328 133.043 65.16C134.643 65.992 135.251 67.208 134.867 68.808C134.611 69.768 134.163 70.408 133.523 70.728C132.947 71.048 132.211 71.176 131.315 71.112C130.483 71.048 129.523 70.984 128.435 70.92C124.851 70.6 121.651 70.984 118.835 72.072C116.083 73.096 113.875 74.696 112.211 76.872C110.611 79.048 109.811 81.64 109.811 84.648H105.587ZM106.163 117C105.011 117 104.115 116.68 103.475 116.04C102.835 115.4 102.515 114.504 102.515 113.352V68.136C102.515 66.984 102.835 66.088 103.475 65.448C104.115 64.808 105.011 64.488 106.163 64.488C107.315 64.488 108.211 64.808 108.851 65.448C109.491 66.088 109.811 66.984 109.811 68.136V113.352C109.811 114.504 109.491 115.4 108.851 116.04C108.211 116.68 107.315 117 106.163 117ZM151.764 117C150.612 117 149.684 116.68 148.98 116.04C148.34 115.336 148.02 114.408 148.02 113.256V68.232C148.02 67.08 148.34 66.184 148.98 65.544C149.684 64.84 150.612 64.488 151.764 64.488C152.852 64.488 153.716 64.84 154.356 65.544C155.06 66.184 155.412 67.08 155.412 68.232V113.256C155.412 114.408 155.06 115.336 154.356 116.04C153.716 116.68 152.852 117 151.764 117ZM151.668 54.504C150.26 54.504 149.044 53.992 148.02 52.968C146.996 51.944 146.484 50.696 146.484 49.224C146.484 47.624 146.996 46.376 148.02 45.48C149.108 44.52 150.356 44.04 151.764 44.04C153.108 44.04 154.292 44.52 155.316 45.48C156.404 46.376 156.948 47.624 156.948 49.224C156.948 50.696 156.436 51.944 155.412 52.968C154.388 53.992 153.14 54.504 151.668 54.504ZM197.37 117.48C192.314 117.48 187.834 116.36 183.93 114.12C180.026 111.816 176.954 108.648 174.714 104.616C172.538 100.584 171.45 95.976 171.45 90.792C171.45 85.544 172.602 80.904 174.906 76.872C177.21 72.84 180.378 69.704 184.41 67.464C188.442 65.16 193.018 64.008 198.138 64.008C203.322 64.008 207.898 65.16 211.866 67.464C215.898 69.704 219.034 72.84 221.274 76.872C223.578 80.904 224.762 85.544 224.826 90.792L220.506 93.096C220.506 97.832 219.514 102.056 217.53 105.768C215.546 109.416 212.794 112.296 209.274 114.408C205.818 116.456 201.85 117.48 197.37 117.48ZM198.33 137.736C193.274 137.736 188.826 136.776 184.986 134.856C181.146 133 177.978 130.44 175.482 127.176C174.778 126.408 174.458 125.576 174.522 124.68C174.65 123.784 175.13 123.048 175.962 122.472C176.794 121.896 177.722 121.704 178.746 121.896C179.77 122.088 180.57 122.568 181.146 123.336C183.002 125.64 185.37 127.496 188.25 128.904C191.194 130.312 194.586 131.016 198.426 131.016C202.01 131.016 205.242 130.152 208.122 128.424C211.002 126.696 213.274 124.264 214.938 121.128C216.666 117.992 217.53 114.312 217.53 110.088V95.496L220.314 89.928L224.826 90.792V110.376C224.826 115.56 223.674 120.2 221.37 124.296C219.066 128.456 215.93 131.72 211.962 134.088C207.994 136.52 203.45 137.736 198.33 137.736ZM198.138 110.76C201.914 110.76 205.242 109.928 208.122 108.264C211.066 106.536 213.37 104.168 215.034 101.16C216.698 98.152 217.53 94.696 217.53 90.792C217.53 86.888 216.698 83.432 215.034 80.424C213.37 77.352 211.066 74.984 208.122 73.32C205.242 71.592 201.914 70.728 198.138 70.728C194.362 70.728 191.002 71.592 188.058 73.32C185.114 74.984 182.81 77.352 181.146 80.424C179.482 83.432 178.65 86.888 178.65 90.792C178.65 94.696 179.482 98.152 181.146 101.16C182.81 104.168 185.114 106.536 188.058 108.264C191.002 109.928 194.362 110.76 198.138 110.76ZM242.947 95.592C241.795 95.592 240.867 95.24 240.163 94.536C239.523 93.832 239.203 92.936 239.203 91.848V45.768C239.203 44.616 239.523 43.72 240.163 43.08C240.867 42.376 241.795 42.024 242.947 42.024C244.035 42.024 244.899 42.376 245.539 43.08C246.243 43.72 246.595 44.616 246.595 45.768V91.848C246.595 92.936 246.243 93.832 245.539 94.536C244.899 95.24 244.035 95.592 242.947 95.592ZM284.227 117C283.139 117 282.243 116.648 281.539 115.944C280.835 115.24 280.483 114.376 280.483 113.352V88.392C280.483 84.424 279.715 81.16 278.179 78.6C276.707 76.04 274.659 74.12 272.035 72.84C269.475 71.56 266.563 70.92 263.299 70.92C260.163 70.92 257.315 71.528 254.755 72.744C252.259 73.96 250.275 75.624 248.803 77.736C247.331 79.848 246.595 82.248 246.595 84.936H241.315C241.443 80.904 242.531 77.32 244.579 74.184C246.627 70.984 249.347 68.488 252.739 66.696C256.131 64.84 259.907 63.912 264.067 63.912C268.611 63.912 272.675 64.872 276.259 66.792C279.843 68.648 282.659 71.4 284.707 75.048C286.819 78.696 287.875 83.144 287.875 88.392V113.352C287.875 114.376 287.523 115.24 286.819 115.944C286.115 116.648 285.251 117 284.227 117ZM242.947 117C241.795 117 240.867 116.68 240.163 116.04C239.523 115.336 239.203 114.44 239.203 113.352V68.232C239.203 67.08 239.523 66.184 240.163 65.544C240.867 64.84 241.795 64.488 242.947 64.488C244.035 64.488 244.899 64.84 245.539 65.544C246.243 66.184 246.595 67.08 246.595 68.232V113.352C246.595 114.44 246.243 115.336 245.539 116.04C244.899 116.68 244.035 117 242.947 117ZM324.715 117C321.323 117 318.283 116.2 315.595 114.6C312.971 113 310.891 110.824 309.355 108.072C307.819 105.256 307.051 102.056 307.051 98.472V51.528C307.051 50.44 307.371 49.544 308.011 48.84C308.715 48.136 309.611 47.784 310.699 47.784C311.787 47.784 312.683 48.136 313.387 48.84C314.091 49.544 314.443 50.44 314.443 51.528V98.472C314.443 101.736 315.403 104.424 317.323 106.536C319.243 108.584 321.707 109.608 324.715 109.608H327.307C328.331 109.608 329.163 109.96 329.803 110.664C330.443 111.368 330.763 112.264 330.763 113.352C330.763 114.44 330.379 115.336 329.611 116.04C328.843 116.68 327.883 117 326.731 117H324.715ZM300.811 72.84C299.851 72.84 299.051 72.552 298.411 71.976C297.771 71.336 297.451 70.568 297.451 69.672C297.451 68.712 297.771 67.944 298.411 67.368C299.051 66.728 299.851 66.408 300.811 66.408H325.291C326.251 66.408 327.051 66.728 327.691 67.368C328.331 67.944 328.651 68.712 328.651 69.672C328.651 70.568 328.331 71.336 327.691 71.976C327.051 72.552 326.251 72.84 325.291 72.84H300.811ZM365.644 117.576C361.1 117.576 357.036 116.648 353.452 114.792C349.868 112.872 347.02 110.088 344.908 106.44C342.86 102.792 341.836 98.344 341.836 93.096V68.136C341.836 67.112 342.188 66.248 342.892 65.544C343.596 64.84 344.46 64.488 345.484 64.488C346.572 64.488 347.468 64.84 348.172 65.544C348.876 66.248 349.228 67.112 349.228 68.136V93.096C349.228 97.064 349.964 100.328 351.436 102.888C352.972 105.448 355.02 107.368 357.58 108.648C360.204 109.928 363.148 110.568 366.412 110.568C369.548 110.568 372.364 109.96 374.86 108.744C377.42 107.528 379.436 105.864 380.908 103.752C382.38 101.64 383.116 99.24 383.116 96.552H388.396C388.204 100.584 387.084 104.2 385.036 107.4C383.052 110.536 380.364 113.032 376.972 114.888C373.58 116.68 369.804 117.576 365.644 117.576ZM386.764 117C385.676 117 384.78 116.68 384.076 116.04C383.436 115.336 383.116 114.408 383.116 113.256V68.136C383.116 67.048 383.436 66.184 384.076 65.544C384.78 64.84 385.676 64.488 386.764 64.488C387.852 64.488 388.748 64.84 389.452 65.544C390.156 66.184 390.508 67.048 390.508 68.136V113.256C390.508 114.408 390.156 115.336 389.452 116.04C388.748 116.68 387.852 117 386.764 117ZM410.837 84.648C411.029 80.68 412.053 77.128 413.909 73.992C415.829 70.856 418.293 68.392 421.301 66.6C424.373 64.808 427.765 63.912 431.477 63.912C434.421 63.912 436.693 64.328 438.293 65.16C439.893 65.992 440.501 67.208 440.117 68.808C439.861 69.768 439.413 70.408 438.773 70.728C438.197 71.048 437.461 71.176 436.565 71.112C435.733 71.048 434.773 70.984 433.685 70.92C430.101 70.6 426.901 70.984 424.085 72.072C421.333 73.096 419.125 74.696 417.461 76.872C415.861 79.048 415.061 81.64 415.061 84.648H410.837ZM411.413 117C410.261 117 409.365 116.68 408.725 116.04C408.085 115.4 407.765 114.504 407.765 113.352V68.136C407.765 66.984 408.085 66.088 408.725 65.448C409.365 64.808 410.261 64.488 411.413 64.488C412.565 64.488 413.461 64.808 414.101 65.448C414.741 66.088 415.061 66.984 415.061 68.136V113.352C415.061 114.504 414.741 115.4 414.101 116.04C413.461 116.68 412.565 117 411.413 117ZM471.698 117.48C466.514 117.48 461.906 116.36 457.874 114.12C453.906 111.816 450.77 108.648 448.466 104.616C446.226 100.584 445.106 95.976 445.106 90.792C445.106 85.544 446.162 80.936 448.274 76.968C450.45 72.936 453.426 69.768 457.202 67.464C460.978 65.16 465.33 64.008 470.258 64.008C475.122 64.008 479.346 65.128 482.93 67.368C486.578 69.544 489.394 72.584 491.378 76.488C493.362 80.392 494.354 84.84 494.354 89.832C494.354 90.856 494.034 91.688 493.394 92.328C492.754 92.904 491.922 93.192 490.898 93.192H450.098V87.048H491.666L487.538 90.024C487.602 86.312 486.93 82.984 485.522 80.04C484.114 77.096 482.098 74.792 479.474 73.128C476.914 71.464 473.842 70.632 470.258 70.632C466.61 70.632 463.41 71.496 460.658 73.224C457.906 74.952 455.762 77.352 454.226 80.424C452.754 83.432 452.018 86.888 452.018 90.792C452.018 94.696 452.85 98.152 454.514 101.16C456.242 104.168 458.578 106.536 461.522 108.264C464.466 109.992 467.858 110.856 471.698 110.856C474.002 110.856 476.306 110.472 478.61 109.704C480.978 108.872 482.866 107.848 484.274 106.632C484.978 106.056 485.778 105.768 486.674 105.768C487.57 105.704 488.338 105.928 488.978 106.44C489.81 107.208 490.226 108.04 490.226 108.936C490.29 109.832 489.938 110.6 489.17 111.24C487.058 113.032 484.37 114.536 481.106 115.752C477.842 116.904 474.706 117.48 471.698 117.48Z" fill="white"/>
+      <path d="M295 39L311 15L327 39H319L311 27L303 39H295Z" fill="white"/>
+    </svg>
+    <span class="nav-tagline">intelligence simplified.</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="who-we-are.html" class="nav-item"><span class="label">Who We Are</span></a></li>
+    <li><a href="#" class="nav-item"><span class="label">How We Do</span></a></li>
+    <li class="has-dropdown">
+      <button type="button" class="nav-item"><span class="label">What We Offer <span class="chevron"></span></span></button>
+      <ul class="dropdown">
+        <li><a href="ai-labs.html" class="active"><span class="d-arrow">&#62;</span> AI Labs</a></li>
+        <li><a href="ai-trainings.html"><span class="d-arrow">&#62;</span> AI Trainings</a></li>
+        <li><a href="#"><span class="d-arrow">&#62;</span> AI Products</a></li>
+      </ul>
+    </li>
+    <li><a href="#" class="nav-item"><span class="label">Contact</span></a></li>
+  </ul>
+</nav>
+
+<div class="hero" id="hero-anchor">
+  <div id="hero-spotlight"></div>
+  <div class="hero-img-wrap"><img src="assets/labs/innovation.jpg" alt="AI Innovation Lab" /></div>
+  <div class="hero-text">
+    <h1 class="hero-title">
+      <span class="ht-word">Build&nbsp;</span><span class="ht-word">Your&nbsp;</span><span class="ht-word">Innovation&nbsp;</span><span class="ht-word">Ecosystem</span>
+    </h1>
+    <p class="hero-desc">Brighture partners with institutions worldwide to create AI Innovation Labs and technology ecosystems that empower the next generation of innovators.</p>
+  </div>
+</div>
+
+<section class="programs-wrapper" id="programs">
+
+  <!-- Program overview navigation strip -->
+  <div class="prog-overview">
+    <div class="prog-overview-grid">
+
+      <a href="#prog-0" class="prog-ov-card" style="--dc:#4ade80">
+        <span class="prog-ov-num">01</span>
+        <h3 class="prog-ov-name">Genesis</h3>
+        <p class="prog-ov-desc">Technology exploration and foundational innovation skills for the next generation of builders.</p>
+        <span class="prog-ov-for">Schools &amp; Early University Programs</span>
+        <span class="prog-ov-link">Explore <span>→</span></span>
+      </a>
+
+      <a href="#prog-1" class="prog-ov-card" style="--dc:#f87171">
+        <span class="prog-ov-num">02</span>
+        <h3 class="prog-ov-name">Acceleration</h3>
+        <p class="prog-ov-desc">Advanced AI capability building and real-world software innovation at scale.</p>
+        <span class="prog-ov-for">Universities &amp; Technical Colleges</span>
+        <span class="prog-ov-link">Explore <span>→</span></span>
+      </a>
+
+      <a href="#prog-2" class="prog-ov-card" style="--dc:#60a5fa">
+        <span class="prog-ov-num">03</span>
+        <h3 class="prog-ov-name">Discovery</h3>
+        <p class="prog-ov-desc">Pioneering frontier research and breakthrough innovation in applied AI.</p>
+        <span class="prog-ov-for">Research Universities &amp; Innovation Institutes</span>
+        <span class="prog-ov-link">Explore <span>→</span></span>
+      </a>
+
+      <a href="#prog-3" class="prog-ov-card" style="--dc:#fbbf24">
+        <span class="prog-ov-num">04</span>
+        <h3 class="prog-ov-name">Nexus Campus</h3>
+        <p class="prog-ov-desc">Complete institutional transformation through an AI-first ecosystem strategy.</p>
+        <span class="prog-ov-for">Entire University Campuses &amp; Institutions</span>
+        <span class="prog-ov-link">Explore <span>→</span></span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Programs intro divider -->
+  <div class="programs-intro">
+    <div class="programs-intro-row">
+      <span class="programs-intro-line"></span>
+      <span class="programs-intro-label">4 Innovation Programs</span>
+      <span class="programs-intro-line"></span>
+    </div>
+    <div class="programs-intro-arrow">
+      <svg width="22" height="14" viewBox="0 0 22 14" fill="none">
+        <polyline points="2,2 11,11 20,2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 1. Genesis — GREEN — text left, image right -->
+  <div class="program-block" id="prog-0"
+    style="--dc:#4ade80; --dc-bg:radial-gradient(ellipse at 20% 50%, rgba(74,222,128,0.07) 0%, transparent 65%)">
+    <div class="prog-content">
+      <span class="prog-bg-num">01</span>
+      <p class="prog-category">For Early AI &amp; Robotics Learning</p>
+      <h2 class="prog-name">Genesis</h2>
+      <div class="prog-body-row">
+        <ul class="prog-bullets">
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h4M10 3v8M7 11h6M6 14a4 4 0 0 0 8 0"/><line x1="4" y1="17" x2="16" y2="17"/></svg></span>
+              <span>Core Innovation Labs</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="12" height="10" rx="2"/><circle cx="7.5" cy="10" r="1.5"/><circle cx="12.5" cy="10" r="1.5"/><path d="M8 14h4"/><path d="M10 6V4"/><path d="M2 10h2M16 10h2"/></svg></span>
+              <span>Foundational AI &amp; Robotics</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="10" height="10" rx="1"/><rect x="7.5" y="7.5" width="5" height="5" rx=".5"/><path d="M7 2v3M13 2v3M7 15v3M13 15v3M2 7h3M2 13h3M15 7h3M15 13h3"/></svg></span>
+              <span>Hands-on Electronics &amp; IoT</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2a5 5 0 0 1 3.5 8.5L13 12H7l-.5-1.5A5 5 0 0 1 10 2z"/><path d="M8 15h4M8.5 17.5h3"/></svg></span>
+              <span>Design Thinking Approach</span>
+            </li>
+        </ul>
+        <span class="prog-vsep"></span>
+        <div class="prog-body-right">
+          <div class="prog-lab-focus">
+            <p class="prog-focus-label">Lab Focus</p>
+            <p class="prog-focus-text">Technology exploration and foundational innovation skills for the next generation of builders.</p>
+          </div>
+          <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Schools &amp; Early University Programs</span></span></div>
+        </div>
+      </div>
+      <div class="prog-details">
+        <div class="prog-table">
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Included Innovation Labs</span></div>
+            <ul class="prog-detail-list">
+              <li>AI Innovation Lab</li><li>Robotics Innovation Lab</li><li>Embedded Systems Lab</li><li>Innovation Studio</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology Platforms</span></div>
+            <ul class="prog-detail-list">
+              <li>Educational robotics platforms</li><li>Microcontrollers &amp; dev boards</li><li>Basic AI experimentation platforms</li><li>Sensors and IoT devices</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Learning Programs</span></div>
+            <ul class="prog-detail-list">
+              <li>Foundational AI Workshops</li><li>Robotics Design Challenges</li><li>IoT Prototyping Sprints</li><li>Design Thinking Bootcamps</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Implementation Support</span></div>
+            <ul class="prog-detail-list">
+              <li>Lab infrastructure setup</li><li>Curriculum mapping &amp; delivery</li><li>Faculty mentorship program</li><li>Student certification pathway</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="prog-img-wrap"><img src="assets/labs/genesis.png" alt="Genesis Program" /></div>
+  </div>
+
+  <div class="section-break">
+    <div class="section-break-orn">
+      <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
+        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 2. Acceleration — RED — image left, text right -->
+  <div class="program-block reverse" id="prog-1"
+    style="--dc:#f87171; --dc-bg:radial-gradient(ellipse at 80% 50%, rgba(248,113,113,0.07) 0%, transparent 65%)">
+    <div class="prog-content">
+      <span class="prog-bg-num">02</span>
+      <p class="prog-category">For Advanced AI &amp; Machine Learning</p>
+      <h2 class="prog-name">Acceleration</h2>
+      <div class="prog-body-row">
+        <ul class="prog-bullets">
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4C7.5 4 6 5.8 6 8c-1.7 0-3 1.3-3 3s1.3 3 3 3v3h8v-3c1.7 0 3-1.3 3-3s-1.3-3-3-3c0-2.2-1.5-4-4-4z"/><path d="M8 10h4M10 8v4"/></svg></span>
+              <span>Advanced Machine Learning Labs</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="3" cy="5" r="1.5"/><circle cx="3" cy="15" r="1.5"/><circle cx="10" cy="3" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="17" r="1.5"/><circle cx="17" cy="7" r="1.5"/><circle cx="17" cy="13" r="1.5"/><line x1="4.5" y1="5" x2="8.5" y2="3.5"/><line x1="4.5" y1="5" x2="8.5" y2="10"/><line x1="4.5" y1="15" x2="8.5" y2="10"/><line x1="4.5" y1="15" x2="8.5" y2="17"/><line x1="11.5" y1="3.5" x2="15.5" y2="7"/><line x1="11.5" y1="10" x2="15.5" y2="7"/><line x1="11.5" y1="10" x2="15.5" y2="13"/><line x1="11.5" y1="17" x2="15.5" y2="13"/></svg></span>
+              <span>Deep Learning &amp; Neural Networks</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5L2 10l4 5"/><path d="M14 5l4 5-4 5"/><line x1="12" y1="3" x2="8" y2="17"/></svg></span>
+              <span>Software Engineering &amp; MLOps</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="11" width="3.5" height="6" rx=".5"/><rect x="8" y="7" width="3.5" height="10" rx=".5"/><rect x="14" y="3" width="3.5" height="14" rx=".5"/><line x1="1" y1="17" x2="19" y2="17"/></svg></span>
+              <span>Data Science &amp; Analytics</span>
+            </li>
+        </ul>
+        <span class="prog-vsep"></span>
+        <div class="prog-body-right">
+          <div class="prog-lab-focus">
+            <p class="prog-focus-label">Lab Focus</p>
+            <p class="prog-focus-text">Advanced AI capability building and real-world software innovation at scale.</p>
+          </div>
+          <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Universities &amp; Technical Colleges</span></span></div>
+        </div>
+      </div>
+      <div class="prog-details">
+        <div class="prog-table">
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Included Innovation Labs</span></div>
+            <ul class="prog-detail-list">
+              <li>Machine Learning Lab</li><li>Deep Learning Studio</li><li>Software Engineering Lab</li><li>Data Science Lab</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology Platforms</span></div>
+            <ul class="prog-detail-list">
+              <li>TensorFlow &amp; PyTorch</li><li>Cloud computing &amp; GPU clusters</li><li>CI/CD &amp; MLOps pipelines</li><li>Big data analytics platforms</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Learning Programs</span></div>
+            <ul class="prog-detail-list">
+              <li>ML Engineering Intensives</li><li>Research Paper Writing</li><li>Industry Capstone Projects</li><li>Hackathon Series</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Implementation Support</span></div>
+            <ul class="prog-detail-list">
+              <li>Enterprise project placements</li><li>Research mentorship</li><li>Publication support</li><li>Internship pathways</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="prog-img-wrap"><img src="assets/labs/acceleration.png" alt="Acceleration Program" /></div>
+  </div>
+
+  <div class="section-break">
+    <div class="section-break-orn">
+      <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
+        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 3. Discovery — BLUE — text left, image right -->
+  <div class="program-block" id="prog-2"
+    style="--dc:#60a5fa; --dc-bg:radial-gradient(ellipse at 20% 50%, rgba(96,165,250,0.07) 0%, transparent 65%)">
+    <div class="prog-content">
+      <span class="prog-bg-num">03</span>
+      <p class="prog-category">For Research &amp; Innovation Leadership</p>
+      <h2 class="prog-name">Discovery</h2>
+      <div class="prog-body-row">
+        <ul class="prog-bullets">
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="6" height="3" rx=".5"/><path d="M10 5v7"/><path d="M8 12h4"/><path d="M6 15.5a5 5 0 0 1 8 0"/><line x1="3" y1="18" x2="17" y2="18"/></svg></span>
+              <span>AI Research Centers</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="10,2 18,7 18,13 10,18 2,13 2,7"/><polygon points="10,6 14,8.5 14,11.5 10,14 6,11.5 6,8.5"/></svg></span>
+              <span>Interdisciplinary Innovation</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2C10 2 14 4.5 14 9v3l2.5 2.5H3.5L6 12V9C6 4.5 10 2 10 2z"/><path d="M8 14.5v1.5a2 2 0 0 0 4 0v-1.5"/><circle cx="10" cy="8" r="1.5"/></svg></span>
+              <span>Technology Commercialization</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3" ry="7.5"/><line x1="2.5" y1="10" x2="17.5" y2="10"/><line x1="3.5" y1="6" x2="16.5" y2="6"/><line x1="3.5" y1="14" x2="16.5" y2="14"/></svg></span>
+              <span>Global Research Networks</span>
+            </li>
+        </ul>
+        <span class="prog-vsep"></span>
+        <div class="prog-body-right">
+          <div class="prog-lab-focus">
+            <p class="prog-focus-label">Lab Focus</p>
+            <p class="prog-focus-text">Pioneering frontier research and breakthrough innovation in applied AI.</p>
+          </div>
+          <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Research Universities &amp; Innovation Institutes</span></span></div>
+        </div>
+      </div>
+      <div class="prog-details">
+        <div class="prog-table">
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Included Innovation Labs</span></div>
+            <ul class="prog-detail-list">
+              <li>AI Research Lab</li><li>Innovation Design Studio</li><li>Deep Tech Incubator</li><li>Policy &amp; Ethics Lab</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology Platforms</span></div>
+            <ul class="prog-detail-list">
+              <li>HPC research computing</li><li>Advanced simulation &amp; modeling</li><li>AI development frameworks</li><li>IP &amp; commercialization tools</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Learning Programs</span></div>
+            <ul class="prog-detail-list">
+              <li>Long-Form Research Projects</li><li>Startup Incubation Cycles</li><li>Expert Symposiums</li><li>International Exchange</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Implementation Support</span></div>
+            <ul class="prog-detail-list">
+              <li>Research funding access</li><li>IP &amp; patent guidance</li><li>VC &amp; investor connect</li><li>Policy partnerships</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="prog-img-wrap"><img src="assets/labs/discovery.png" alt="Discovery Program" /></div>
+  </div>
+
+  <div class="section-break">
+    <div class="section-break-orn">
+      <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
+        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 4. Nexus — YELLOW — image left, text right -->
+  <div class="program-block reverse" id="prog-3"
+    style="--dc:#fbbf24; --dc-bg:radial-gradient(ellipse at 80% 50%, rgba(251,191,36,0.07) 0%, transparent 65%)">
+    <div class="prog-content">
+      <span class="prog-bg-num">04</span>
+      <p class="prog-category">For Full Campus AI Transformation</p>
+      <h2 class="prog-name">Nexus Campus</h2>
+      <div class="prog-body-row">
+        <ul class="prog-bullets">
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="10" height="13"/><rect x="12" y="8" width="6" height="10"/><path d="M5 9h4M5 12h4M8 18v-4"/><path d="M14 11h2M14 14h2"/></svg></span>
+              <span>Campus-Wide AI Integration</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="12" height="12" rx="1"/><rect x="7" y="7" width="6" height="6" rx=".5"/><path d="M7 2v2M13 2v2M7 16v2M13 16v2M2 7h2M2 13h2M16 7h2M16 13h2"/></svg></span>
+              <span>Smart Infrastructure Systems</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12v10H4z"/><path d="M7 14v3"/><path d="M13 14v3"/><line x1="5" y1="17" x2="15" y2="17"/><line x1="7" y1="8" x2="13" y2="8"/><line x1="7" y1="10.5" x2="11" y2="10.5"/></svg></span>
+              <span>Interdisciplinary Programs</span>
+            </li>
+            <li>
+              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2L3 5.5v6C3 15 6.5 18.5 10 19c3.5-.5 7-4 7-7.5v-6L10 2z"/><path d="M7 10l2 2 4-4"/></svg></span>
+              <span>AI Policy &amp; Governance</span>
+            </li>
+        </ul>
+        <span class="prog-vsep"></span>
+        <div class="prog-body-right">
+          <div class="prog-lab-focus">
+            <p class="prog-focus-label">Lab Focus</p>
+            <p class="prog-focus-text">Complete institutional transformation through an AI-first ecosystem strategy.</p>
+          </div>
+          <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Entire University Campuses &amp; Institutions</span></span></div>
+        </div>
+      </div>
+      <div class="prog-details">
+        <div class="prog-table">
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Included Innovation Labs</span></div>
+            <ul class="prog-detail-list">
+              <li>Smart Campus Lab</li><li>AI for Social Good Lab</li><li>Digital Twin Lab</li><li>Campus AI Command Center</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology Platforms</span></div>
+            <ul class="prog-detail-list">
+              <li>Smart campus IoT infrastructure</li><li>Digital twin platforms</li><li>AI governance frameworks</li><li>Campus-wide analytics systems</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Learning Programs</span></div>
+            <ul class="prog-detail-list">
+              <li>Campus deployment projects</li><li>Interdisciplinary AI programs</li><li>Government partnerships</li><li>Leadership development</li>
+            </ul>
+          </div>
+          <div class="prog-table-cell">
+            <div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Implementation Support</span></div>
+            <ul class="prog-detail-list">
+              <li>Full transformation blueprint</li><li>Infrastructure support</li><li>Leadership coaching</li><li>Ongoing strategic partnership</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="prog-img-wrap"><img src="assets/labs/nexus.png" alt="Nexus Campus Program" /></div>
+  </div>
+
+</section>
+
+<section class="pkg-section">
+  <div class="pkg-layout">
+
+    <!-- Left: text -->
+    <div class="pkg-left">
+      <h2 class="pkg-left-heading"><span class="purple">Built to be complete&nbsp;—</span><br>from day one.</h2>
+      <p class="pkg-left-desc">No add-ons, no upgrades needed. Every Brighture AI Lab package arrives <em>fully</em> equipped with the tools, training, and frameworks your institution needs to build a thriving innovation culture.</p>
+    </div>
+
+    <!-- Right: iPad tablet frame -->
+    <div class="tablet-outer">
+      <span class="tablet-btn-power"></span>
+      <span class="tablet-btn-vol-up"></span>
+      <span class="tablet-btn-vol-dn"></span>
+
+      <div class="tablet-screen">
+
+        <div class="notes-chrome">
+          <div class="notes-status-bar">
+            <span class="notes-time">10:21</span>
+            <div class="notes-status-icons">
+              <svg viewBox="0 0 18 12" fill="none" width="17" height="11">
+                <rect x="0" y="8" width="3" height="4" rx=".6" fill="#000"/>
+                <rect x="5" y="5.5" width="3" height="6.5" rx=".6" fill="#000"/>
+                <rect x="10" y="3" width="3" height="9" rx=".6" fill="#000"/>
+                <rect x="15" y="0" width="3" height="12" rx=".6" fill="#000"/>
+              </svg>
+              <svg viewBox="0 0 16 12" fill="none" width="15" height="11">
+                <circle cx="8" cy="11" r="1.4" fill="#000"/>
+                <path d="M4.6 7.8C5.5 6.8 6.7 6.2 8 6.2s2.5.6 3.4 1.6" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M1.4 4.9C3.1 3 5.4 1.9 8 1.9s4.9 1.1 6.6 3" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <span class="notes-batt-pct">100</span>
+              <svg viewBox="0 0 28 13" fill="none" width="26" height="13">
+                <rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="#000" stroke-opacity=".35"/>
+                <rect x="1.5" y="1.5" width="20" height="10" rx="2.5" fill="#34c759"/>
+                <path d="M25 4.5v4a2.3 2.3 0 000-4z" fill="#000" fill-opacity=".35"/>
+              </svg>
+            </div>
+          </div>
+          <div class="notes-nav-bar">
+            <a class="notes-back">
+              <span class="notes-back-chevron">&#8249;</span>All Notes
+            </a>
+            <div class="notes-nav-actions">
+              <span class="notes-icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" width="19" height="19">
+                  <path d="M12 2v13M8 6l4-4 4 4" stroke="#ff9f0a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 10H5a1 1 0 00-1 1v9a1 1 0 001 1h14a1 1 0 001-1v-9a1 1 0 00-1-1h-3" stroke="#ff9f0a" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span class="notes-more-btn">
+                <svg viewBox="0 0 20 5" fill="none" width="15" height="5">
+                  <circle cx="2.5" cy="2.5" r="2" fill="#ff9f0a"/>
+                  <circle cx="10" cy="2.5" r="2" fill="#ff9f0a"/>
+                  <circle cx="17.5" cy="2.5" r="2" fill="#ff9f0a"/>
+                </svg>
+              </span>
+              <span class="notes-done">Done</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pkg-body">
+          <div class="pkg-title-wrap">
+            <h2 class="pkg-title">What Every Package Includes</h2>
+            <p class="pkg-sub">All Brighture Innovation Lab packages include:</p>
+          </div>
+          <ul class="pkg-list">
+            <li>
+              <span class="pkg-check"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Innovation Lab Design &amp; Planning
+            </li>
+            <li>
+              <span class="pkg-check"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Technology Infrastructure Deployment
+            </li>
+            <li>
+              <span class="pkg-check"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Hardware and Software Platforms
+            </li>
+            <li>
+              <span class="pkg-check"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Educator Training &amp; Enablement
+            </li>
+            <li>
+              <span class="pkg-check"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Project-Based Learning Frameworks
+            </li>
+            <li>
+              <span class="pkg-check"><svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              Innovation Challenges &amp; Hackathons
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Why Institutions Choose Brighture ── -->
+<section class="why-section">
+  <div class="why-orb why-orb-1"></div>
+  <div class="why-orb why-orb-2"></div>
+  <div class="why-orb why-orb-3"></div>
+  <div class="why-vignette"></div>
+
+  <div class="why-deco wd-1"></div>
+  <div class="why-deco wd-2"></div>
+  <div class="why-deco wd-3"></div>
+  <div class="why-deco wd-4"></div>
+  <div class="why-deco wd-5"></div>
+  <div class="why-deco wd-6"></div>
+  <div class="why-deco wd-7"></div>
+  <div class="why-deco wd-8"></div>
+  <div class="why-deco wd-9"></div>
+  <div class="why-deco wd-10"></div>
+  <div class="why-deco wd-11"></div>
+  <div class="why-deco wd-12"></div>
+  <div class="why-deco wd-13"></div>
+  <div class="why-deco wd-14"></div>
+  <div class="why-deco wd-15"></div>
+  <div class="why-deco wd-16"></div>
+  <div class="why-deco wd-17"></div>
+  <div class="why-deco wd-18"></div>
+  <div class="why-deco wd-19"></div>
+  <div class="why-deco wd-20"></div>
+  <div class="why-deco wd-21"></div>
+  <div class="why-deco wd-22"></div>
+  <div class="why-deco wd-23"></div>
+  <div class="why-deco wd-24"></div>
+  <div class="why-deco wd-25"></div>
+  <div class="why-deco wd-26"></div>
+  <div class="why-deco wd-27"></div>
+  <div class="why-deco wd-28"></div>
+
+  <h2 class="why-heading">Why Institutions Choose Brighture</h2>
+
+    <div class="why-block wb-1">
+      <div class="why-block-inner">
+        <span class="why-block-dot"></span>Future-ready technology infrastructure
+      </div>
+    </div>
+    <div class="why-block wb-2">
+      <div class="why-block-inner">
+        <span class="why-block-dot"></span>Hands-on AI and robotics experimentation
+      </div>
+    </div>
+    <div class="why-block wb-3">
+      <div class="why-block-inner">
+        <span class="why-block-dot"></span>Research and innovation capability development
+      </div>
+    </div>
+    <div class="why-block wb-4">
+      <div class="why-block-inner">
+        <span class="why-block-dot"></span>Industry-aligned technology programs
+      </div>
+    </div>
+    <div class="why-block wb-5">
+      <div class="why-block-inner">
+        <span class="why-block-dot"></span>Global innovation ecosystem integration
+      </div>
+    </div>
+</section>
+
+<script>
+
+  (function () {
+    var hero = document.querySelector('.hero');
+    var spotlight = document.getElementById('hero-spotlight');
+    if (!hero || !spotlight) return;
+    hero.addEventListener('mousemove', function (e) {
+      var r = hero.getBoundingClientRect();
+      var x = ((e.clientX - r.left) / r.width * 100).toFixed(2);
+      var y = ((e.clientY - r.top)  / r.height * 100).toFixed(2);
+      spotlight.style.background =
+        'radial-gradient(700px circle at ' + x + '% ' + y + '%, rgba(130,80,255,0.07) 0%, transparent 65%)';
+    });
+    hero.addEventListener('mouseleave', function () {
+      spotlight.style.background = 'none';
+    });
+  })();
+
+  (function () {
+    var cursor = document.getElementById('custom-cursor');
+    var path = cursor.querySelector('svg path');
+    window.addEventListener('mousemove', function (e) {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      var el = document.elementFromPoint(e.clientX, e.clientY);
+      var isT = el && el.closest('h1,h2,h3,p,a,button,span');
+      path.setAttribute('stroke', isT ? '#5b9fff' : 'white');
+      cursor.style.filter = isT ? 'drop-shadow(0 0 6px rgba(91,159,255,0.9))' : 'drop-shadow(0 0 4px rgba(255,255,255,0.5))';
+    });
+    document.addEventListener('mouseleave', function () { cursor.style.opacity = '0'; });
+    document.addEventListener('mouseenter', function () { cursor.style.opacity = '1'; });
+  })();
+
+  (function () {
+    var blocks = document.querySelectorAll('.program-block');
+    if (!blocks.length) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('in-view'); });
+    }, { threshold: 0.08 });
+    blocks.forEach(function (b) { obs.observe(b); });
+  })();
+
+  (function () {
+    var ov = document.querySelector('.prog-overview');
+    if (!ov) return;
+    var ovObs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { ov.classList.add('ov-in'); ovObs.disconnect(); }
+    }, { threshold: 0.25 });
+    ovObs.observe(ov);
+  })();
+
+  (function () {
+    var cards = document.querySelectorAll('.prog-ov-card');
+    var progs = ['prog-0','prog-1','prog-2','prog-3'].map(function(id){ return document.getElementById(id); });
+    if (!cards.length || !progs[0]) return;
+
+    function updateActive() {
+      var scrollMid = window.scrollY + window.innerHeight * 0.45;
+      var active = -1;
+      for (var i = progs.length - 1; i >= 0; i--) {
+        if (progs[i] && progs[i].getBoundingClientRect().top + window.scrollY <= scrollMid) {
+          active = i; break;
+        }
+      }
+      cards.forEach(function(c, i) { c.classList.toggle('ov-active', i === active); });
+    }
+
+    window.addEventListener('scroll', updateActive, { passive: true });
+    updateActive();
+  })();
+
+  /* Sequential tick animation on scroll */
+  (function () {
+    var section = document.querySelector('.pkg-section');
+    var items   = document.querySelectorAll('.pkg-list li');
+    if (!section || !items.length) return;
+    var fired = false;
+    var tickObs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !fired) {
+        fired = true;
+        items.forEach(function (li, i) {
+          setTimeout(function () { li.classList.add('tick-done'); }, i * 360);
+        });
+        tickObs.unobserve(section);
+      }
+    }, { threshold: 0.35 });
+    tickObs.observe(section);
+  })();
+
+  /* Why section — sequential reveal + mouse spotlight */
+  (function () {
+    var whySection = document.querySelector('.why-section');
+    var whyBlocks  = document.querySelectorAll('.why-block');
+    if (!whySection) return;
+
+    /* Mouse-tracking spotlight */
+    whySection.addEventListener('mousemove', function (e) {
+      var r = whySection.getBoundingClientRect();
+      var x = ((e.clientX - r.left) / r.width  * 100).toFixed(2);
+      var y = ((e.clientY - r.top)  / r.height * 100).toFixed(2);
+      whySection.style.setProperty('--wmx', x + '%');
+      whySection.style.setProperty('--wmy', y + '%');
+    });
+
+    /* Sequential block reveal */
+    var fired = false;
+    var whyObs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting && !fired) {
+        fired = true;
+        whyBlocks.forEach(function (b, i) {
+          setTimeout(function () { b.classList.add('revealed'); }, i * 300);
+        });
+        whyObs.unobserve(whySection);
+      }
+    }, { threshold: 0.15 });
+    whyObs.observe(whySection);
+  })();
+</script>
+</body>
+</html>
