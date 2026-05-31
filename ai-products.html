@@ -71,7 +71,7 @@
     .paip-section { height: 300vh; position: relative; background: #05050a; border-top: 1px solid rgba(255,255,255,.06); }
     .paip-sticky { position: sticky; top: 0; height: 100vh; width: 100%; display: flex; align-items: center; }
     #paip-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
-    .paip-overlay { position: absolute; inset: 0; z-index: 1; background: rgba(0,0,0,0.72); pointer-events: none; }
+    .paip-overlay { position: absolute; inset: 0; z-index: 1; background: rgba(0,0,0,0.55); pointer-events: none; }
     .paip-inner { max-width: 860px; margin: 0 auto; padding: 0 52px; width: 100%; min-width: 0; position: relative; z-index: 2; }
 
     .tr-main-text {
@@ -1446,26 +1446,49 @@
 })();
 </script>
 <script type="module">
-import { GrainGradient } from 'https://esm.sh/@paper-design/shaders';
+/* Load after page fully laid out so canvas has correct offsetWidth/Height */
+window.addEventListener('load', async function () {
+  try {
+    const { GrainGradient } = await import('https://esm.sh/@paper-design/shaders');
 
-var canvas = document.getElementById('paip-bg');
-if (canvas) {
-  var grain = new GrainGradient({
-    canvas: canvas,
-    colorBack: 'hsl(0, 0%, 0%)',
-    softness: 0.76,
-    intensity: 0.45,
-    noise: 0,
-    shape: 'corners',
-    offsetX: 0,
-    offsetY: 0,
-    scale: 1,
-    rotation: 0,
-    speed: 1,
-    colors: ['hsl(14, 100%, 57%)', 'hsl(45, 100%, 51%)', 'hsl(340, 82%, 52%)'],
-  });
-  grain.play();
-}
+    const canvas = document.getElementById('paip-bg');
+    if (!canvas) return;
+
+    /* WebGL needs explicit pixel dimensions — CSS 100% alone is not enough */
+    function setSize() {
+      canvas.width  = canvas.offsetWidth  || window.innerWidth;
+      canvas.height = canvas.offsetHeight || window.innerHeight;
+    }
+    setSize();
+
+    const grain = new GrainGradient({
+      canvas,
+      colorBack : 'hsl(0, 0%, 0%)',
+      softness  : 0.76,
+      intensity : 0.45,
+      noise     : 0,
+      shape     : 'corners',
+      offsetX   : 0,
+      offsetY   : 0,
+      scale     : 1,
+      rotation  : 0,
+      speed     : 1,
+      colors    : ['hsl(14, 100%, 57%)', 'hsl(45, 100%, 51%)', 'hsl(340, 82%, 52%)'],
+    });
+
+    grain.play();
+
+    window.addEventListener('resize', function () {
+      setSize();
+      /* GrainGradient may expose setConfig for resize */
+      if (typeof grain.setConfig === 'function') {
+        grain.setConfig({ width: canvas.width, height: canvas.height });
+      }
+    });
+  } catch (err) {
+    console.warn('GrainGradient shader failed to load:', err);
+  }
+});
 </script>
 </body>
 </html>
