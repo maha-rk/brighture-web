@@ -102,9 +102,16 @@
 
     /* ── PLATFORM CAPABILITIES ── */
     /* ── PLATFORM CAPABILITIES ── */
-    .caps-section { background: #030306; padding: 100px 52px 130px; border-top: 1px solid rgba(255,255,255,.06); }
+    .caps-section { position: relative; background: linear-gradient(to bottom, #020617 0%, #030306 18%); padding: 100px 52px 130px; }
+    .caps-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: min(700px, 90%); height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(161,0,255,.5) 28%, rgba(255,255,255,.35) 50%, rgba(161,0,255,.5) 72%, transparent);
+      pointer-events: none;
+    }
     .caps-inner { max-width: 1220px; margin: 0 auto; }
-    .caps-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #a100ff; text-align: center; margin-bottom: 18px; }
     .caps-title { font-size: clamp(32px, 3.8vw, 52px); font-weight: 800; color: #fff; letter-spacing: -.03em; text-align: center; margin-bottom: 72px; line-height: 1.1; }
     .caps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 
@@ -114,7 +121,7 @@
       border-radius: 14px;
       overflow: hidden;
       background: radial-gradient(ellipse at 55% -10%, var(--cabg, rgba(161,0,255,.06)) 0%, #0b0b10 58%);
-      border: 1px solid rgba(255,255,255,.1);
+      border: 1px solid var(--cab, rgba(161,0,255,.28));
       display: flex;
       flex-direction: column;
       min-height: 400px;
@@ -323,7 +330,6 @@
 <!-- ── PLATFORM CAPABILITIES ── -->
 <section class="caps-section">
   <div class="caps-inner">
-    <p class="caps-eyebrow">Physical AI Platform</p>
     <h2 class="caps-title">Platform Capabilities</h2>
     <div class="caps-grid">
 
@@ -348,7 +354,6 @@
           </svg>
         </div>
         <div class="cap-content">
-          <div class="cap-category">Perception</div>
           <h3 class="cap-name">AI Vision Perception</h3>
           <p class="cap-desc">Computer vision models analyze the environment in real time to detect people, objects, obstacles, and operational hazards.</p>
         </div>
@@ -375,7 +380,6 @@
           </svg>
         </div>
         <div class="cap-content">
-          <div class="cap-category">Mapping</div>
           <h3 class="cap-name">Spatial Awareness &amp; Mapping</h3>
           <p class="cap-desc">Advanced perception algorithms enable machines to understand spatial layouts and navigate complex industrial environments.</p>
         </div>
@@ -408,7 +412,6 @@
           </svg>
         </div>
         <div class="cap-content">
-          <div class="cap-category">Intelligence</div>
           <h3 class="cap-name">Autonomous Decision Systems</h3>
           <p class="cap-desc">AI models analyze incoming visual data and make real-time operational decisions to avoid hazards and optimize movement.</p>
         </div>
@@ -449,7 +452,6 @@
           </svg>
         </div>
         <div class="cap-content">
-          <div class="cap-category">Processing</div>
           <h3 class="cap-name">Edge AI Processing</h3>
           <p class="cap-desc">All processing occurs directly on embedded AI hardware, enabling real-time performance without reliance on cloud connectivity.</p>
         </div>
@@ -489,7 +491,6 @@
           </svg>
         </div>
         <div class="cap-content">
-          <div class="cap-category">Fleet</div>
           <h3 class="cap-name">Fleet Intelligence</h3>
           <p class="cap-desc">Multiple machines can be connected to centralized fleet intelligence systems to monitor operations, optimize workflows, and improve safety.</p>
         </div>
