@@ -45,9 +45,20 @@
     .zoom-sticky::after {
       content: '';
       position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 260px;
-      background: linear-gradient(to bottom, transparent, #020617);
+      inset: 0;
+      background:
+        /* top vignette — adds depth, grounds the scene */
+        linear-gradient(to bottom, rgba(0,0,0,.55) 0%, transparent 20%),
+        /* cinematic bottom pull — long, early start, no hard edge */
+        linear-gradient(to top,
+          #020617       0%,
+          rgba(2,6,23,.96) 12%,
+          rgba(2,6,23,.75) 26%,
+          rgba(2,6,23,.38) 42%,
+          transparent   60%
+        ),
+        /* side vignette — focus the eye inward */
+        radial-gradient(ellipse 120% 100% at 50% 50%, transparent 52%, rgba(0,0,0,.55) 100%);
       pointer-events: none;
       z-index: 20;
     }
@@ -86,7 +97,7 @@
       font-weight: 300;
       line-height: 1.65;
       letter-spacing: -.015em;
-      color: rgba(255,255,255,.85);
+      color: #fff;
       overflow: hidden;      /* clips vertical translateY so words don't peek outside */
       padding-bottom: 6px;   /* room for descenders */
     }
@@ -102,7 +113,7 @@
     .tr-sub-text {
       font-size: clamp(13px, 1.2vw, 18px);
       font-weight: 500;
-      color: rgba(255,255,255,.4);
+      color: rgba(255,255,255,.65);
       letter-spacing: .01em;
       overflow: hidden;
       padding-bottom: 3px;
