@@ -67,21 +67,33 @@
     @keyframes scrollArrow { 0%,100% { opacity:.4; transform:translateY(0); } 50% { opacity:.9; transform:translateY(10px); } }
 
     /* ── PHYSICAL AI PLATFORM ── */
-    .paip-section { background: #05050a; padding: 120px 52px 100px; border-top: 1px solid rgba(255,255,255,.06); position: relative; overflow: hidden; }
-    .paip-section::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; background: radial-gradient(ellipse, rgba(161,0,255,.07) 0%, transparent 70%); pointer-events: none; }
-    .paip-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
-    .paip-label { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #a100ff; margin-bottom: 36px; }
-    .paip-dot { width: 8px; height: 8px; border-radius: 50%; background: #a100ff; box-shadow: 0 0 8px rgba(161,0,255,.8); animation: dotPulse 2s ease-in-out infinite; }
-    @keyframes dotPulse { 0%,100% { opacity:1; box-shadow: 0 0 8px rgba(161,0,255,.8); } 50% { opacity:.5; box-shadow: 0 0 20px rgba(161,0,255,.4); } }
-    .paip-title { font-size: clamp(26px, 3.4vw, 48px); font-weight: 800; color: #fff; letter-spacing: -.03em; line-height: 1.15; margin-bottom: 36px; }
-    .paip-title em { font-style: normal; background: linear-gradient(130deg, #a100ff 20%, #ff6ef7 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .paip-body { display: flex; flex-direction: column; gap: 16px; margin-bottom: 56px; }
-    .paip-body p { font-size: clamp(15px, 1.25vw, 18px); color: rgba(255,255,255,.55); line-height: 1.8; }
-    .paip-body strong { color: rgba(255,255,255,.85); font-weight: 600; }
-    .paip-pillars { display: flex; gap: 12px; flex-wrap: wrap; }
-    .paip-pillar { display: flex; align-items: center; gap: 8px; padding: 10px 20px; border: 1px solid rgba(161,0,255,.25); border-radius: 99px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,.7); background: rgba(161,0,255,.05); letter-spacing: .02em; transition: border-color .2s, background .2s, color .2s; }
-    .paip-pillar:hover { border-color: rgba(161,0,255,.55); background: rgba(161,0,255,.1); color: #fff; }
-    .pp-icon { font-size: 15px; }
+    /* ── PHYSICAL AI PLATFORM — cursor magnify ── */
+    .paip-section { background: #05050a; padding: 120px 52px 110px; border-top: 1px solid rgba(255,255,255,.06); position: relative; overflow: hidden; }
+    .paip-inner { max-width: 1060px; margin: 0 auto; position: relative; z-index: 1; }
+
+    /* Magnify text wrapper */
+    .mag-wrap { position: relative; cursor: none; user-select: none; }
+    /* Shared text style */
+    .mag-base, .mag-over {
+      font-size: clamp(26px, 3.2vw, 52px);
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: -.03em;
+    }
+    /* Base layer — very dim, almost invisible */
+    .mag-base { color: rgba(255,255,255,.16); }
+    .mag-base strong { color: rgba(255,255,255,.16); font-weight: 800; }
+    /* Reveal layer — clipped purple circle with bright text */
+    .mag-over {
+      position: absolute;
+      inset: 0;
+      color: #ffffff;
+      background: #6200b3;
+      clip-path: circle(0px at -400px -400px);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .mag-over strong { color: #ffffff; font-weight: 800; }
 
     /* ── PLATFORM CAPABILITIES ── */
     /* ── PLATFORM CAPABILITIES ── */
@@ -295,10 +307,15 @@
 <!-- ── PHYSICAL AI PLATFORM ── -->
 <section class="paip-section">
   <div class="paip-inner">
-    <div class="paip-body">
-      <p>The Physical AI Platform enables machines to perceive, understand, and act within dynamic environments.</p>
-      <p>By combining <strong>computer vision, edge AI, robotics, and intelligent decision systems</strong>, the platform transforms conventional industrial equipment into intelligent machines capable of operating safely and efficiently in real-world environments.</p>
-      <p>The platform enables vehicles and machines to detect pedestrians, understand surroundings, plan movements, and execute actions autonomously.</p>
+    <div class="mag-wrap" id="mag-wrap">
+      <!-- dim base layer -->
+      <div class="mag-base">
+        The Physical AI Platform enables machines to perceive, understand, and act within dynamic environments. By combining <strong>computer vision, edge AI, robotics, and intelligent decision systems</strong>, the platform transforms conventional industrial equipment into intelligent machines capable of operating safely and efficiently in real-world environments. The platform enables vehicles and machines to detect pedestrians, understand surroundings, plan movements, and execute actions autonomously.
+      </div>
+      <!-- revealed layer — clipped to cursor circle -->
+      <div class="mag-over" id="mag-over" aria-hidden="true">
+        The Physical AI Platform enables machines to perceive, understand, and act within dynamic environments. By combining <strong>computer vision, edge AI, robotics, and intelligent decision systems</strong>, the platform transforms conventional industrial equipment into intelligent machines capable of operating safely and efficiently in real-world environments. The platform enables vehicles and machines to detect pedestrians, understand surroundings, plan movements, and execute actions autonomously.
+      </div>
     </div>
   </div>
 </section>
@@ -1264,6 +1281,44 @@
   capText.classList.add('visible'); capSub.classList.add('visible');
   updateCamera(0);
   loop();
+})();
+
+/* ── Cursor magnify for Physical AI Platform ── */
+(function () {
+  var wrap = document.getElementById('mag-wrap');
+  var over = document.getElementById('mag-over');
+  if (!wrap || !over) return;
+
+  var R = 190;           /* circle radius px */
+  var mx = -800, my = -800;   /* current (lerped) position */
+  var tx = -800, ty = -800;   /* target position */
+  var rafId = null;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function tick() {
+    mx = lerp(mx, tx, 0.1);
+    my = lerp(my, ty, 0.1);
+    over.style.clipPath = 'circle(' + R + 'px at ' + mx + 'px ' + my + 'px)';
+    var dist = Math.abs(tx - mx) + Math.abs(ty - my);
+    if (dist > 0.3) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+    }
+  }
+
+  wrap.addEventListener('mousemove', function (e) {
+    var rect = wrap.getBoundingClientRect();
+    tx = e.clientX - rect.left;
+    ty = e.clientY - rect.top;
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  });
+
+  wrap.addEventListener('mouseleave', function () {
+    tx = -800; ty = -800;
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  });
 })();
 
 (function () {
