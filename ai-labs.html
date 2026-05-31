@@ -11,7 +11,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
     :root { --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
     html, body { height: 100%; background: #000; font-family: var(--font); overflow-x: hidden; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: auto; }
 
     /* CURSOR */
     #custom-cursor { position: fixed; top: 0; left: 0; width: 16px; height: 10px; pointer-events: none; z-index: 99999; transform: translate(-50%,-100%); transition: transform .06s ease, opacity .2s; }
@@ -53,6 +53,7 @@
       background-image: radial-gradient(circle, rgba(255,255,255,.032) 1px, transparent 1px);
       background-size: 38px 38px;
       animation: heroDotDrift 28s linear infinite;
+      animation-play-state: var(--dot-play, running);
     }
     @keyframes heroDotDrift {
       from { background-position: 0 0; }
@@ -337,8 +338,8 @@
     .section-break::before, .section-break::after {
       content: '';
       flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,.07);
+      height: 1.5px;
+      background: rgba(255,255,255,.10);
     }
     .section-break-orn {
       display: flex;
@@ -379,6 +380,7 @@
       padding: 14px;
       flex-shrink: 0;
       width: 460px;
+      will-change: transform;
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,.15),
         inset 0 -1px 0 rgba(255,255,255,.04),
@@ -634,6 +636,18 @@
     .wd-27 { width:38px;  height:22px; top:38%;   left:30%;   background:rgba(161,0,255,.07); border:1px solid rgba(161,0,255,.13); animation:fE 11.8s ease-in-out 2.8s  infinite; }
     .wd-28 { width:46px;  height:28px; top:36%;   right:30%;  background:rgba(130,0,255,.07); border:1px solid rgba(161,0,255,.14); animation:fC 10.9s ease-in-out 1.3s  infinite; }
 
+
+    /* ── Split Programs — static scrollable layout ── */
+    .prog-split-section { background: #0a0a0c; }
+    .prog-split-nav, .prog-split-counter, .prog-split-scroll-hint { display: none; }
+    .prog-split-page { display: flex; min-height: 100vh; border-top: 1px solid rgba(255,255,255,.06); }
+    .prog-split-half { width: 50%; position: relative; overflow: hidden; }
+    .prog-split-content { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 140px 52px 72px 60px; position: relative; background-color: #0a0a0c; }
+    .prog-split-right .prog-split-content { padding: 140px 60px 72px 52px; }
+    .prog-split-img-wrap { width: 100%; height: 100%; min-height: 100vh; background-size: cover; background-repeat: no-repeat; background-position: center center; background-color: #0a0a0c; position: relative; }
+    .prog-split-img-wrap::before { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, rgba(10,10,12,.65) 0%, transparent 28%, transparent 70%, rgba(10,10,12,.8) 100%), linear-gradient(to right, rgba(10,10,12,.7) 0%, transparent 30%); }
+    .prog-split-left .prog-split-img-wrap::before { background: linear-gradient(to bottom, rgba(10,10,12,.65) 0%, transparent 28%, transparent 70%, rgba(10,10,12,.8) 100%), linear-gradient(to left, rgba(10,10,12,.7) 0%, transparent 30%); }
+    .prog-split-img-wrap::after { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: radial-gradient(ellipse at center, var(--dc-glow, rgba(74,222,128,.12)) 0%, transparent 68%); opacity: .85; }
   </style>
 </head>
 <body>
@@ -660,7 +674,7 @@
       <ul class="dropdown">
         <li><a href="ai-labs.html" class="active"><span class="d-arrow">&#62;</span> AI Labs</a></li>
         <li><a href="ai-trainings.html"><span class="d-arrow">&#62;</span> AI Trainings</a></li>
-        <li><a href="#"><span class="d-arrow">&#62;</span> AI Products</a></li>
+        <li><a href="ai-products.html"><span class="d-arrow">&#62;</span> AI Products</a></li>
       </ul>
     </li>
     <li><a href="#" class="nav-item"><span class="label">Contact</span></a></li>
@@ -734,304 +748,168 @@
   </div>
 
   <!-- 1. Genesis — GREEN — text left, image right -->
-  <div class="program-block" id="prog-0"
-    style="--dc:#4ade80; --dc-bg:radial-gradient(ellipse at 20% 50%, rgba(74,222,128,0.07) 0%, transparent 65%)">
-    <div class="prog-content">
-      <span class="prog-bg-num">01</span>
-      <p class="prog-category">For Early AI &amp; Robotics Learning</p>
-      <h2 class="prog-name">Genesis</h2>
-      <div class="prog-body-row">
-        <ul class="prog-bullets">
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h4M10 3v8M7 11h6M6 14a4 4 0 0 0 8 0"/><line x1="4" y1="17" x2="16" y2="17"/></svg></span>
-              <span>Core Innovation Labs</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="12" height="10" rx="2"/><circle cx="7.5" cy="10" r="1.5"/><circle cx="12.5" cy="10" r="1.5"/><path d="M8 14h4"/><path d="M10 6V4"/><path d="M2 10h2M16 10h2"/></svg></span>
-              <span>Foundational AI &amp; Robotics</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="10" height="10" rx="1"/><rect x="7.5" y="7.5" width="5" height="5" rx=".5"/><path d="M7 2v3M13 2v3M7 15v3M13 15v3M2 7h3M2 13h3M15 7h3M15 13h3"/></svg></span>
-              <span>Hands-on Electronics &amp; IoT</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2a5 5 0 0 1 3.5 8.5L13 12H7l-.5-1.5A5 5 0 0 1 10 2z"/><path d="M8 15h4M8.5 17.5h3"/></svg></span>
-              <span>Design Thinking Approach</span>
-            </li>
-        </ul>
-        <span class="prog-vsep"></span>
-        <div class="prog-body-right">
-          <div class="prog-lab-focus">
-            <p class="prog-focus-label">Lab Focus</p>
-            <p class="prog-focus-text">Technology exploration and foundational innovation skills for the next generation of builders.</p>
-          </div>
-          <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Schools &amp; Early University Programs</span></span></div>
-        </div>
-      </div>
-      <div class="prog-details">
-        <div class="prog-table">
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Included Innovation Labs</span></div>
-            <ul class="prog-detail-list">
-              <li>AI Innovation Lab</li><li>Robotics Innovation Lab</li><li>Embedded Systems Lab</li><li>Innovation Studio</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology Platforms</span></div>
-            <ul class="prog-detail-list">
-              <li>Educational robotics platforms</li><li>Microcontrollers &amp; dev boards</li><li>Basic AI experimentation platforms</li><li>Sensors and IoT devices</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Learning Programs</span></div>
-            <ul class="prog-detail-list">
-              <li>Foundational AI Workshops</li><li>Robotics Design Challenges</li><li>IoT Prototyping Sprints</li><li>Design Thinking Bootcamps</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Implementation Support</span></div>
-            <ul class="prog-detail-list">
-              <li>Lab infrastructure setup</li><li>Curriculum mapping &amp; delivery</li><li>Faculty mentorship program</li><li>Student certification pathway</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="prog-img-wrap"><img src="assets/labs/genesis.png" alt="Genesis Program" /></div>
-  </div>
+  <!-- Split-screen program viewer -->
+  <div class="prog-split-section" id="prog-split-wrap">
 
-  <div class="section-break">
-    <div class="section-break-orn">
-      <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
-        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
-        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Vertical nav -->
+    <div class="prog-split-nav" id="prog-split-nav">
+      <button class="prog-split-dot active" data-idx="0" style="--active-dc:#4ade80" title="Genesis"></button>
+      <button class="prog-split-dot" data-idx="1" style="--active-dc:#f87171" title="Acceleration"></button>
+      <button class="prog-split-dot" data-idx="2" style="--active-dc:#60a5fa" title="Discovery"></button>
+      <button class="prog-split-dot" data-idx="3" style="--active-dc:#fbbf24" title="Nexus Campus"></button>
+    </div>
+
+    <!-- Counter -->
+    <div class="prog-split-counter">
+      <span class="psc-current" id="psc-current">01</span>
+      <span class="psc-sep" style="color:rgba(255,255,255,.2)">/</span>
+      <span class="psc-total">04</span>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="prog-split-scroll-hint" id="prog-split-hint">
+      Scroll
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <polyline points="2,4 7,10 12,4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
-  </div>
 
-  <!-- 2. Acceleration — RED — image left, text right -->
-  <div class="program-block reverse" id="prog-1"
-    style="--dc:#f87171; --dc-bg:radial-gradient(ellipse at 80% 50%, rgba(248,113,113,0.07) 0%, transparent 65%)">
-    <div class="prog-content">
-      <span class="prog-bg-num">02</span>
-      <p class="prog-category">For Advanced AI &amp; Machine Learning</p>
-      <h2 class="prog-name">Acceleration</h2>
-      <div class="prog-body-row">
-        <ul class="prog-bullets">
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4C7.5 4 6 5.8 6 8c-1.7 0-3 1.3-3 3s1.3 3 3 3v3h8v-3c1.7 0 3-1.3 3-3s-1.3-3-3-3c0-2.2-1.5-4-4-4z"/><path d="M8 10h4M10 8v4"/></svg></span>
-              <span>Advanced Machine Learning Labs</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="3" cy="5" r="1.5"/><circle cx="3" cy="15" r="1.5"/><circle cx="10" cy="3" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="17" r="1.5"/><circle cx="17" cy="7" r="1.5"/><circle cx="17" cy="13" r="1.5"/><line x1="4.5" y1="5" x2="8.5" y2="3.5"/><line x1="4.5" y1="5" x2="8.5" y2="10"/><line x1="4.5" y1="15" x2="8.5" y2="10"/><line x1="4.5" y1="15" x2="8.5" y2="17"/><line x1="11.5" y1="3.5" x2="15.5" y2="7"/><line x1="11.5" y1="10" x2="15.5" y2="7"/><line x1="11.5" y1="10" x2="15.5" y2="13"/><line x1="11.5" y1="17" x2="15.5" y2="13"/></svg></span>
-              <span>Deep Learning &amp; Neural Networks</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5L2 10l4 5"/><path d="M14 5l4 5-4 5"/><line x1="12" y1="3" x2="8" y2="17"/></svg></span>
-              <span>Software Engineering &amp; MLOps</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="11" width="3.5" height="6" rx=".5"/><rect x="8" y="7" width="3.5" height="10" rx=".5"/><rect x="14" y="3" width="3.5" height="14" rx=".5"/><line x1="1" y1="17" x2="19" y2="17"/></svg></span>
-              <span>Data Science &amp; Analytics</span>
-            </li>
-        </ul>
-        <span class="prog-vsep"></span>
-        <div class="prog-body-right">
-          <div class="prog-lab-focus">
-            <p class="prog-focus-label">Lab Focus</p>
-            <p class="prog-focus-text">Advanced AI capability building and real-world software innovation at scale.</p>
+    <!-- ── 1. Genesis ── content left / image right ── -->
+    <div class="prog-split-page active" id="prog-0" style="--dc:#4ade80; --dc-glow:rgba(74,222,128,.12)">
+      <div class="prog-split-half prog-split-left">
+        <div class="prog-split-content">
+          <span class="prog-bg-num" style="right:0;left:auto">01</span>
+          <p class="prog-category">For Early AI &amp; Robotics Learning</p>
+          <h2 class="prog-name">Genesis</h2>
+          <div class="prog-body-row">
+            <ul class="prog-bullets">
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h4M10 3v8M7 11h6M6 14a4 4 0 0 0 8 0"/><line x1="4" y1="17" x2="16" y2="17"/></svg></span><span>Core Innovation Labs</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="12" height="10" rx="2"/><circle cx="7.5" cy="10" r="1.5"/><circle cx="12.5" cy="10" r="1.5"/><path d="M8 14h4"/><path d="M10 6V4"/><path d="M2 10h2M16 10h2"/></svg></span><span>Foundational AI &amp; Robotics</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="10" height="10" rx="1"/><rect x="7.5" y="7.5" width="5" height="5" rx=".5"/><path d="M7 2v3M13 2v3M7 15v3M13 15v3M2 7h3M2 13h3M15 7h3M15 13h3"/></svg></span><span>Hands-on Electronics &amp; IoT</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2a5 5 0 0 1 3.5 8.5L13 12H7l-.5-1.5A5 5 0 0 1 10 2z"/><path d="M8 15h4M8.5 17.5h3"/></svg></span><span>Design Thinking Approach</span></li>
+            </ul>
+            <span class="prog-vsep"></span>
+            <div class="prog-body-right">
+              <div class="prog-lab-focus"><p class="prog-focus-label">Lab Focus</p><p class="prog-focus-text">Technology exploration and foundational innovation skills for the next generation of builders.</p></div>
+              <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Schools &amp; Early University Programs</span></span></div>
+            </div>
           </div>
-          <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Universities &amp; Technical Colleges</span></span></div>
+          <div class="prog-details"><div class="prog-table">
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Innovation Labs</span></div><ul class="prog-detail-list"><li>AI Innovation Lab</li><li>Robotics Innovation Lab</li><li>Embedded Systems Lab</li><li>Innovation Studio</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology</span></div><ul class="prog-detail-list"><li>Educational robotics platforms</li><li>Microcontrollers &amp; dev boards</li><li>Basic AI experimentation</li><li>Sensors and IoT devices</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Programs</span></div><ul class="prog-detail-list"><li>Foundational AI Workshops</li><li>Robotics Design Challenges</li><li>IoT Prototyping Sprints</li><li>Design Thinking Bootcamps</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Support</span></div><ul class="prog-detail-list"><li>Lab infrastructure setup</li><li>Curriculum mapping</li><li>Faculty mentorship</li><li>Student certification</li></ul></div>
+          </div></div>
         </div>
       </div>
-      <div class="prog-details">
-        <div class="prog-table">
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Included Innovation Labs</span></div>
-            <ul class="prog-detail-list">
-              <li>Machine Learning Lab</li><li>Deep Learning Studio</li><li>Software Engineering Lab</li><li>Data Science Lab</li>
+      <div class="prog-split-half prog-split-right">
+        <div class="prog-split-img-wrap" style="background-image: url('assets/labs/genesis.png')"></div>
+      </div>
+    </div>
+
+    <!-- ── 2. Acceleration ── image left / content right ── -->
+    <div class="prog-split-page" id="prog-1" style="--dc:#f87171; --dc-glow:rgba(248,113,113,.12)">
+      <div class="prog-split-half prog-split-left">
+        <div class="prog-split-img-wrap" style="background-image: url('assets/labs/acceleration.png')"></div>
+      </div>
+      <div class="prog-split-half prog-split-right">
+        <div class="prog-split-content">
+          <span class="prog-bg-num" style="left:0;right:auto">02</span>
+          <p class="prog-category">For Advanced AI &amp; Machine Learning</p>
+          <h2 class="prog-name">Acceleration</h2>
+          <div class="prog-body-row">
+            <ul class="prog-bullets">
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4C7.5 4 6 5.8 6 8c-1.7 0-3 1.3-3 3s1.3 3 3 3v3h8v-3c1.7 0 3-1.3 3-3s-1.3-3-3-3c0-2.2-1.5-4-4-4z"/><path d="M8 10h4M10 8v4"/></svg></span><span>Advanced Machine Learning Labs</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="3" cy="5" r="1.5"/><circle cx="3" cy="15" r="1.5"/><circle cx="10" cy="3" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="10" cy="17" r="1.5"/><circle cx="17" cy="7" r="1.5"/><circle cx="17" cy="13" r="1.5"/><line x1="4.5" y1="5" x2="8.5" y2="3.5"/><line x1="4.5" y1="5" x2="8.5" y2="10"/><line x1="4.5" y1="15" x2="8.5" y2="10"/><line x1="4.5" y1="15" x2="8.5" y2="17"/><line x1="11.5" y1="3.5" x2="15.5" y2="7"/><line x1="11.5" y1="10" x2="15.5" y2="7"/><line x1="11.5" y1="10" x2="15.5" y2="13"/><line x1="11.5" y1="17" x2="15.5" y2="13"/></svg></span><span>Deep Learning &amp; Neural Networks</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5L2 10l4 5"/><path d="M14 5l4 5-4 5"/><line x1="12" y1="3" x2="8" y2="17"/></svg></span><span>Software Engineering &amp; MLOps</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="11" width="3.5" height="6" rx=".5"/><rect x="8" y="7" width="3.5" height="10" rx=".5"/><rect x="14" y="3" width="3.5" height="14" rx=".5"/><line x1="1" y1="17" x2="19" y2="17"/></svg></span><span>Data Science &amp; Analytics</span></li>
             </ul>
+            <span class="prog-vsep"></span>
+            <div class="prog-body-right">
+              <div class="prog-lab-focus"><p class="prog-focus-label">Lab Focus</p><p class="prog-focus-text">Advanced AI capability building and real-world software innovation at scale.</p></div>
+              <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Universities &amp; Technical Colleges</span></span></div>
+            </div>
           </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology Platforms</span></div>
-            <ul class="prog-detail-list">
-              <li>TensorFlow &amp; PyTorch</li><li>Cloud computing &amp; GPU clusters</li><li>CI/CD &amp; MLOps pipelines</li><li>Big data analytics platforms</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Learning Programs</span></div>
-            <ul class="prog-detail-list">
-              <li>ML Engineering Intensives</li><li>Research Paper Writing</li><li>Industry Capstone Projects</li><li>Hackathon Series</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Implementation Support</span></div>
-            <ul class="prog-detail-list">
-              <li>Enterprise project placements</li><li>Research mentorship</li><li>Publication support</li><li>Internship pathways</li>
-            </ul>
-          </div>
+          <div class="prog-details"><div class="prog-table">
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Innovation Labs</span></div><ul class="prog-detail-list"><li>Machine Learning Lab</li><li>Deep Learning Studio</li><li>Software Engineering Lab</li><li>Data Science Lab</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology</span></div><ul class="prog-detail-list"><li>TensorFlow &amp; PyTorch</li><li>Cloud &amp; GPU clusters</li><li>CI/CD &amp; MLOps pipelines</li><li>Big data platforms</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Programs</span></div><ul class="prog-detail-list"><li>ML Engineering Intensives</li><li>Research Paper Writing</li><li>Industry Capstone Projects</li><li>Hackathon Series</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Support</span></div><ul class="prog-detail-list"><li>Enterprise placements</li><li>Research mentorship</li><li>Publication support</li><li>Internship pathways</li></ul></div>
+          </div></div>
         </div>
       </div>
     </div>
-    <div class="prog-img-wrap"><img src="assets/labs/acceleration.png" alt="Acceleration Program" /></div>
-  </div>
 
-  <div class="section-break">
-    <div class="section-break-orn">
-      <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
-        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
-        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- 3. Discovery — BLUE — text left, image right -->
-  <div class="program-block" id="prog-2"
-    style="--dc:#60a5fa; --dc-bg:radial-gradient(ellipse at 20% 50%, rgba(96,165,250,0.07) 0%, transparent 65%)">
-    <div class="prog-content">
-      <span class="prog-bg-num">03</span>
-      <p class="prog-category">For Research &amp; Innovation Leadership</p>
-      <h2 class="prog-name">Discovery</h2>
-      <div class="prog-body-row">
-        <ul class="prog-bullets">
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="6" height="3" rx=".5"/><path d="M10 5v7"/><path d="M8 12h4"/><path d="M6 15.5a5 5 0 0 1 8 0"/><line x1="3" y1="18" x2="17" y2="18"/></svg></span>
-              <span>AI Research Centers</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="10,2 18,7 18,13 10,18 2,13 2,7"/><polygon points="10,6 14,8.5 14,11.5 10,14 6,11.5 6,8.5"/></svg></span>
-              <span>Interdisciplinary Innovation</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2C10 2 14 4.5 14 9v3l2.5 2.5H3.5L6 12V9C6 4.5 10 2 10 2z"/><path d="M8 14.5v1.5a2 2 0 0 0 4 0v-1.5"/><circle cx="10" cy="8" r="1.5"/></svg></span>
-              <span>Technology Commercialization</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3" ry="7.5"/><line x1="2.5" y1="10" x2="17.5" y2="10"/><line x1="3.5" y1="6" x2="16.5" y2="6"/><line x1="3.5" y1="14" x2="16.5" y2="14"/></svg></span>
-              <span>Global Research Networks</span>
-            </li>
-        </ul>
-        <span class="prog-vsep"></span>
-        <div class="prog-body-right">
-          <div class="prog-lab-focus">
-            <p class="prog-focus-label">Lab Focus</p>
-            <p class="prog-focus-text">Pioneering frontier research and breakthrough innovation in applied AI.</p>
+    <!-- ── 3. Discovery ── content left / image right ── -->
+    <div class="prog-split-page" id="prog-2" style="--dc:#60a5fa; --dc-glow:rgba(96,165,250,.12)">
+      <div class="prog-split-half prog-split-left">
+        <div class="prog-split-content">
+          <span class="prog-bg-num" style="right:0;left:auto">03</span>
+          <p class="prog-category">For Research &amp; Innovation Leadership</p>
+          <h2 class="prog-name">Discovery</h2>
+          <div class="prog-body-row">
+            <ul class="prog-bullets">
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="6" height="3" rx=".5"/><path d="M10 5v7M8 12h4M6 15.5a5 5 0 0 1 8 0"/><line x1="3" y1="18" x2="17" y2="18"/></svg></span><span>AI Research Centers</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="10,2 18,7 18,13 10,18 2,13 2,7"/><polygon points="10,6 14,8.5 14,11.5 10,14 6,11.5 6,8.5"/></svg></span><span>Interdisciplinary Innovation</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2C10 2 14 4.5 14 9v3l2.5 2.5H3.5L6 12V9C6 4.5 10 2 10 2z"/><path d="M8 14.5v1.5a2 2 0 0 0 4 0v-1.5"/><circle cx="10" cy="8" r="1.5"/></svg></span><span>Technology Commercialization</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="7.5"/><ellipse cx="10" cy="10" rx="3" ry="7.5"/><line x1="2.5" y1="10" x2="17.5" y2="10"/><line x1="3.5" y1="6" x2="16.5" y2="6"/><line x1="3.5" y1="14" x2="16.5" y2="14"/></svg></span><span>Global Research Networks</span></li>
+            </ul>
+            <span class="prog-vsep"></span>
+            <div class="prog-body-right">
+              <div class="prog-lab-focus"><p class="prog-focus-label">Lab Focus</p><p class="prog-focus-text">Pioneering frontier research and breakthrough innovation in applied AI.</p></div>
+              <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Research Universities &amp; Innovation Institutes</span></span></div>
+            </div>
           </div>
-          <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Research Universities &amp; Innovation Institutes</span></span></div>
+          <div class="prog-details"><div class="prog-table">
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Innovation Labs</span></div><ul class="prog-detail-list"><li>AI Research Lab</li><li>Innovation Design Studio</li><li>Deep Tech Incubator</li><li>Policy &amp; Ethics Lab</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology</span></div><ul class="prog-detail-list"><li>HPC research computing</li><li>Advanced simulation</li><li>AI dev frameworks</li><li>IP &amp; commercialization</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Programs</span></div><ul class="prog-detail-list"><li>Long-Form Research Projects</li><li>Startup Incubation Cycles</li><li>Expert Symposiums</li><li>International Exchange</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Support</span></div><ul class="prog-detail-list"><li>Research funding access</li><li>IP &amp; patent guidance</li><li>VC &amp; investor connect</li><li>Policy partnerships</li></ul></div>
+          </div></div>
         </div>
       </div>
-      <div class="prog-details">
-        <div class="prog-table">
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Included Innovation Labs</span></div>
-            <ul class="prog-detail-list">
-              <li>AI Research Lab</li><li>Innovation Design Studio</li><li>Deep Tech Incubator</li><li>Policy &amp; Ethics Lab</li>
+      <div class="prog-split-half prog-split-right">
+        <div class="prog-split-img-wrap" style="background-image: url('assets/labs/discovery.png')"></div>
+      </div>
+    </div>
+
+    <!-- ── 4. Nexus Campus ── image left / content right ── -->
+    <div class="prog-split-page" id="prog-3" style="--dc:#fbbf24; --dc-glow:rgba(251,191,36,.12)">
+      <div class="prog-split-half prog-split-left">
+        <div class="prog-split-img-wrap" style="background-image: url('assets/labs/nexus.png')"></div>
+      </div>
+      <div class="prog-split-half prog-split-right">
+        <div class="prog-split-content">
+          <span class="prog-bg-num" style="left:0;right:auto">04</span>
+          <p class="prog-category">For Full Campus AI Transformation</p>
+          <h2 class="prog-name">Nexus Campus</h2>
+          <div class="prog-body-row">
+            <ul class="prog-bullets">
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="10" height="13"/><rect x="12" y="8" width="6" height="10"/><path d="M5 9h4M5 12h4M8 18v-4"/><path d="M14 11h2M14 14h2"/></svg></span><span>Campus-Wide AI Integration</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="12" height="12" rx="1"/><rect x="7" y="7" width="6" height="6" rx=".5"/><path d="M7 2v2M13 2v2M7 16v2M13 16v2M2 7h2M2 13h2M16 7h2M16 13h2"/></svg></span><span>Smart Infrastructure Systems</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12v10H4z"/><path d="M7 14v3M13 14v3"/><line x1="5" y1="17" x2="15" y2="17"/><line x1="7" y1="8" x2="13" y2="8"/><line x1="7" y1="10.5" x2="11" y2="10.5"/></svg></span><span>Interdisciplinary Programs</span></li>
+              <li><span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2L3 5.5v6C3 15 6.5 18.5 10 19c3.5-.5 7-4 7-7.5v-6L10 2z"/><path d="M7 10l2 2 4-4"/></svg></span><span>AI Policy &amp; Governance</span></li>
             </ul>
+            <span class="prog-vsep"></span>
+            <div class="prog-body-right">
+              <div class="prog-lab-focus"><p class="prog-focus-label">Lab Focus</p><p class="prog-focus-text">Complete institutional transformation through an AI-first ecosystem strategy.</p></div>
+              <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Entire University Campuses &amp; Institutions</span></span></div>
+            </div>
           </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology Platforms</span></div>
-            <ul class="prog-detail-list">
-              <li>HPC research computing</li><li>Advanced simulation &amp; modeling</li><li>AI development frameworks</li><li>IP &amp; commercialization tools</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Learning Programs</span></div>
-            <ul class="prog-detail-list">
-              <li>Long-Form Research Projects</li><li>Startup Incubation Cycles</li><li>Expert Symposiums</li><li>International Exchange</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Implementation Support</span></div>
-            <ul class="prog-detail-list">
-              <li>Research funding access</li><li>IP &amp; patent guidance</li><li>VC &amp; investor connect</li><li>Policy partnerships</li>
-            </ul>
-          </div>
+          <div class="prog-details"><div class="prog-table">
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Innovation Labs</span></div><ul class="prog-detail-list"><li>Smart Campus Lab</li><li>AI for Social Good Lab</li><li>Digital Twin Lab</li><li>Campus AI Command Center</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology</span></div><ul class="prog-detail-list"><li>Smart campus IoT</li><li>Digital twin platforms</li><li>AI governance frameworks</li><li>Campus-wide analytics</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Programs</span></div><ul class="prog-detail-list"><li>Campus deployment</li><li>Interdisciplinary AI</li><li>Government partnerships</li><li>Leadership development</li></ul></div>
+            <div class="prog-table-cell"><div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Support</span></div><ul class="prog-detail-list"><li>Full transformation blueprint</li><li>Infrastructure support</li><li>Leadership coaching</li><li>Strategic partnership</li></ul></div>
+          </div></div>
         </div>
       </div>
     </div>
-    <div class="prog-img-wrap"><img src="assets/labs/discovery.png" alt="Discovery Program" /></div>
-  </div>
 
-  <div class="section-break">
-    <div class="section-break-orn">
-      <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
-        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
-        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- 4. Nexus — YELLOW — image left, text right -->
-  <div class="program-block reverse" id="prog-3"
-    style="--dc:#fbbf24; --dc-bg:radial-gradient(ellipse at 80% 50%, rgba(251,191,36,0.07) 0%, transparent 65%)">
-    <div class="prog-content">
-      <span class="prog-bg-num">04</span>
-      <p class="prog-category">For Full Campus AI Transformation</p>
-      <h2 class="prog-name">Nexus Campus</h2>
-      <div class="prog-body-row">
-        <ul class="prog-bullets">
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="10" height="13"/><rect x="12" y="8" width="6" height="10"/><path d="M5 9h4M5 12h4M8 18v-4"/><path d="M14 11h2M14 14h2"/></svg></span>
-              <span>Campus-Wide AI Integration</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="12" height="12" rx="1"/><rect x="7" y="7" width="6" height="6" rx=".5"/><path d="M7 2v2M13 2v2M7 16v2M13 16v2M2 7h2M2 13h2M16 7h2M16 13h2"/></svg></span>
-              <span>Smart Infrastructure Systems</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12v10H4z"/><path d="M7 14v3"/><path d="M13 14v3"/><line x1="5" y1="17" x2="15" y2="17"/><line x1="7" y1="8" x2="13" y2="8"/><line x1="7" y1="10.5" x2="11" y2="10.5"/></svg></span>
-              <span>Interdisciplinary Programs</span>
-            </li>
-            <li>
-              <span class="bi"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2L3 5.5v6C3 15 6.5 18.5 10 19c3.5-.5 7-4 7-7.5v-6L10 2z"/><path d="M7 10l2 2 4-4"/></svg></span>
-              <span>AI Policy &amp; Governance</span>
-            </li>
-        </ul>
-        <span class="prog-vsep"></span>
-        <div class="prog-body-right">
-          <div class="prog-lab-focus">
-            <p class="prog-focus-label">Lab Focus</p>
-            <p class="prog-focus-text">Complete institutional transformation through an AI-first ecosystem strategy.</p>
-          </div>
-          <div class="prog-ideal"><span class="prog-ideal-icon">→</span><span><em class="prog-ideal-label">Ideal for</em><span class="prog-ideal-text">Entire University Campuses &amp; Institutions</span></span></div>
-        </div>
-      </div>
-      <div class="prog-details">
-        <div class="prog-table">
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">01</span><span class="prog-cell-title">Included Innovation Labs</span></div>
-            <ul class="prog-detail-list">
-              <li>Smart Campus Lab</li><li>AI for Social Good Lab</li><li>Digital Twin Lab</li><li>Campus AI Command Center</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">02</span><span class="prog-cell-title">Technology Platforms</span></div>
-            <ul class="prog-detail-list">
-              <li>Smart campus IoT infrastructure</li><li>Digital twin platforms</li><li>AI governance frameworks</li><li>Campus-wide analytics systems</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">03</span><span class="prog-cell-title">Learning Programs</span></div>
-            <ul class="prog-detail-list">
-              <li>Campus deployment projects</li><li>Interdisciplinary AI programs</li><li>Government partnerships</li><li>Leadership development</li>
-            </ul>
-          </div>
-          <div class="prog-table-cell">
-            <div class="prog-cell-label"><span class="prog-cell-num">04</span><span class="prog-cell-title">Implementation Support</span></div>
-            <ul class="prog-detail-list">
-              <li>Full transformation blueprint</li><li>Infrastructure support</li><li>Leadership coaching</li><li>Ongoing strategic partnership</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="prog-img-wrap"><img src="assets/labs/nexus.png" alt="Nexus Campus Program" /></div>
-  </div>
+  </div><!-- /prog-split-section -->
 
 </section>
+
 
 <section class="pkg-section">
   <div class="pkg-layout">
@@ -1216,19 +1094,28 @@
     hero.addEventListener('mouseleave', function () {
       spotlight.style.background = 'none';
     });
+
+    /* Pause the tiling dot animation when hero is off-screen */
+    new IntersectionObserver(function(entries) {
+      hero.style.setProperty('--dot-play', entries[0].isIntersecting ? 'running' : 'paused');
+    }, { threshold: 0 }).observe(hero);
   })();
 
   (function () {
     var cursor = document.getElementById('custom-cursor');
     var path = cursor.querySelector('svg path');
+    var cursorIsText = null;
     window.addEventListener('mousemove', function (e) {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
       var el = document.elementFromPoint(e.clientX, e.clientY);
-      var isT = el && el.closest('h1,h2,h3,p,a,button,span');
-      path.setAttribute('stroke', isT ? '#5b9fff' : 'white');
-      cursor.style.filter = isT ? 'drop-shadow(0 0 6px rgba(91,159,255,0.9))' : 'drop-shadow(0 0 4px rgba(255,255,255,0.5))';
-    });
+      var isT = !!(el && el.closest('h1,h2,h3,p,a,button,span'));
+      if (isT !== cursorIsText) {
+        cursorIsText = isT;
+        path.setAttribute('stroke', isT ? '#5b9fff' : 'white');
+        cursor.style.filter = isT ? 'drop-shadow(0 0 6px rgba(91,159,255,0.9))' : 'drop-shadow(0 0 4px rgba(255,255,255,0.5))';
+      }
+    }, { passive: true });
     document.addEventListener('mouseleave', function () { cursor.style.opacity = '0'; });
     document.addEventListener('mouseenter', function () { cursor.style.opacity = '1'; });
   })();
@@ -1256,18 +1143,28 @@
     var progs = ['prog-0','prog-1','prog-2','prog-3'].map(function(id){ return document.getElementById(id); });
     if (!cards.length || !progs[0]) return;
 
+    var progOffsets = [];
+    function cacheOffsets() {
+      progOffsets = progs.map(function(p) { return p ? p.getBoundingClientRect().top + window.scrollY : 0; });
+    }
+    cacheOffsets();
+    window.addEventListener('resize', cacheOffsets, { passive: true });
+
     function updateActive() {
       var scrollMid = window.scrollY + window.innerHeight * 0.45;
       var active = -1;
-      for (var i = progs.length - 1; i >= 0; i--) {
-        if (progs[i] && progs[i].getBoundingClientRect().top + window.scrollY <= scrollMid) {
-          active = i; break;
-        }
+      for (var i = progOffsets.length - 1; i >= 0; i--) {
+        if (progOffsets[i] <= scrollMid) { active = i; break; }
       }
       cards.forEach(function(c, i) { c.classList.toggle('ov-active', i === active); });
     }
 
-    window.addEventListener('scroll', updateActive, { passive: true });
+    var rafPending = false;
+    window.addEventListener('scroll', function() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(function() { rafPending = false; updateActive(); });
+    }, { passive: true });
     updateActive();
   })();
 
@@ -1317,6 +1214,8 @@
     }, { threshold: 0.15 });
     whyObs.observe(whySection);
   })();
+
+
 </script>
 </body>
 </html>

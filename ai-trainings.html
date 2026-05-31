@@ -68,17 +68,25 @@
     .programs-wrapper { background: #0a0a0c; }
     .program-block { display: flex; min-height: 100vh; overflow: hidden; border-top: 2px solid var(--dc, rgba(255,255,255,.08)); scroll-margin-top: 96px; }
     .program-block.reverse { flex-direction: row-reverse; }
-    .prog-img-wrap { flex: 0 0 42%; overflow: hidden; opacity: 0; transition: opacity .85s ease .08s, transform .85s cubic-bezier(.4,0,.2,1) .08s; }
+    .prog-img-wrap { flex: 0 0 42%; overflow: hidden; opacity: 0; transition: opacity .85s ease .08s, transform .85s cubic-bezier(.4,0,.2,1) .08s; position: relative; background: radial-gradient(ellipse at center, color-mix(in srgb, var(--dc) 28%, transparent) 0%, transparent 72%); }
     .program-block:not(.reverse) .prog-img-wrap { transform: translateX(40px); }
     .program-block.reverse .prog-img-wrap { transform: translateX(-40px); }
     .program-block.in-view .prog-img-wrap { opacity: 1; transform: translateX(0); }
-    .prog-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
-    .prog-img-wrap.contained img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+    .prog-img-wrap::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(to bottom, rgba(10,10,12,.7) 0%, transparent 25%, transparent 72%, rgba(10,10,12,.85) 100%); }
+    .program-block:not(.reverse) .prog-img-wrap::before { background: linear-gradient(to bottom, rgba(10,10,12,.7) 0%, transparent 25%, transparent 72%, rgba(10,10,12,.85) 100%), linear-gradient(to right, rgba(10,10,12,.75) 0%, transparent 32%); }
+    .program-block.reverse .prog-img-wrap::before { background: linear-gradient(to bottom, rgba(10,10,12,.7) 0%, transparent 25%, transparent 72%, rgba(10,10,12,.85) 100%), linear-gradient(to left, rgba(10,10,12,.75) 0%, transparent 32%); }
+    .prog-img-wrap::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, color-mix(in srgb, var(--dc) 18%, transparent) 0%, transparent 65%); z-index: 4; pointer-events: none; mix-blend-mode: screen; }
+    .prog-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 65%; display: block; position: relative; z-index: 1; }
+    .prog-img-wrap.contained img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
+    #prog-0 .prog-img-wrap img { object-position: center; transform: translateY(8%); }
+    #prog-1 .prog-img-wrap img { object-position: center 70%; transform: scale(1.3); transform-origin: center 70%; }
+    #prog-3 .prog-img-wrap img { object-position: center 80%; }
     .prog-content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 60px 52px 60px 60px; position: relative; overflow: hidden; background-color: #0a0a0c; background-image: radial-gradient(circle, rgba(255,255,255,.024) 1px, transparent 1px), var(--dc-bg, radial-gradient(ellipse at 20% 50%, rgba(161,0,255,.05) 0%, transparent 60%)); background-size: 28px 28px, auto; opacity: 0; transition: opacity .85s ease .08s, transform .85s cubic-bezier(.4,0,.2,1) .08s; }
     .program-block:not(.reverse) .prog-content { transform: translateX(-40px); }
     .program-block.reverse .prog-content { transform: translateX(40px); padding: 60px 60px 60px 52px; }
     .program-block.in-view .prog-content { opacity: 1; transform: translateX(0); }
-    .prog-bg-num { position: absolute; font-size: clamp(160px,20vw,270px); font-weight: 900; line-height: 1; letter-spacing: -.07em; color: var(--dc,#fff); opacity: .04; top: -10px; right: -16px; pointer-events: none; user-select: none; z-index: 0; }
+    .prog-bg-num { position: absolute; font-size: clamp(120px,16vw,220px); font-weight: 900; line-height: 1; letter-spacing: -.07em; color: var(--dc,#fff); opacity: .09; top: 0; right: 0; pointer-events: none; user-select: none; z-index: 3; }
+    .program-block.reverse .prog-bg-num { right: auto; left: 0; }
     .prog-content > *:not(.prog-bg-num) { position: relative; z-index: 1; }
     .prog-category { font-size: 9px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--dc,#a100ff); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
     .prog-category::before { content: ''; width: 22px; height: 1.5px; background: currentColor; display: inline-block; flex-shrink: 0; }
@@ -138,7 +146,9 @@
     .prog-ov-card:hover .prog-ov-link { gap: 11px; }
 
     /* Section break */
-    .section-break { background: #0a0a0c; padding: 28px 0; display: flex; align-items: center; justify-content: center; }
+    .section-break { background: #0a0a0c; height: 56px; display: flex; align-items: center; position: relative; }
+    .section-break::before, .section-break::after { content: ''; flex: 1; height: 1.5px; background: rgba(255,255,255,.10); }
+    .section-break-orn { display: flex; align-items: center; gap: 10px; padding: 0 28px; flex-shrink: 0; }
     .section-break-orn svg { display: block; overflow: visible; }
 
     /* Programs intro */
@@ -319,7 +329,7 @@
       <ul class="dropdown">
         <li><a href="ai-labs.html"><span class="d-arrow">&#62;</span> AI Labs</a></li>
         <li><a href="ai-trainings.html" class="active"><span class="d-arrow">&#62;</span> AI Trainings</a></li>
-        <li><a href="#"><span class="d-arrow">&#62;</span> AI Products</a></li>
+        <li><a href="ai-products.html"><span class="d-arrow">&#62;</span> AI Products</a></li>
       </ul>
     </li>
     <li><a href="#" class="nav-item"><span class="label">Contact</span></a></li>
@@ -350,7 +360,7 @@
   <div class="prog-overview">
     <div class="prog-overview-grid">
 
-      <a href="#prog-0" class="prog-ov-card" style="--dc:#4ade80">
+      <a href="#prog-0" class="prog-ov-card" style="--dc:#fbbf24">
         <span class="prog-ov-num">01</span>
         <h3 class="prog-ov-name">Explorer</h3>
         <p class="prog-ov-desc">Foundation Stage — Introduction to technology through creativity and basic logic building.</p>
@@ -358,7 +368,7 @@
         <span class="prog-ov-link">Explore <span>→</span></span>
       </a>
 
-      <a href="#prog-1" class="prog-ov-card" style="--dc:#f87171">
+      <a href="#prog-1" class="prog-ov-card" style="--dc:#60a5fa">
         <span class="prog-ov-num">02</span>
         <h3 class="prog-ov-name">Builder</h3>
         <p class="prog-ov-desc">Intermediate Stage — Applied learning with real systems and programming.</p>
@@ -366,7 +376,7 @@
         <span class="prog-ov-link">Explore <span>→</span></span>
       </a>
 
-      <a href="#prog-2" class="prog-ov-card" style="--dc:#60a5fa">
+      <a href="#prog-2" class="prog-ov-card" style="--dc:#f87171">
         <span class="prog-ov-num">03</span>
         <h3 class="prog-ov-name">Innovator</h3>
         <p class="prog-ov-desc">Advanced Stage — Engineering systems and real-world applications.</p>
@@ -374,7 +384,7 @@
         <span class="prog-ov-link">Explore <span>→</span></span>
       </a>
 
-      <a href="#prog-3" class="prog-ov-card" style="--dc:#fbbf24">
+      <a href="#prog-3" class="prog-ov-card" style="--dc:#a78bfa">
         <span class="prog-ov-num">04</span>
         <h3 class="prog-ov-name">AI Specialist</h3>
         <p class="prog-ov-desc">Professional Level — Advanced AI systems, product development, and research.</p>
@@ -399,9 +409,8 @@
   </div>
 
   <div class="program-block" id="prog-0"
-    style="--dc:#4ade80; --dc-bg:radial-gradient(ellipse at 20% 50%, rgba(74,222,128,0.07) 0%, transparent 65%)">
+    style="--dc:#fbbf24; --dc-bg:radial-gradient(ellipse at 20% 50%, rgba(251,191,36,0.07) 0%, transparent 65%)">
     <div class="prog-content">
-      <span class="prog-bg-num">01</span>
       <p class="prog-category">Foundation Stage</p>
       <h2 class="prog-name">Explorer</h2>
       <div class="prog-body-row">
@@ -471,24 +480,23 @@
         </div>
       </div>
     </div>
-    <div class="prog-img-wrap"><img src="assets/trainings/Level1.jpg" alt="Level 1 – Explorer" /></div>
+    <div class="prog-img-wrap"><span class="prog-bg-num">01</span><img src="assets/trainings/Level1.jpg" alt="Level 1 – Explorer" /></div>
   </div>
 
   <div class="section-break">
     <div class="section-break-orn">
       <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
-        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
-        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2"/>
+        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
   </div>
 
   <!-- 2. Builder — GREEN — image left, text right -->
   <div class="program-block reverse" id="prog-1"
-    style="--dc:#f87171; --dc-bg:radial-gradient(ellipse at 80% 50%, rgba(248,113,113,0.07) 0%, transparent 65%)">
+    style="--dc:#60a5fa; --dc-bg:radial-gradient(ellipse at 80% 50%, rgba(96,165,250,0.07) 0%, transparent 65%)">
     <div class="prog-content">
-      <span class="prog-bg-num">02</span>
       <p class="prog-category">Intermediate Stage</p>
       <h2 class="prog-name">Builder</h2>
       <div class="prog-body-row">
@@ -558,24 +566,23 @@
         </div>
       </div>
     </div>
-    <div class="prog-img-wrap contained" style="flex: 0 0 52%;"><img src="assets/trainings/Level2.jpg" alt="Level 2 – Builder" /></div>
+    <div class="prog-img-wrap contained"><span class="prog-bg-num">02</span><img src="assets/trainings/Level2.jpg" alt="Level 2 – Builder" /></div>
   </div>
 
   <div class="section-break">
     <div class="section-break-orn">
       <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
-        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
-        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2"/>
+        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
   </div>
 
   <!-- 3. Innovator — AMBER — text left, image right -->
   <div class="program-block" id="prog-2"
-    style="--dc:#60a5fa; --dc-bg:radial-gradient(ellipse at 20% 50%, rgba(96,165,250,0.07) 0%, transparent 65%)">
+    style="--dc:#f87171; --dc-bg:radial-gradient(ellipse at 20% 50%, rgba(248,113,113,0.07) 0%, transparent 65%)">
     <div class="prog-content">
-      <span class="prog-bg-num">03</span>
       <p class="prog-category">Advanced Stage</p>
       <h2 class="prog-name">Innovator</h2>
       <div class="prog-body-row">
@@ -645,24 +652,23 @@
         </div>
       </div>
     </div>
-    <div class="prog-img-wrap contained"><img src="assets/trainings/Level3.png" alt="Level 3 – Innovator" /></div>
+    <div class="prog-img-wrap contained"><span class="prog-bg-num">03</span><img src="assets/trainings/Level3.png" alt="Level 3 – Innovator" /></div>
   </div>
 
   <div class="section-break">
     <div class="section-break-orn">
       <svg width="96" height="20" viewBox="0 0 96 20" fill="none">
-        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
-        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="8,5 16,13 24,5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="48" cy="10" r="3.5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2"/>
+        <polyline points="72,5 80,13 88,5" stroke="rgba(255,255,255,0.72)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
   </div>
 
   <!-- 4. AI Specialist — PURPLE — image left, text right -->
   <div class="program-block reverse" id="prog-3"
-    style="--dc:#fbbf24; --dc-bg:radial-gradient(ellipse at 80% 50%, rgba(251,191,36,0.07) 0%, transparent 65%)">
+    style="--dc:#a78bfa; --dc-bg:radial-gradient(ellipse at 80% 50%, rgba(167,139,250,0.07) 0%, transparent 65%)">
     <div class="prog-content">
-      <span class="prog-bg-num">04</span>
       <p class="prog-category">Professional Level</p>
       <h2 class="prog-name">AI Specialist</h2>
       <div class="prog-body-row">
@@ -732,7 +738,7 @@
         </div>
       </div>
     </div>
-    <div class="prog-img-wrap contained"><img src="assets/trainings/Level4.png" alt="Level 4 – AI Specialist" /></div>
+    <div class="prog-img-wrap contained"><span class="prog-bg-num">04</span><img src="assets/trainings/Level4.png" alt="Level 4 – AI Specialist" /></div>
   </div>
 
 </section>
