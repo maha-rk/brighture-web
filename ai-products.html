@@ -246,11 +246,45 @@
     .intro-cta:hover .intro-cta-arrow { background: #c040ff; transform: translateX(4px); }
 
     /* ── PRODUCTS ── */
-    .products-section { background: #000; padding: 100px 52px; }
-    .section-header { max-width: 1160px; margin: 0 auto 72px; }
-    .section-label { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #a100ff; margin-bottom: 16px; }
-    .section-title { font-size: clamp(32px, 3.8vw, 52px); font-weight: 800; color: #fff; letter-spacing: -.03em; line-height: 1.1; }
-    .section-desc { font-size: clamp(14px, 1.2vw, 17px); color: rgba(255,255,255,.5); line-height: 1.7; margin-top: 16px; max-width: 640px; }
+    .products-section { background: linear-gradient(to bottom, #0a0a0c 0%, #000 7%); padding: 0 52px 80px; }
+
+    /* Editorial chapter break — full-width transition panel */
+    .section-header {
+      position: relative; overflow: hidden;
+      padding: 90px 0 88px;
+      margin: 0 -52px 72px;  /* bleed to full width */
+      display: flex; flex-direction: column; align-items: flex-start;
+      padding-left: 52px; padding-right: 52px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .8s ease, transform .8s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .section-header.in-view { opacity: 1; transform: translateY(0); }
+
+    /* Ghost number watermark */
+    .section-header::before {
+      content: '05';
+      position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
+      font-size: clamp(100px, 16vw, 200px); font-weight: 900;
+      color: rgba(255,255,255,.035); letter-spacing: -.06em; line-height: 1;
+      pointer-events: none; user-select: none;
+    }
+    /* Accent sweep at the bottom */
+    .section-header::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, #a100ff 25%, rgba(255,255,255,.3) 50%, #a100ff 75%, transparent);
+    }
+
+    .section-label {
+      font-size: 10.5px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+      color: #a100ff; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+      content: ''; display: inline-block; width: 28px; height: 1px; background: #a100ff;
+    }
+    .section-title { font-size: clamp(36px, 4.5vw, 62px); font-weight: 800; color: #fff; letter-spacing: -.04em; line-height: 1.05; max-width: 680px; }
+    .section-desc { font-size: clamp(14px, 1.2vw, 17px); color: rgba(255,255,255,.55); line-height: 1.72; margin-top: 20px; max-width: 580px; }
 
     .product-card { max-width: 1160px; margin: 0 auto 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s ease; }
     .product-card.in-view { opacity: 1; transform: translateY(0); }
@@ -1440,7 +1474,7 @@
       if (e.isIntersecting) { e.target.classList.add('in-view'); obs.unobserve(e.target); }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.product-card, .benefit-cell, .industry-card, #intro-image-panel, #intro-text-panel').forEach(function (el) {
+  document.querySelectorAll('.product-card, .benefit-cell, .industry-card, #intro-image-panel, #intro-text-panel, .section-header').forEach(function (el) {
     obs.observe(el);
   });
 })();
