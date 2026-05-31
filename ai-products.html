@@ -67,33 +67,36 @@
     @keyframes scrollArrow { 0%,100% { opacity:.4; transform:translateY(0); } 50% { opacity:.9; transform:translateY(10px); } }
 
     /* ── PHYSICAL AI PLATFORM ── */
-    /* ── PHYSICAL AI PLATFORM — cursor magnify ── */
-    .paip-section { background: #05050a; padding: 120px 52px 110px; border-top: 1px solid rgba(255,255,255,.06); position: relative; overflow: hidden; }
-    .paip-inner { max-width: 1060px; margin: 0 auto; position: relative; z-index: 1; }
+    /* ── PHYSICAL AI PLATFORM — TextRotate ── */
+    .paip-section { background: #05050a; padding: 120px 52px 110px; border-top: 1px solid rgba(255,255,255,.06); }
+    .paip-inner { max-width: 1060px; margin: 0 auto; }
 
-    /* Magnify text wrapper */
-    .mag-wrap { position: relative; cursor: none; user-select: none; }
-    /* Shared text style */
-    .mag-base, .mag-over {
-      font-size: clamp(26px, 3.2vw, 52px);
-      font-weight: 800;
-      line-height: 1.35;
-      letter-spacing: -.03em;
+    .tr-block { }
+    .tr-main-text {
+      font-size: clamp(20px, 2.8vw, 46px);
+      font-weight: 300;
+      line-height: 1.45;
+      letter-spacing: -.01em;
+      color: rgba(255,255,255,.82);
+      min-height: 5.5em;
     }
-    /* Base layer — very dim, almost invisible */
-    .mag-base { color: rgba(255,255,255,.16); }
-    .mag-base strong { color: rgba(255,255,255,.16); font-weight: 800; }
-    /* Reveal layer — clipped purple circle with bright text */
-    .mag-over {
-      position: absolute;
-      inset: 0;
-      color: #ffffff;
-      background: #6200b3;
-      clip-path: circle(0px at -400px -400px);
-      pointer-events: none;
-      z-index: 2;
+    .tr-divider { display: flex; align-items: center; margin: 32px 0; }
+    .tr-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #a100ff;
+      box-shadow: 0 0 10px rgba(161,0,255,.7);
+      transition: transform .35s cubic-bezier(0.34,1.56,0.64,1), box-shadow .35s ease;
     }
-    .mag-over strong { color: #ffffff; font-weight: 800; }
+    .tr-dot.pulse { transform: scale(1.55); box-shadow: 0 0 22px rgba(161,0,255,.9); }
+    .tr-sub-text {
+      font-size: clamp(16px, 1.6vw, 24px);
+      font-weight: 500;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .01em;
+      min-height: 1.6em;
+    }
+    .tr-word { display: inline; }
 
     /* ── PLATFORM CAPABILITIES ── */
     /* ── PLATFORM CAPABILITIES ── */
@@ -307,15 +310,10 @@
 <!-- ── PHYSICAL AI PLATFORM ── -->
 <section class="paip-section">
   <div class="paip-inner">
-    <div class="mag-wrap" id="mag-wrap">
-      <!-- dim base layer -->
-      <div class="mag-base">
-        The Physical AI Platform enables machines to perceive, understand, and act within dynamic environments. By combining <strong>computer vision, edge AI, robotics, and intelligent decision systems</strong>, the platform transforms conventional industrial equipment into intelligent machines capable of operating safely and efficiently in real-world environments. The platform enables vehicles and machines to detect pedestrians, understand surroundings, plan movements, and execute actions autonomously.
-      </div>
-      <!-- revealed layer — clipped to cursor circle -->
-      <div class="mag-over" id="mag-over" aria-hidden="true">
-        The Physical AI Platform enables machines to perceive, understand, and act within dynamic environments. By combining <strong>computer vision, edge AI, robotics, and intelligent decision systems</strong>, the platform transforms conventional industrial equipment into intelligent machines capable of operating safely and efficiently in real-world environments. The platform enables vehicles and machines to detect pedestrians, understand surroundings, plan movements, and execute actions autonomously.
-      </div>
+    <div class="tr-block">
+      <div class="tr-main-text" id="tr-main" aria-live="polite"></div>
+      <div class="tr-divider"><div class="tr-dot" id="tr-dot"></div></div>
+      <div class="tr-sub-text" id="tr-sub" aria-live="polite"></div>
     </div>
   </div>
 </section>
@@ -1283,42 +1281,107 @@
   loop();
 })();
 
-/* ── Cursor magnify for Physical AI Platform ── */
+/* ── TextRotate — Physical AI Platform ── */
 (function () {
-  var wrap = document.getElementById('mag-wrap');
-  var over = document.getElementById('mag-over');
-  if (!wrap || !over) return;
+  var mainEl = document.getElementById('tr-main');
+  var subEl  = document.getElementById('tr-sub');
+  var dotEl  = document.getElementById('tr-dot');
+  if (!mainEl || !subEl) return;
 
-  var R = 190;           /* circle radius px */
-  var mx = -800, my = -800;   /* current (lerped) position */
-  var tx = -800, ty = -800;   /* target position */
-  var rafId = null;
+  var mainTexts = [
+    'The Physical AI Platform enables machines to perceive, understand, and act within dynamic environments.',
+    'By combining computer vision, edge AI, robotics, and intelligent decision systems, the platform transforms conventional industrial equipment into intelligent machines capable of operating safely and efficiently in real-world environments.',
+    'The platform enables vehicles and machines to detect pedestrians, understand surroundings, plan movements, and execute actions autonomously.'
+  ];
+  var subTexts = [
+    'Perception & Awareness',
+    'Intelligence & Control',
+    'Autonomy & Safety'
+  ];
 
-  function lerp(a, b, t) { return a + (b - a) * t; }
+  var idx = 0;
+  var STAGGER    = 18;   /* ms between each word */
+  var ENTER_DUR  = 400;  /* ms enter transition */
+  var EXIT_DUR   = 220;  /* ms exit transition */
+  var EXIT_STAG  = 10;   /* ms stagger on exit */
+  var EASE_ENTER = 'cubic-bezier(0.215,0.61,0.355,1)';
+  var EASE_EXIT  = 'cubic-bezier(0.55,0,1,0.45)';
 
-  function tick() {
-    mx = lerp(mx, tx, 0.1);
-    my = lerp(my, ty, 0.1);
-    over.style.clipPath = 'circle(' + R + 'px at ' + mx + 'px ' + my + 'px)';
-    var dist = Math.abs(tx - mx) + Math.abs(ty - my);
-    if (dist > 0.3) {
-      rafId = requestAnimationFrame(tick);
-    } else {
-      rafId = null;
-    }
+  /* Build word spans into el, start invisible at x:+12px */
+  function build(el, text) {
+    el.innerHTML = '';
+    var words = text.split(' ');
+    var spans = [];
+    words.forEach(function (word, i) {
+      var s = document.createElement('span');
+      s.className = 'tr-word';
+      s.textContent = (i < words.length - 1) ? word + ' ' : word;
+      s.style.cssText = 'display:inline;opacity:0;transform:translateX(12px);will-change:opacity,transform;';
+      el.appendChild(s);
+      spans.push(s);
+    });
+    return spans;
   }
 
-  wrap.addEventListener('mousemove', function (e) {
-    var rect = wrap.getBoundingClientRect();
-    tx = e.clientX - rect.left;
-    ty = e.clientY - rect.top;
-    if (!rafId) rafId = requestAnimationFrame(tick);
-  });
+  /* Animate spans in from right */
+  function animIn(spans, baseDelay) {
+    /* force reflow so initial state is painted */
+    spans[0] && spans[0].getBoundingClientRect();
+    spans.forEach(function (s, i) {
+      var delay = baseDelay + i * STAGGER;
+      s.style.transition =
+        'opacity ' + ENTER_DUR + 'ms ' + EASE_ENTER + ' ' + delay + 'ms,' +
+        'transform ' + ENTER_DUR + 'ms ' + EASE_ENTER + ' ' + delay + 'ms';
+      requestAnimationFrame(function () {
+        s.style.opacity   = '1';
+        s.style.transform = 'translateX(0)';
+      });
+    });
+  }
 
-  wrap.addEventListener('mouseleave', function () {
-    tx = -800; ty = -800;
-    if (!rafId) rafId = requestAnimationFrame(tick);
-  });
+  /* Animate spans out to left, call cb when done */
+  function animOut(el, baseDelay, cb) {
+    var spans = el.querySelectorAll('.tr-word');
+    if (!spans.length) { cb && cb(); return; }
+    spans.forEach(function (s, i) {
+      var delay = baseDelay + i * EXIT_STAG;
+      s.style.transition =
+        'opacity ' + EXIT_DUR + 'ms ' + EASE_EXIT + ' ' + delay + 'ms,' +
+        'transform ' + EXIT_DUR + 'ms ' + EASE_EXIT + ' ' + delay + 'ms';
+      s.style.opacity   = '0';
+      s.style.transform = 'translateX(-12px)';
+    });
+    var total = baseDelay + spans.length * EXIT_STAG + EXIT_DUR;
+    setTimeout(cb, Math.min(total, 500));
+  }
+
+  /* Pulse the dot */
+  function pulseDot() {
+    if (!dotEl) return;
+    dotEl.classList.add('pulse');
+    setTimeout(function () { dotEl.classList.remove('pulse'); }, 380);
+  }
+
+  /* Rotate to next text */
+  function rotate() {
+    animOut(mainEl, 0, function () {
+      idx = (idx + 1) % mainTexts.length;
+      var mSpans = build(mainEl, mainTexts[idx]);
+      var sSpans = build(subEl,  subTexts[idx]);
+      pulseDot();
+      animIn(mSpans, 0);
+      animIn(sSpans, 60);
+    });
+    animOut(subEl, 20, function () {});
+  }
+
+  /* Initial render */
+  var mSpans0 = build(mainEl, mainTexts[0]);
+  var sSpans0 = build(subEl,  subTexts[0]);
+  animIn(mSpans0, 300);
+  animIn(sSpans0, 480);
+
+  setInterval(rotate, 4500);
 })();
 
 (function () {
