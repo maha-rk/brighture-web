@@ -67,19 +67,17 @@
     @keyframes scrollArrow { 0%,100% { opacity:.4; transform:translateY(0); } 50% { opacity:.9; transform:translateY(10px); } }
 
     /* ── PHYSICAL AI PLATFORM ── */
-    /* ── PHYSICAL AI PLATFORM — TextRotate ── */
-    .paip-section { background: #05050a; padding: 120px 52px 110px; border-top: 1px solid rgba(255,255,255,.06); }
-    .paip-inner { max-width: 1060px; margin: 0 auto; }
+    /* ── PHYSICAL AI PLATFORM — scroll-driven TextRotate ── */
+    .paip-section { height: 300vh; position: relative; background: #05050a; border-top: 1px solid rgba(255,255,255,.06); }
+    .paip-sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; }
+    .paip-inner { max-width: 860px; margin: 0 auto; padding: 0 52px; width: 100%; }
 
-    .tr-block { }
     .tr-main-text {
-      font-size: clamp(18px, 2vw, 32px);
+      font-size: clamp(20px, 2.2vw, 34px);
       font-weight: 300;
-      line-height: 1.6;
-      letter-spacing: -.01em;
-      color: rgba(255,255,255,.82);
-      overflow-wrap: break-word;
-      word-wrap: break-word;
+      line-height: 1.65;
+      letter-spacing: -.015em;
+      color: rgba(255,255,255,.85);
     }
     .tr-divider { display: flex; align-items: center; margin: 28px 0; }
     .tr-dot {
@@ -91,9 +89,9 @@
     }
     .tr-dot.pulse { transform: scale(1.55); box-shadow: 0 0 22px rgba(161,0,255,.9); }
     .tr-sub-text {
-      font-size: clamp(14px, 1.3vw, 20px);
+      font-size: clamp(13px, 1.2vw, 18px);
       font-weight: 500;
-      color: rgba(255,255,255,.45);
+      color: rgba(255,255,255,.4);
       letter-spacing: .01em;
     }
     .tr-word { display: inline; }
@@ -308,9 +306,9 @@
 </section>
 
 <!-- ── PHYSICAL AI PLATFORM ── -->
-<section class="paip-section">
-  <div class="paip-inner">
-    <div class="tr-block">
+<section class="paip-section" id="paip-section">
+  <div class="paip-sticky">
+    <div class="paip-inner">
       <div class="tr-main-text" id="tr-main" aria-live="polite"></div>
       <div class="tr-divider"><div class="tr-dot" id="tr-dot"></div></div>
       <div class="tr-sub-text" id="tr-sub" aria-live="polite"></div>
@@ -1375,21 +1373,58 @@
     animOut(subEl, 20, function () {});
   }
 
-  /* Scroll-triggered: start only when section enters viewport */
-  var started = false;
-  var section = document.querySelector('.paip-section');
-  var io = new IntersectionObserver(function (entries) {
-    if (entries[0].isIntersecting && !started) {
-      started = true;
-      io.disconnect();
-      var mSpans0 = build(mainEl, mainTexts[0]);
-      var sSpans0 = build(subEl, subTexts[0]);
-      animIn(mSpans0, 0);
-      animIn(sSpans0, 120);
-      setInterval(rotate, 4500);
+  /* Scroll-driven: progress through section controls which text shows */
+  var section = document.getElementById('paip-section');
+  if (!section) return;
+
+  var currentIdx = -1;
+  var busy = false; /* block rapid re-triggers during anim */
+
+  function getProgress() {
+    var rect = section.getBoundingClientRect();
+    var scrollable = section.offsetHeight - window.innerHeight;
+    return Math.max(0, Math.min(1, -rect.top / scrollable));
+  }
+
+  function idxForProgress(p) {
+    if (p < 0.34) return 0;
+    if (p < 0.67) return 1;
+    return 2;
+  }
+
+  function showText(newIdx, isFirst) {
+    if (isFirst) {
+      currentIdx = newIdx;
+      animIn(build(mainEl, mainTexts[newIdx]), 0);
+      animIn(build(subEl,  subTexts[newIdx]),  80);
+      return;
     }
-  }, { threshold: 0.25 });
-  if (section) io.observe(section);
+    busy = true;
+    animOut(mainEl, 0, function () {
+      currentIdx = newIdx;
+      animIn(build(mainEl, mainTexts[newIdx]), 0);
+      animIn(build(subEl,  subTexts[newIdx]),  60);
+      pulseDot();
+      setTimeout(function () { busy = false; }, 300);
+    });
+    animOut(subEl, 10, function () {});
+  }
+
+  function onScroll() {
+    if (busy) return;
+    var p   = getProgress();
+    var idx = idxForProgress(p);
+    if (idx === currentIdx) return;
+    showText(idx, currentIdx === -1);
+  }
+
+  var raf = false;
+  window.addEventListener('scroll', function () {
+    if (raf) return; raf = true;
+    requestAnimationFrame(function () { raf = false; onScroll(); });
+  }, { passive: true });
+
+  onScroll(); /* check on load in case already in view */
 })();
 
 (function () {
