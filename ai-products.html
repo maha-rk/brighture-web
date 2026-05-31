@@ -73,14 +73,15 @@
 
     .tr-block { }
     .tr-main-text {
-      font-size: clamp(20px, 2.8vw, 46px);
+      font-size: clamp(18px, 2vw, 32px);
       font-weight: 300;
-      line-height: 1.45;
+      line-height: 1.6;
       letter-spacing: -.01em;
       color: rgba(255,255,255,.82);
-      min-height: 5.5em;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
-    .tr-divider { display: flex; align-items: center; margin: 32px 0; }
+    .tr-divider { display: flex; align-items: center; margin: 28px 0; }
     .tr-dot {
       width: 10px; height: 10px;
       border-radius: 50%;
@@ -90,11 +91,10 @@
     }
     .tr-dot.pulse { transform: scale(1.55); box-shadow: 0 0 22px rgba(161,0,255,.9); }
     .tr-sub-text {
-      font-size: clamp(16px, 1.6vw, 24px);
+      font-size: clamp(14px, 1.3vw, 20px);
       font-weight: 500;
       color: rgba(255,255,255,.45);
       letter-spacing: .01em;
-      min-height: 1.6em;
     }
     .tr-word { display: inline; }
 
@@ -1375,13 +1375,21 @@
     animOut(subEl, 20, function () {});
   }
 
-  /* Initial render */
-  var mSpans0 = build(mainEl, mainTexts[0]);
-  var sSpans0 = build(subEl,  subTexts[0]);
-  animIn(mSpans0, 300);
-  animIn(sSpans0, 480);
-
-  setInterval(rotate, 4500);
+  /* Scroll-triggered: start only when section enters viewport */
+  var started = false;
+  var section = document.querySelector('.paip-section');
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting && !started) {
+      started = true;
+      io.disconnect();
+      var mSpans0 = build(mainEl, mainTexts[0]);
+      var sSpans0 = build(subEl, subTexts[0]);
+      animIn(mSpans0, 0);
+      animIn(sSpans0, 120);
+      setInterval(rotate, 4500);
+    }
+  }, { threshold: 0.25 });
+  if (section) io.observe(section);
 })();
 
 (function () {
