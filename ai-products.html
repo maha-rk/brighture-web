@@ -84,19 +84,86 @@
     .pp-icon { font-size: 15px; }
 
     /* ── PLATFORM CAPABILITIES ── */
-    .caps-section { background: #000; padding: 100px 52px 120px; }
-    .caps-inner { max-width: 1200px; margin: 0 auto; }
-    .caps-title { font-size: clamp(32px, 3.8vw, 52px); font-weight: 800; color: #fff; letter-spacing: -.03em; text-align: center; margin-bottom: 64px; line-height: 1.1; }
-    .caps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .cap-card { position: relative; border-radius: 16px; overflow: hidden; background: #0a0a0e; border: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; min-height: 380px; transition: border-color .3s, transform .3s; }
-    .cap-card:hover { border-color: rgba(255,255,255,.18); transform: translateY(-4px); }
+    /* ── PLATFORM CAPABILITIES ── */
+    .caps-section { background: #030306; padding: 100px 52px 130px; border-top: 1px solid rgba(255,255,255,.06); }
+    .caps-inner { max-width: 1220px; margin: 0 auto; }
+    .caps-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #a100ff; text-align: center; margin-bottom: 18px; }
+    .caps-title { font-size: clamp(32px, 3.8vw, 52px); font-weight: 800; color: #fff; letter-spacing: -.03em; text-align: center; margin-bottom: 72px; line-height: 1.1; }
+    .caps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+    /* Card shell */
+    .cap-card {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 55% -10%, var(--cabg, rgba(161,0,255,.06)) 0%, #0b0b10 58%);
+      border: 1px solid rgba(255,255,255,.1);
+      display: flex;
+      flex-direction: column;
+      min-height: 400px;
+      transition: border-color .35s ease, transform .35s ease, box-shadow .35s ease;
+    }
+    /* Top shimmer accent line */
+    .cap-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 14px; right: 14px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--ca, #a100ff) 40%, rgba(255,255,255,.55) 50%, var(--ca, #a100ff) 60%, transparent);
+      z-index: 4;
+      opacity: .85;
+    }
+    /* Bottom-right corner notch */
+    .cap-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 28px; height: 28px;
+      border-right: 1px solid rgba(255,255,255,.1);
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      border-radius: 0 0 14px 0;
+      z-index: 4;
+    }
+    .cap-card:hover {
+      border-color: rgba(255,255,255,.2);
+      transform: translateY(-6px);
+      box-shadow: 0 28px 56px -14px var(--cas, rgba(161,0,255,.28));
+    }
     .cap-card--wide { grid-column: span 2; }
-    .cap-art { flex: 1; min-height: 200px; overflow: hidden; }
+
+    /* Art area with fade-to-card gradient at bottom */
+    .cap-art { position: relative; flex: 1; min-height: 210px; overflow: hidden; }
     .cap-art svg { width: 100%; height: 100%; display: block; }
-    .cap-content { padding: 24px 26px 28px; }
-    .cap-category { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #a100ff; margin-bottom: 10px; }
-    .cap-name { font-size: clamp(16px, 1.4vw, 20px); font-weight: 800; color: #fff; letter-spacing: -.02em; line-height: 1.2; margin-bottom: 12px; }
-    .cap-desc { font-size: 13.5px; color: rgba(255,255,255,.48); line-height: 1.7; }
+    .cap-art::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 70px;
+      background: linear-gradient(to bottom, transparent, #0b0b10);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Content area */
+    .cap-content { padding: 18px 24px 30px; position: relative; z-index: 3; }
+    .cap-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+      color: var(--ca, #a100ff);
+      border: 1px solid var(--cab, rgba(161,0,255,.3));
+      background: var(--cabg2, rgba(161,0,255,.08));
+      padding: 3px 11px 3px 9px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+    }
+    .cap-category::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--ca, #a100ff); flex-shrink: 0; }
+    .cap-name { font-size: clamp(16px, 1.45vw, 21px); font-weight: 800; color: #fff; letter-spacing: -.025em; line-height: 1.2; margin-bottom: 11px; }
+    .cap-desc { font-size: 13.5px; color: rgba(255,255,255,.46); line-height: 1.74; }
 
     /* ── INTRO ── */
     .intro-section { background: #0a0a0c; padding: 120px 52px 100px; border-top: 1px solid rgba(255,255,255,.06); }
@@ -248,11 +315,12 @@
 <!-- ── PLATFORM CAPABILITIES ── -->
 <section class="caps-section">
   <div class="caps-inner">
+    <p class="caps-eyebrow">Physical AI Platform</p>
     <h2 class="caps-title">Platform Capabilities</h2>
     <div class="caps-grid">
 
       <!-- Card 1: AI Vision Perception -->
-      <div class="cap-card">
+      <div class="cap-card" style="--ca:#a100ff;--cas:rgba(161,0,255,.28);--cab:rgba(161,0,255,.28);--cabg:rgba(161,0,255,.06);--cabg2:rgba(161,0,255,.09)">
         <div class="cap-art cap-art-1">
           <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
             <rect width="400" height="260" fill="#0d0010"/>
@@ -279,7 +347,7 @@
       </div>
 
       <!-- Card 2: Spatial Awareness -->
-      <div class="cap-card">
+      <div class="cap-card" style="--ca:#00c8ff;--cas:rgba(0,200,255,.24);--cab:rgba(0,200,255,.28);--cabg:rgba(0,200,255,.05);--cabg2:rgba(0,200,255,.08)">
         <div class="cap-art cap-art-2">
           <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
             <rect width="400" height="260" fill="#001018"/>
@@ -306,7 +374,7 @@
       </div>
 
       <!-- Card 3: Autonomous Decision -->
-      <div class="cap-card">
+      <div class="cap-card" style="--ca:#8040ff;--cas:rgba(128,64,255,.26);--cab:rgba(128,64,255,.28);--cabg:rgba(128,64,255,.06);--cabg2:rgba(128,64,255,.09)">
         <div class="cap-art cap-art-3">
           <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
             <rect width="400" height="260" fill="#080014"/>
@@ -339,7 +407,7 @@
       </div>
 
       <!-- Card 4: Edge AI -->
-      <div class="cap-card">
+      <div class="cap-card" style="--ca:#00dc50;--cas:rgba(0,220,80,.22);--cab:rgba(0,220,80,.28);--cabg:rgba(0,220,80,.05);--cabg2:rgba(0,220,80,.08)">
         <div class="cap-art cap-art-4">
           <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
             <rect width="400" height="260" fill="#001200"/>
@@ -380,7 +448,7 @@
       </div>
 
       <!-- Card 5: Fleet Intelligence -->
-      <div class="cap-card cap-card--wide">
+      <div class="cap-card cap-card--wide" style="--ca:#ff9900;--cas:rgba(255,153,0,.26);--cab:rgba(255,153,0,.28);--cabg:rgba(255,153,0,.05);--cabg2:rgba(255,153,0,.09)">
         <div class="cap-art cap-art-5">
           <svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
             <rect width="600" height="260" fill="#100800"/>
