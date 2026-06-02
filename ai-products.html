@@ -990,9 +990,9 @@
     .products-section {
       display: flex;
       align-items: center;
-      min-height: 38vh;
-      padding-top: 0;
-      padding-bottom: 0;
+      min-height: 0;
+      padding-top: 72px;
+      padding-bottom: 20px;
     }
 
     .products-section .section-header {
@@ -1016,7 +1016,7 @@
     }
 
     .products-section .section-header .section-label {
-      font-size: clamp(26px, 2.8vw, 38px);
+      font-size: clamp(30px, 3.1vw, 44px);
       font-weight: 700;
       letter-spacing: -.015em;
       text-transform: none;
@@ -1065,14 +1065,17 @@
       width: 100vw;
       height: 100vh;
       display: grid;
-      grid-template-columns: 50% 50%;
+      grid-template-columns: 52% 48%;
+      grid-template-rows: 100%;
       flex-shrink: 0;
+      position: relative;
     }
 
     .ph-img {
       position: relative;
       overflow: hidden;
-      background: #060608;
+      height: 100%;
+      background: #06080c;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1109,25 +1112,26 @@
       user-select: none;
     }
 
-    /* Top-right slide counter */
+    /* Slide counter — inside panel below the fixed nav */
     .ph-slide-num {
       position: absolute;
-      top: 28px;
-      right: 28px;
+      top: 112px;
+      right: 32px;
       font-size: 11px;
       font-weight: 700;
       font-family: 'Courier New', monospace;
-      letter-spacing: .1em;
-      color: #fff;
-      background: rgba(255, 255, 255, .1);
-      border: 1px solid rgba(255, 255, 255, .18);
-      padding: 4px 10px;
+      letter-spacing: .12em;
+      color: rgba(255,255,255,.65);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 5px 12px;
       border-radius: 3px;
-      z-index: 5;
+      z-index: 30;
     }
 
     .ph-slide-num strong {
       color: var(--accent, #fff);
+      font-size: 12px;
     }
 
     /* index label — hidden */
@@ -1136,7 +1140,7 @@
     }
 
     .ph-name {
-      font-size: clamp(22px, 2.2vw, 30px);
+      font-size: clamp(26px, 2.6vw, 36px);
       font-weight: 900;
       color: #fff;
       letter-spacing: -.03em;
@@ -1146,7 +1150,7 @@
     }
 
     .ph-tagline {
-      font-size: 14.5px;
+      font-size: 16px;
       color: rgba(255, 255, 255, .7);
       font-style: normal;
       font-weight: 500;
@@ -1162,12 +1166,12 @@
     }
 
     .ph-sec-label {
-      font-size: 9.5px;
+      font-size: 15.5px;
       font-weight: 700;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, .35);
-      margin-bottom: 10px;
+      letter-spacing: .04em;
+      text-transform: none;
+      color: var(--accent, rgba(255,255,255,.5));
+      margin-bottom: 12px;
     }
 
     .ph-list {
@@ -1179,7 +1183,7 @@
     }
 
     .ph-list li {
-      font-size: 14px;
+      font-size: 15.5px;
       color: #fff;
       font-weight: 500;
       line-height: 1.5;
@@ -1199,17 +1203,14 @@
     }
 
     .ph-list.specs li::before {
-      content: '–';
-      color: rgba(255, 255, 255, .35);
-      flex-shrink: 0;
-      font-size: 12px;
-      margin-top: 2px;
+      display: none;
     }
 
     .ph-list li span.spec-k {
-      color: rgba(255, 255, 255, .45);
-      font-weight: 400;
-      margin-right: 4px;
+      color: #fff;
+      font-weight: 700;
+      margin-right: 8px;
+      flex-shrink: 0;
     }
 
     /* Progress bar */
@@ -1233,6 +1234,30 @@
     .ph-counter {
       display: none;
     }
+
+    /* ── KEY BENEFITS REVEAL ── */
+    @keyframes aurKr1 { 0%{transform:translateX(-80px) translateY(-40px) scale(1)} 100%{transform:translateX(80px) translateY(-20px) scale(.92)} }
+    @keyframes aurKr2 { 0%{transform:translateX(60px) translateY(30px) scale(.85)} 100%{transform:translateX(-60px) translateY(50px) scale(1.12)} }
+    @keyframes aurKr3 { 0%{transform:translateX(-40px) translateY(15px) scale(1.06)} 100%{transform:translateX(55px) translateY(-38px) scale(.88)} }
+    @keyframes aurKr4 { 0%{transform:translateX(28px) translateY(-18px) scale(.9)} 100%{transform:translateX(-48px) translateY(-52px) scale(1.1)} }
+    .kr-section { position: relative; height: 600vh; }
+    .kr-aurora { position: absolute; inset: 0; background: #000; overflow: hidden; pointer-events: none; }
+    .kr-aurora-w { position: absolute; inset: 0; }
+    .kr-aurora-w1 { background: radial-gradient(ellipse 900px 640px at 50% 18%, rgba(161,0,255,.26) 0%, transparent 55%); animation: aurKr1 9s ease-in-out infinite alternate; }
+    .kr-aurora-w2 { background: radial-gradient(ellipse 680px 460px at 85% 38%, rgba(59,130,246,.2) 0%, transparent 55%); animation: aurKr2 7s ease-in-out infinite alternate-reverse; }
+    .kr-aurora-w3 { background: radial-gradient(ellipse 750px 540px at 14% 68%, rgba(236,72,153,.16) 0%, transparent 55%); animation: aurKr3 11s ease-in-out infinite alternate; }
+    .kr-aurora-w4 { background: radial-gradient(ellipse 1000px 340px at 58% 82%, rgba(139,92,246,.14) 0%, transparent 55%); animation: aurKr4 8s ease-in-out infinite alternate-reverse; }
+    .kr-aurora-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.45) 0%, transparent 18%, transparent 82%, rgba(0,0,0,.5) 100%); }
+    .kr-sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .kr-content { position: relative; z-index: 10; max-width: 860px; width: 100%; padding: 0 52px; }
+    .kr-heading { font-size: clamp(30px, 3.8vw, 54px); font-weight: 800; color: #fff; letter-spacing: -.035em; line-height: 1.08; margin-bottom: 52px; opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s cubic-bezier(.25,.46,.45,.94); }
+    .kr-heading.kr-vis { opacity: 1; transform: translateY(0); }
+    .kr-list { list-style: none; }
+    .kr-benefit { padding: 26px 0; border-top: 1px solid rgba(255,255,255,.1); opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s cubic-bezier(.25,.46,.45,.94); }
+    .kr-benefit.kr-vis { opacity: 1; transform: translateY(0); }
+    .kr-benefit:last-child { border-bottom: 1px solid rgba(255,255,255,.1); }
+    .kr-benefit-title { font-size: clamp(16px, 1.6vw, 21px); font-weight: 700; color: #fff; margin-bottom: 5px; }
+    .kr-benefit-desc { font-size: 15px; color: rgba(255,255,255,.58); line-height: 1.72; max-width: 660px; }
 
     /* ── BENEFITS ── */
     .benefits-section {
@@ -1928,9 +1953,9 @@
 
         <!-- 01 270° AI Surround Safety System -->
         <div class="ph-panel">
+                    <div class="ph-slide-num"><strong>1</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp1.png" alt="270° AI Surround Safety System" /></div>
           <div class="ph-content" data-num="01" style="--accent:#3b82f6">
-            <div class="ph-slide-num"><strong>1</strong>/6</div>
             <h3 class="ph-name">270° AI Surround Safety System</h3>
             <p class="ph-tagline">AI-powered surround vision and pedestrian detection for forklifts. This system
               improves operator awareness by providing wide-area visibility and intelligent alerts that help detect
@@ -1945,19 +1970,19 @@
             </ul>
             <div class="ph-sec-label">System Specifications</div>
             <ul class="ph-list specs">
-              <li><span class="spec-k">Camera Coverage</span>3-camera configuration (rear + sides)</li>
-              <li><span class="spec-k">Field of View</span>270° operational coverage</li>
-              <li><span class="spec-k">Display Mode</span>Multi-angle view and bird's-eye perspective</li>
+              <li><span class="spec-k">Camera Coverage:</span>3-camera configuration (rear + sides)</li>
+              <li><span class="spec-k">Field of View:</span>270° operational coverage</li>
+              <li><span class="spec-k">Display Mode:</span>Multi-angle view and bird's-eye perspective</li>
             </ul>
           </div>
         </div>
 
         <!-- 02 270° AI Surround Safety System with Auto-Braking -->
         <div class="ph-panel">
+                    <div class="ph-slide-num"><strong>2</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp2.png"
               alt="270° AI Surround Safety System with Auto-Braking" /></div>
           <div class="ph-content" data-num="02" style="--accent:#ef4444">
-            <div class="ph-slide-num"><strong>2</strong>/6</div>
             <h3 class="ph-name">270° AI Surround Safety System with Auto-Braking</h3>
             <p class="ph-tagline">Advanced AI safety system with automated collision prevention, combining surround
               vision with active safety intervention for instant automatic braking.</p>
@@ -1971,19 +1996,19 @@
             </ul>
             <div class="ph-sec-label">System Specifications</div>
             <ul class="ph-list specs">
-              <li><span class="spec-k">Camera Coverage</span>3-camera configuration</li>
-              <li><span class="spec-k">Field of View</span>270° surround coverage</li>
-              <li><span class="spec-k">View Modes</span>Multi-angle + bird's-eye visualization</li>
+              <li><span class="spec-k">Camera Coverage:</span>3-camera configuration</li>
+              <li><span class="spec-k">Field of View:</span>270° surround coverage</li>
+              <li><span class="spec-k">View Modes:</span>Multi-angle + bird's-eye visualization</li>
             </ul>
           </div>
         </div>
 
         <!-- 03 Rear Safety System with Automatic Braking -->
         <div class="ph-panel">
+                    <div class="ph-slide-num"><strong>3</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp3.png" alt="Rear Safety System with Automatic Braking" />
           </div>
           <div class="ph-content" data-num="03" style="--accent:#f59e0b">
-            <div class="ph-slide-num"><strong>3</strong>/6</div>
             <h3 class="ph-name">Rear Safety System with Automatic Braking</h3>
             <p class="ph-tagline">AI-assisted reverse safety for forklifts and industrial vehicles. Monitors the rear
               zone and automatically intervenes when hazards are detected.</p>
@@ -1997,18 +2022,18 @@
             </ul>
             <div class="ph-sec-label">System Specifications</div>
             <ul class="ph-list specs">
-              <li><span class="spec-k">Camera Setup</span>Single rear-facing camera</li>
-              <li><span class="spec-k">Coverage</span>Wide rear monitoring zone</li>
-              <li><span class="spec-k">View Mode</span>Rear visibility display</li>
+              <li><span class="spec-k">Camera Setup:</span>Single rear-facing camera</li>
+              <li><span class="spec-k">Coverage:</span>Wide rear monitoring zone</li>
+              <li><span class="spec-k">View Mode:</span>Rear visibility display</li>
             </ul>
           </div>
         </div>
 
         <!-- 04 Rear Pedestrian Monitoring System -->
         <div class="ph-panel">
+                    <div class="ph-slide-num"><strong>4</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp4.png" alt="Rear Pedestrian Monitoring System" /></div>
           <div class="ph-content" data-num="04" style="--accent:#22d3ee">
-            <div class="ph-slide-num"><strong>4</strong>/6</div>
             <h3 class="ph-name">Rear Pedestrian Monitoring System</h3>
             <p class="ph-tagline">Lightweight AI monitoring system for improved rear visibility. Detects pedestrians and
               issues proximity alerts during reverse operations.</p>
@@ -2021,18 +2046,18 @@
             </ul>
             <div class="ph-sec-label">System Specifications</div>
             <ul class="ph-list specs">
-              <li><span class="spec-k">Camera Setup</span>Single rear camera</li>
-              <li><span class="spec-k">Coverage</span>Rear-zone monitoring</li>
-              <li><span class="spec-k">View Mode</span>Rear-view display</li>
+              <li><span class="spec-k">Camera Setup:</span>Single rear camera</li>
+              <li><span class="spec-k">Coverage:</span>Rear-zone monitoring</li>
+              <li><span class="spec-k">View Mode:</span>Rear-view display</li>
             </ul>
           </div>
         </div>
 
         <!-- 05 Wireless Safety Camera Monitor -->
         <div class="ph-panel">
+                    <div class="ph-slide-num"><strong>5</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp5.png" alt="Wireless Safety Camera Monitor" /></div>
           <div class="ph-content" data-num="05" style="--accent:#00c49a">
-            <div class="ph-slide-num"><strong>5</strong>/6</div>
             <h3 class="ph-name">Wireless Safety Camera Monitor</h3>
             <p class="ph-tagline">Flexible wireless monitoring for industrial vehicles — real-time visual monitoring
               without complex wired installations, ideal for retrofits and mobile assets.</p>
@@ -2049,9 +2074,9 @@
 
         <!-- 06 Wireless Camera Real Time -->
         <div class="ph-panel">
+                    <div class="ph-slide-num"><strong>6</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp6.png" alt="Wireless Camera Real Time" /></div>
           <div class="ph-content" data-num="06" style="--accent:#a78bfa">
-            <div class="ph-slide-num"><strong>6</strong>/6</div>
             <h3 class="ph-name">Wireless Camera Real Time</h3>
             <p class="ph-tagline">Industrial-grade wireless cameras for real-time rear visibility. Ensures stable
               monitoring performance even in high-noise operational settings.</p>
@@ -2069,6 +2094,40 @@
       </div>
     </div>
   </div>
+
+  <!-- ── KEY BENEFITS REVEAL ── -->
+  <section class="kr-section" id="kr-section">
+    <div class="kr-aurora">
+      <div class="kr-aurora-w kr-aurora-w1"></div>
+      <div class="kr-aurora-w kr-aurora-w2"></div>
+      <div class="kr-aurora-w kr-aurora-w3"></div>
+      <div class="kr-aurora-w kr-aurora-w4"></div>
+      <div class="kr-aurora-overlay"></div>
+    </div>
+    <div class="kr-sticky">
+      <div class="kr-content">
+        <h2 class="kr-heading" id="kr-heading">Key Benefits of AI Forklift Safety System</h2>
+        <ul class="kr-list">
+          <li class="kr-benefit" id="kr-b0">
+            <div class="kr-benefit-title">Improve Workplace Safety</div>
+            <div class="kr-benefit-desc">AI-powered pedestrian detection helps prevent collisions and workplace accidents.</div>
+          </li>
+          <li class="kr-benefit" id="kr-b1">
+            <div class="kr-benefit-title">Enhance Operator Awareness</div>
+            <div class="kr-benefit-desc">Advanced vision systems reduce blind spots and improve situational awareness.</div>
+          </li>
+          <li class="kr-benefit" id="kr-b2">
+            <div class="kr-benefit-title">Reduce Operational Risk</div>
+            <div class="kr-benefit-desc">Automated alerts and safety interventions help minimize human error.</div>
+          </li>
+          <li class="kr-benefit" id="kr-b3">
+            <div class="kr-benefit-title">Retrofit Compatible</div>
+            <div class="kr-benefit-desc">Systems can be installed on existing forklifts and industrial vehicles without any dismantle.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <!-- ── BENEFITS ── -->
   <section class="benefits-section">
@@ -2857,6 +2916,42 @@
       }, { passive: true });
 
       window.addEventListener('resize', function () { update(); });
+      update();
+    })();
+
+    /* ── KEY BENEFITS SCROLL REVEAL ── */
+    (function () {
+      var section  = document.getElementById('kr-section');
+      var heading  = document.getElementById('kr-heading');
+      var benefits = [
+        document.getElementById('kr-b0'),
+        document.getElementById('kr-b1'),
+        document.getElementById('kr-b2'),
+        document.getElementById('kr-b3')
+      ];
+      if (!section) return;
+
+      /* 6 beats: 1 heading + 4 items + 1 hold at end */
+      var BEATS = 6;
+
+      function update() {
+        var rect  = section.getBoundingClientRect();
+        var total = section.offsetHeight - window.innerHeight;
+        var p     = Math.max(0, Math.min(1, -rect.top / total));
+
+        /* Heading fades in at first ~15% of scroll */
+        if (heading) heading.classList.toggle('kr-vis', p > 0.06);
+
+        /* Each benefit reveals in sequence, evenly spaced */
+        benefits.forEach(function (b, i) {
+          if (!b) return;
+          var threshold = (i + 1.6) / BEATS;
+          b.classList.toggle('kr-vis', p > threshold);
+        });
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
       update();
     })();
   </script>
