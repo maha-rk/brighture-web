@@ -765,7 +765,6 @@
       background: #0a0a0c;
       padding: 0;
       overflow: hidden;
-      border-bottom: 1px solid rgba(255, 255, 255, .12);
     }
 
     .intro-inner {
@@ -816,6 +815,8 @@
       letter-spacing: -.03em;
       line-height: 1.1;
       margin-bottom: 32px;
+      border-left: 3px solid #a100ff;
+      padding-left: 20px;
     }
 
     .intro-body {
@@ -1121,9 +1122,9 @@
       font-weight: 700;
       font-family: 'Courier New', monospace;
       letter-spacing: .12em;
-      color: rgba(255,255,255,.65);
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255, 255, 255, .65);
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .2);
       padding: 5px 12px;
       border-radius: 3px;
       z-index: 30;
@@ -1170,7 +1171,7 @@
       font-weight: 700;
       letter-spacing: .04em;
       text-transform: none;
-      color: var(--accent, rgba(255,255,255,.5));
+      color: var(--accent, rgba(255, 255, 255, .5));
       margin-bottom: 12px;
     }
 
@@ -1235,29 +1236,412 @@
       display: none;
     }
 
-    /* ── KEY BENEFITS REVEAL ── */
-    @keyframes aurKr1 { 0%{transform:translateX(-80px) translateY(-40px) scale(1)} 100%{transform:translateX(80px) translateY(-20px) scale(.92)} }
-    @keyframes aurKr2 { 0%{transform:translateX(60px) translateY(30px) scale(.85)} 100%{transform:translateX(-60px) translateY(50px) scale(1.12)} }
-    @keyframes aurKr3 { 0%{transform:translateX(-40px) translateY(15px) scale(1.06)} 100%{transform:translateX(55px) translateY(-38px) scale(.88)} }
-    @keyframes aurKr4 { 0%{transform:translateX(28px) translateY(-18px) scale(.9)} 100%{transform:translateX(-48px) translateY(-52px) scale(1.1)} }
-    .kr-section { position: relative; height: 600vh; }
-    .kr-aurora { position: absolute; inset: 0; background: #000; overflow: hidden; pointer-events: none; }
-    .kr-aurora-w { position: absolute; inset: 0; }
-    .kr-aurora-w1 { background: radial-gradient(ellipse 900px 640px at 50% 18%, rgba(161,0,255,.26) 0%, transparent 55%); animation: aurKr1 9s ease-in-out infinite alternate; }
-    .kr-aurora-w2 { background: radial-gradient(ellipse 680px 460px at 85% 38%, rgba(59,130,246,.2) 0%, transparent 55%); animation: aurKr2 7s ease-in-out infinite alternate-reverse; }
-    .kr-aurora-w3 { background: radial-gradient(ellipse 750px 540px at 14% 68%, rgba(236,72,153,.16) 0%, transparent 55%); animation: aurKr3 11s ease-in-out infinite alternate; }
-    .kr-aurora-w4 { background: radial-gradient(ellipse 1000px 340px at 58% 82%, rgba(139,92,246,.14) 0%, transparent 55%); animation: aurKr4 8s ease-in-out infinite alternate-reverse; }
-    .kr-aurora-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.45) 0%, transparent 18%, transparent 82%, rgba(0,0,0,.5) 100%); }
-    .kr-sticky { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .kr-content { position: relative; z-index: 10; max-width: 860px; width: 100%; padding: 0 52px; }
-    .kr-heading { font-size: clamp(30px, 3.8vw, 54px); font-weight: 800; color: #fff; letter-spacing: -.035em; line-height: 1.08; margin-bottom: 52px; opacity: 0; transform: translateY(28px); transition: opacity .75s ease, transform .75s cubic-bezier(.25,.46,.45,.94); }
-    .kr-heading.kr-vis { opacity: 1; transform: translateY(0); }
-    .kr-list { list-style: none; }
-    .kr-benefit { padding: 26px 0; border-top: 1px solid rgba(255,255,255,.1); opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s cubic-bezier(.25,.46,.45,.94); }
-    .kr-benefit.kr-vis { opacity: 1; transform: translateY(0); }
-    .kr-benefit:last-child { border-bottom: 1px solid rgba(255,255,255,.1); }
-    .kr-benefit-title { font-size: clamp(16px, 1.6vw, 21px); font-weight: 700; color: #fff; margin-bottom: 5px; }
-    .kr-benefit-desc { font-size: 15px; color: rgba(255,255,255,.58); line-height: 1.72; max-width: 660px; }
+    /* ── KEY BENEFITS REVEAL (ScrollTextFade style) ── */
+    @keyframes aurora1 {
+      0% {
+        transform: translateX(-100px) translateY(-50px) rotate(0deg) scale(1)
+      }
+
+      50% {
+        transform: translateX(50px) translateY(30px) rotate(180deg) scale(1.1)
+      }
+
+      100% {
+        transform: translateX(100px) translateY(-30px) rotate(360deg) scale(.9)
+      }
+    }
+
+    @keyframes aurora2 {
+      0% {
+        transform: translateX(80px) translateY(40px) rotate(45deg) scale(.8)
+      }
+
+      50% {
+        transform: translateX(-30px) translateY(-20px) rotate(225deg) scale(1.2)
+      }
+
+      100% {
+        transform: translateX(-80px) translateY(60px) rotate(405deg) scale(.9)
+      }
+    }
+
+    @keyframes aurora3 {
+      0% {
+        transform: translateX(-50px) translateY(20px) rotate(90deg) scale(1.1)
+      }
+
+      50% {
+        transform: translateX(70px) translateY(-40px) rotate(270deg) scale(.8)
+      }
+
+      100% {
+        transform: translateX(-20px) translateY(50px) rotate(450deg) scale(1)
+      }
+    }
+
+    @keyframes aurora4 {
+      0% {
+        transform: translateX(30px) translateY(-20px) rotate(135deg) scale(.9)
+      }
+
+      50% {
+        transform: translateX(-60px) translateY(10px) rotate(315deg) scale(1.1)
+      }
+
+      100% {
+        transform: translateX(40px) translateY(-60px) rotate(495deg) scale(.8)
+      }
+    }
+
+    .kr-section {
+      position: relative;
+      height: 230vh;
+      z-index: 3;
+      background: #000;
+    }
+
+    .kr-aurora {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .kr-aurora-base {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(30, 58, 138, .4) 0%, rgba(88, 28, 135, .3) 50%, rgba(49, 46, 129, .4) 100%);
+      opacity: .7;
+    }
+
+    .kr-aurora-w {
+      position: absolute;
+      inset: 0;
+    }
+
+    .kr-aurora-w1 {
+      background: radial-gradient(ellipse 900px 700px at 50% 20%, rgba(59, 130, 246, .45) 0%, transparent 55%);
+      animation: aurora1 8s ease-in-out infinite alternate;
+      opacity: .7;
+    }
+
+    .kr-aurora-w2 {
+      background: radial-gradient(ellipse 700px 500px at 80% 30%, rgba(139, 92, 246, .55) 0%, transparent 55%);
+      animation: aurora2 6s ease-in-out infinite alternate-reverse;
+      opacity: .6;
+    }
+
+    .kr-aurora-w3 {
+      background: radial-gradient(ellipse 750px 600px at 20% 65%, rgba(236, 72, 153, .4) 0%, transparent 55%);
+      animation: aurora3 10s ease-in-out infinite alternate;
+      opacity: .45;
+    }
+
+    .kr-aurora-w4 {
+      background: radial-gradient(ellipse 950px 400px at 60% 80%, rgba(34, 197, 94, .25) 0%, transparent 55%);
+      animation: aurora4 7s ease-in-out infinite alternate-reverse;
+      opacity: .35;
+    }
+
+    .kr-aurora-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .75) 18%, transparent 48%, rgba(0, 0, 0, .15) 100%);
+    }
+
+    /* Sticky container */
+    .kr-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+    }
+
+    /* Section title: large, centred, no decorative lines */
+    .kr-eyebrow-wrap {
+      position: relative;
+      z-index: 10;
+      padding: 100px 64px 0;
+      flex-shrink: 0;
+      text-align: center;
+    }
+
+    .kr-eyebrow {
+      font-size: clamp(30px, 3.8vw, 52px);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      text-transform: uppercase;
+      color: #fff;
+      display: block;
+      line-height: 1.08;
+    }
+
+    .kr-eyebrow::before,
+    .kr-eyebrow::after {
+      display: none;
+    }
+
+    /* Arena */
+    .kr-arena {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Items: horizontally centred, vertically driven by JS */
+    .kr-item {
+      position: absolute;
+      left: 50%;
+      top: 38%;
+      transform: translate(-50%, -50%);
+      width: min(1000px, 92vw);
+      text-align: center;
+      will-change: opacity, transform;
+    }
+
+    #kr-i1 {
+      top: 52%;
+    }
+
+    #kr-i2 {
+      top: 64%;
+    }
+
+    #kr-i3 {
+      top: 74%;
+    }
+
+    .kr-item-num {
+      display: none;
+    }
+
+    .kr-item-title {
+      font-size: clamp(20px, 2.2vw, 30px);
+      font-weight: 700;
+      color: rgba(255, 255, 255, .9);
+      letter-spacing: -.02em;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      white-space: nowrap;
+    }
+
+    .kr-item-bar {
+      width: 40px;
+      height: 2px;
+      background: #a100ff;
+      border-radius: 2px;
+      margin: 0 auto 16px;
+    }
+
+    .kr-item-desc {
+      font-size: clamp(15px, 1.3vw, 18px);
+      color: rgba(255, 255, 255, .88);
+      line-height: 1.55;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    /* ── INDUSTRIES SERVED ── */
+    .is-section {
+      background: #000;
+      padding: 72px 52px 60px;
+    }
+
+    .is-header {
+      max-width: 1160px;
+      margin: 0 auto 72px;
+    }
+
+    .is-eyebrow {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #a100ff;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .is-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: #a100ff;
+    }
+
+    .is-title {
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+    }
+
+    .is-sub {
+      font-size: 16px;
+      color: #fff;
+      margin-top: 16px;
+      line-height: 1.65;
+    }
+
+    .is-grid {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      border: 1px solid rgba(255, 255, 255, .07);
+    }
+
+    .is-card {
+      padding: 40px 32px 44px;
+      border-right: 1px solid rgba(255, 255, 255, .07);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .55s ease, transform .55s cubic-bezier(.4, 0, .2, 1), background .3s;
+    }
+
+    .is-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .is-card:last-child {
+      border-right: none;
+    }
+
+    .is-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--ic, #a100ff);
+      transition: height .3s;
+    }
+
+    .is-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--ic, #a100ff);
+      opacity: 0;
+      transition: opacity .3s;
+      pointer-events: none;
+    }
+
+    .is-card:hover {
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .is-card:hover::before {
+      height: 5px;
+    }
+
+    .is-card:hover::after {
+      opacity: .05;
+    }
+
+    .is-icon {
+      width: 38px;
+      height: 38px;
+      color: var(--ic, #a100ff);
+      margin-bottom: 22px;
+      transition: transform .38s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .is-card:hover .is-icon {
+      transform: translateY(-6px) scale(1.18);
+    }
+
+    .is-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.3;
+      letter-spacing: -.01em;
+    }
+
+    .is-desc {
+      font-size: 13px;
+      color: #fff;
+      line-height: 1.62;
+    }
+
+    /* ── EDGE AI SYSTEMS ── */
+    .eas-section {
+      background: #000;
+      overflow: hidden;
+    }
+
+    .eas-inner {
+      display: grid;
+      grid-template-columns: 1fr 44%;
+      height: clamp(580px, 52vw, 680px);
+    }
+
+    .eas-text {
+      padding: 80px 64px 80px max(52px, 7%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eas-title {
+      font-size: clamp(28px, 3.4vw, 48px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      border-left: 3px solid #a100ff;
+      padding-left: 20px;
+    }
+
+    .eas-subtitle {
+      font-size: clamp(17px, 1.6vw, 22px);
+      font-weight: 500;
+      color: #c084fc;
+      font-style: italic;
+      line-height: 1.4;
+      margin-bottom: 32px;
+      padding-left: 23px;
+    }
+
+    .eas-body {
+      font-size: clamp(14px, 1.2vw, 16.5px);
+      color: #fff;
+      line-height: 1.78;
+      padding-left: 23px;
+    }
+
+    .eas-body p+p {
+      margin-top: 20px;
+    }
+
+    .eas-image-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .eas-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 12%;
+      display: block;
+    }
 
     /* ── BENEFITS ── */
     .benefits-section {
@@ -1953,7 +2337,7 @@
 
         <!-- 01 270° AI Surround Safety System -->
         <div class="ph-panel">
-                    <div class="ph-slide-num"><strong>1</strong>/6</div>
+          <div class="ph-slide-num"><strong>1</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp1.png" alt="270° AI Surround Safety System" /></div>
           <div class="ph-content" data-num="01" style="--accent:#3b82f6">
             <h3 class="ph-name">270° AI Surround Safety System</h3>
@@ -1979,7 +2363,7 @@
 
         <!-- 02 270° AI Surround Safety System with Auto-Braking -->
         <div class="ph-panel">
-                    <div class="ph-slide-num"><strong>2</strong>/6</div>
+          <div class="ph-slide-num"><strong>2</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp2.png"
               alt="270° AI Surround Safety System with Auto-Braking" /></div>
           <div class="ph-content" data-num="02" style="--accent:#ef4444">
@@ -2005,7 +2389,7 @@
 
         <!-- 03 Rear Safety System with Automatic Braking -->
         <div class="ph-panel">
-                    <div class="ph-slide-num"><strong>3</strong>/6</div>
+          <div class="ph-slide-num"><strong>3</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp3.png" alt="Rear Safety System with Automatic Braking" />
           </div>
           <div class="ph-content" data-num="03" style="--accent:#f59e0b">
@@ -2031,7 +2415,7 @@
 
         <!-- 04 Rear Pedestrian Monitoring System -->
         <div class="ph-panel">
-                    <div class="ph-slide-num"><strong>4</strong>/6</div>
+          <div class="ph-slide-num"><strong>4</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp4.png" alt="Rear Pedestrian Monitoring System" /></div>
           <div class="ph-content" data-num="04" style="--accent:#22d3ee">
             <h3 class="ph-name">Rear Pedestrian Monitoring System</h3>
@@ -2055,7 +2439,7 @@
 
         <!-- 05 Wireless Safety Camera Monitor -->
         <div class="ph-panel">
-                    <div class="ph-slide-num"><strong>5</strong>/6</div>
+          <div class="ph-slide-num"><strong>5</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp5.png" alt="Wireless Safety Camera Monitor" /></div>
           <div class="ph-content" data-num="05" style="--accent:#00c49a">
             <h3 class="ph-name">Wireless Safety Camera Monitor</h3>
@@ -2074,7 +2458,7 @@
 
         <!-- 06 Wireless Camera Real Time -->
         <div class="ph-panel">
-                    <div class="ph-slide-num"><strong>6</strong>/6</div>
+          <div class="ph-slide-num"><strong>6</strong>/6</div>
           <div class="ph-img"><img src="assets/products/pp6.png" alt="Wireless Camera Real Time" /></div>
           <div class="ph-content" data-num="06" style="--accent:#a78bfa">
             <h3 class="ph-name">Wireless Camera Real Time</h3>
@@ -2097,34 +2481,134 @@
 
   <!-- ── KEY BENEFITS REVEAL ── -->
   <section class="kr-section" id="kr-section">
-    <div class="kr-aurora">
-      <div class="kr-aurora-w kr-aurora-w1"></div>
-      <div class="kr-aurora-w kr-aurora-w2"></div>
-      <div class="kr-aurora-w kr-aurora-w3"></div>
-      <div class="kr-aurora-w kr-aurora-w4"></div>
-      <div class="kr-aurora-overlay"></div>
-    </div>
     <div class="kr-sticky">
-      <div class="kr-content">
-        <h2 class="kr-heading" id="kr-heading">Key Benefits of AI Forklift Safety System</h2>
-        <ul class="kr-list">
-          <li class="kr-benefit" id="kr-b0">
-            <div class="kr-benefit-title">Improve Workplace Safety</div>
-            <div class="kr-benefit-desc">AI-powered pedestrian detection helps prevent collisions and workplace accidents.</div>
-          </li>
-          <li class="kr-benefit" id="kr-b1">
-            <div class="kr-benefit-title">Enhance Operator Awareness</div>
-            <div class="kr-benefit-desc">Advanced vision systems reduce blind spots and improve situational awareness.</div>
-          </li>
-          <li class="kr-benefit" id="kr-b2">
-            <div class="kr-benefit-title">Reduce Operational Risk</div>
-            <div class="kr-benefit-desc">Automated alerts and safety interventions help minimize human error.</div>
-          </li>
-          <li class="kr-benefit" id="kr-b3">
-            <div class="kr-benefit-title">Retrofit Compatible</div>
-            <div class="kr-benefit-desc">Systems can be installed on existing forklifts and industrial vehicles without any dismantle.</div>
-          </li>
-        </ul>
+      <div class="kr-aurora">
+        <div class="kr-aurora-base"></div>
+        <div class="kr-aurora-w kr-aurora-w1"></div>
+        <div class="kr-aurora-w kr-aurora-w2"></div>
+        <div class="kr-aurora-w kr-aurora-w3"></div>
+        <div class="kr-aurora-w kr-aurora-w4"></div>
+        <div class="kr-aurora-overlay"></div>
+      </div>
+      <div class="kr-eyebrow-wrap">
+        <div class="kr-eyebrow">Key Benefits of AI Forklift Safety System</div>
+      </div>
+      <div class="kr-arena" id="kr-arena">
+        <div class="kr-item" id="kr-i0" style="--kc:#a100ff">
+          <div class="kr-item-num">01</div>
+          <h3 class="kr-item-title">Improve Workplace Safety</h3>
+          <div class="kr-item-bar"></div>
+          <p class="kr-item-desc">AI-powered pedestrian detection helps prevent collisions and workplace accidents.</p>
+        </div>
+        <div class="kr-item" id="kr-i1" style="--kc:#3b82f6">
+          <div class="kr-item-num">02</div>
+          <h3 class="kr-item-title">Enhance Operator Awareness</h3>
+          <div class="kr-item-bar"></div>
+          <p class="kr-item-desc">Advanced vision systems reduce blind spots and improve situational awareness.</p>
+        </div>
+        <div class="kr-item" id="kr-i2" style="--kc:#f97316">
+          <div class="kr-item-num">03</div>
+          <h3 class="kr-item-title">Reduce Operational Risk</h3>
+          <div class="kr-item-bar"></div>
+          <p class="kr-item-desc">Automated alerts and safety interventions help minimize human error.</p>
+        </div>
+        <div class="kr-item" id="kr-i3" style="--kc:#00c49a">
+          <div class="kr-item-num">04</div>
+          <h3 class="kr-item-title">Retrofit Compatible</h3>
+          <div class="kr-item-bar"></div>
+          <p class="kr-item-desc">Systems can be installed on existing forklifts and industrial vehicles without any
+            dismantle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INDUSTRIES SERVED ── -->
+  <section class="is-section">
+    <div class="is-header">
+      <h2 class="is-title">Industries Served</h2>
+      <p class="is-sub">From warehouse floors to shipping terminals — wherever heavy equipment meets human presence, we
+        keep people safe.</p>
+    </div>
+    <div class="is-grid">
+      <div class="is-card" style="--ic:#a100ff">
+        <svg class="is-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        <div class="is-name">Warehousing &amp; Logistics</div>
+        <div class="is-desc">Prevent forklift-pedestrian collisions in dense, high-throughput distribution facilities.
+        </div>
+      </div>
+      <div class="is-card" style="--ic:#3b82f6">
+        <svg class="is-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14M12 2v2m0 16v2M2 12h2m16 0h2" />
+        </svg>
+        <div class="is-name">Manufacturing Facilities</div>
+        <div class="is-desc">Eliminate blind-spot incidents where forklifts and workers share complex floor space.</div>
+      </div>
+      <div class="is-card" style="--ic:#f97316">
+        <svg class="is-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 17l6-6 4 4 8-9" />
+          <path d="M21 17H3" />
+          <circle cx="12" cy="21" r="1" />
+          <path d="M4 21h16" />
+        </svg>
+        <div class="is-name">Ports &amp; Container Terminals</div>
+        <div class="is-desc">Maintain safety standards in high-risk, round-the-clock heavy equipment operations.</div>
+      </div>
+      <div class="is-card" style="--ic:#00c49a">
+        <svg class="is-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+          <line x1="12" y1="12" x2="12" y2="16" />
+          <line x1="10" y1="14" x2="14" y2="14" />
+        </svg>
+        <div class="is-name">Distribution Centers</div>
+        <div class="is-desc">Protect fulfilment workers with intelligent proximity detection and instant alerts.</div>
+      </div>
+      <div class="is-card" style="--ic:#a78bfa">
+        <svg class="is-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="4" width="16" height="16" rx="2" />
+          <rect x="9" y="9" width="6" height="6" />
+          <line x1="9" y1="1" x2="9" y2="4" />
+          <line x1="15" y1="1" x2="15" y2="4" />
+          <line x1="9" y1="20" x2="9" y2="23" />
+          <line x1="15" y1="20" x2="15" y2="23" />
+          <line x1="20" y1="9" x2="23" y2="9" />
+          <line x1="20" y1="14" x2="23" y2="14" />
+          <line x1="1" y1="9" x2="4" y2="9" />
+          <line x1="1" y1="14" x2="4" y2="14" />
+        </svg>
+        <div class="is-name">Industrial Automation</div>
+        <div class="is-desc">Safely bridge automated systems and human workers with real-time hazard detection.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDGE AI SYSTEMS ── -->
+  <section class="eas-section">
+    <div class="eas-inner">
+      <div class="eas-text">
+        <h2 class="eas-title">Edge AI Systems</h2>
+        <p class="eas-subtitle">Smarter Intelligence. Anywhere. Anytime.</p>
+        <div class="eas-body">
+          <p>This platform delivers high-performance AI computing systems that enable organisations, institutions, and
+            innovators to build, deploy, and scale intelligent applications seamlessly, with a strong focus on edge AI,
+            real-time processing, and system integration.</p>
+          <p>It provides high-performance Edge AI systems for robotics, computer vision, autonomous systems, and
+            real-time intelligent applications, empowering users to unlock the full potential of artificial intelligence
+            by enhancing productivity, enabling automation, and driving smarter decision-making.</p>
+        </div>
+      </div>
+      <div class="eas-image-wrap">
+        <img src="assets/products/edge_title.jpg" alt="Edge AI Systems" />
       </div>
     </div>
   </section>
@@ -2895,8 +3379,8 @@
       function snapToNearest() {
         if (isSnapping) return;
         var p = getProgress();
-        /* only snap when inside the section */
-        if (p <= 0 || p >= 1) return;
+        /* only snap when inside the section — stop early so exit feels natural */
+        if (p <= 0 || p >= 0.82) return;
         var panelIdx = Math.round(p * (n - 1));
         var panelP = panelIdx / (n - 1);
         if (Math.abs(p - panelP) < 0.005) return; /* already at a snap point */
@@ -2919,40 +3403,71 @@
       update();
     })();
 
-    /* ── KEY BENEFITS SCROLL REVEAL ── */
+    /* ── KEY BENEFITS SCROLL REVEAL (ScrollTextFade) ── */
     (function () {
-      var section  = document.getElementById('kr-section');
-      var heading  = document.getElementById('kr-heading');
-      var benefits = [
-        document.getElementById('kr-b0'),
-        document.getElementById('kr-b1'),
-        document.getElementById('kr-b2'),
-        document.getElementById('kr-b3')
-      ];
-      if (!section) return;
+      var section = document.getElementById('kr-section');
+      var items = ['kr-i0', 'kr-i1', 'kr-i2', 'kr-i3'].map(function (id) { return document.getElementById(id); });
+      if (!section || !items[0]) return;
 
-      /* 6 beats: 1 heading + 4 items + 1 hold at end */
-      var BEATS = 6;
+      var centers = [0.05, 0.35, 0.65, 0.95];
+      var WINDOW = 0.30;
+      var MIN_OP = 0.15;
+      var Y_SCALE = 680;
 
+      /* Cache section metrics — avoid getBoundingClientRect on every scroll tick */
+      var sectionTop = 0, sectionScrollable = 1;
+      function cacheMetrics() {
+        sectionTop = section.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+        sectionScrollable = section.offsetHeight - window.innerHeight;
+      }
+      cacheMetrics();
+
+      function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+      var raf = false;
       function update() {
-        var rect  = section.getBoundingClientRect();
-        var total = section.offsetHeight - window.innerHeight;
-        var p     = Math.max(0, Math.min(1, -rect.top / total));
-
-        /* Heading fades in at first ~15% of scroll */
-        if (heading) heading.classList.toggle('kr-vis', p > 0.06);
-
-        /* Each benefit reveals in sequence, evenly spaced */
-        benefits.forEach(function (b, i) {
-          if (!b) return;
-          var threshold = (i + 1.6) / BEATS;
-          b.classList.toggle('kr-vis', p > threshold);
+        if (raf) return;
+        raf = true;
+        requestAnimationFrame(function () {
+          raf = false;
+          var p = clamp(((window.scrollY || window.pageYOffset) - sectionTop) / sectionScrollable, 0, 1);
+          items.forEach(function (item, i) {
+            if (!item) return;
+            var dist = p - centers[i];
+            var absDist = Math.abs(dist);
+            var opacity = absDist >= WINDOW ? 0
+              : MIN_OP + (1 - MIN_OP) * (1 - absDist / WINDOW);
+            var vy = dist * -Y_SCALE;
+            item.style.opacity = opacity.toFixed(3);
+            item.style.transform = 'translate(-50%, calc(-50% + ' + vy.toFixed(1) + 'px))';
+          });
         });
       }
 
       window.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update);
+      window.addEventListener('resize', function () { cacheMetrics(); update(); });
       update();
+    })();
+
+    /* ── INDUSTRIES SERVED: stagger entrance ── */
+    (function () {
+      var cards = Array.from(document.querySelectorAll('.is-card'));
+      if (!cards.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var idx = cards.indexOf(entry.target);
+          var card = entry.target;
+          card.style.transitionDelay = (idx * 90) + 'ms';
+          card.classList.add('is-visible');
+          card.addEventListener('transitionend', function clear() {
+            card.style.transitionDelay = '';
+            card.removeEventListener('transitionend', clear);
+          });
+          io.unobserve(card);
+        });
+      }, { threshold: 0.18 });
+      cards.forEach(function (c) { io.observe(c); });
     })();
   </script>
 
