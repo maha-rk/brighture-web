@@ -79,6 +79,15 @@
     #custom-cursor svg { width: 100%; height: 100%; }
     body:not(:hover) #custom-cursor { opacity: 0; }
 
+    /* ── WHO INTRO ── */
+    .who-intro { padding: 160px 80px 140px; background: #0a0a0c; }
+    .who-intro-inner { max-width: 860px; margin: 0 auto; }
+    .who-intro-para { font-size: clamp(18px, 1.6vw, 24px); line-height: 1.75; color: rgba(255,255,255,.72); margin-bottom: 36px; font-weight: 400; }
+    .who-intro-para:last-child { margin-bottom: 0; }
+    .who-intro-para strong { color: #fff; font-weight: 700; }
+    .who-intro-reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
+    .who-intro-reveal.in { opacity: 1; transform: translateY(0); }
+
     /* PAGE */
     .page-wrap {
       min-height: 100vh;
@@ -263,6 +272,15 @@
       <li><a href="contact.html" class="nav-item"><span class="label">Contact</span></a></li>
     </ul>
   </nav>
+
+  <!-- ── WHO INTRO ── -->
+  <section class="who-intro">
+    <div class="who-intro-inner">
+      <p class="who-intro-para who-intro-reveal">Brighture is a global innovation platform focused on building <strong>AI Innovation Labs, robotics ecosystems, and future skills infrastructure</strong> for institutions and enterprises.</p>
+      <p class="who-intro-para who-intro-reveal">Through the <strong>Brighture Global Innovation Lab Framework</strong>, we enable schools, universities, research centers, and organizations to create hands-on environments where artificial intelligence, robotics, and emerging technologies are explored through experimentation and real-world problem solving.</p>
+      <p class="who-intro-para who-intro-reveal">Brighture combines <strong>technology infrastructure, experiential learning, and innovation programs</strong> to help develop the next generation of engineers, innovators, and technology leaders.</p>
+    </div>
+  </section>
 
   <!-- ── WHO PINS ── -->
   <section class="who-pins">
@@ -469,6 +487,23 @@
 
       window.addEventListener('scroll', update, { passive: true });
       update();
+    })();
+
+    // WHO INTRO REVEAL
+    (function () {
+      var els = document.querySelectorAll('.who-intro-reveal');
+      if (!els.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var i = Array.prototype.indexOf.call(els, entry.target);
+            entry.target.style.transitionDelay = (i * 0.14) + 's';
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      els.forEach(function (el) { io.observe(el); });
     })();
 
     // WHO PINS SCROLL
