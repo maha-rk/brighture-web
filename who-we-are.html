@@ -81,9 +81,9 @@
 
     /* ── WHO HERO ── */
     .who-hero {
-      height: 82vh; background: #0a0a0c;
-      display: grid; grid-template-columns: 47% 53%;
-      overflow: hidden; margin-top: 0;
+      height: calc(100vh - 96px); margin-top: 96px; background: #0a0a0c;
+      display: grid; grid-template-columns: 48% 52%;
+      overflow: hidden;
     }
     .who-hero-image {
       position: relative; overflow: hidden;
@@ -91,13 +91,9 @@
     .who-hero-image img {
       width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;
     }
-    .who-hero-image::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to right, transparent 60%, #0a0a0c 100%);
-    }
     .who-hero-right {
       display: flex; flex-direction: column; justify-content: center;
-      padding: 80px 72px 80px 56px;
+      padding: 60px 72px 60px 60px;
     }
     .who-hero-title {
       font-size: clamp(44px, 6.2vw, 100px); font-weight: 800; line-height: 1.02;
