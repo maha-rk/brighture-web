@@ -150,37 +150,61 @@
       background: radial-gradient(ellipse 120% 90% at 50% 0%, rgba(40,24,88,.6) 0%, rgba(22,11,48,.82) 55%, rgba(13,6,32,.92) 100%);
     }
     .values-inner { max-width: 1480px; margin: 0 auto; position: relative; z-index: 1; }
-    .values-title { font-size: clamp(40px, 5.4vw, 88px); font-weight: 700; letter-spacing: -.03em; line-height: 1; color: #fff; margin-bottom: 64px; text-align: center; }
-    .values-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+    .values-title { font-size: clamp(40px, 5.4vw, 88px); font-weight: 700; letter-spacing: -.03em; line-height: 1; color: #fff; margin-bottom: 16px; text-align: center; }
+    .values-subtitle { font-size: 17px; color: #ffffff; text-align: center; margin-bottom: 60px; font-weight: 400; letter-spacing: .01em; }
+    .values-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; align-items: stretch; }
     .value-card {
-      position: relative; aspect-ratio: .62; border-radius: 5px; overflow: hidden;
-      padding: 34px 30px; display: flex; flex-direction: column;
-      border: 1px solid rgba(255,255,255,.22);
+      position: relative; border-radius: 8px; overflow: hidden;
+      padding: 44px 32px 52px; display: flex; flex-direction: column;
+      min-height: 420px;
+      background: linear-gradient(180deg, rgba(19,18,30,.96) 0%, rgba(10,9,16,.98) 100%);
+      border: 1.5px solid rgba(255,255,255,.16);
+      box-shadow: 0 18px 42px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);
       opacity: 0; transform: translateY(30px);
-      transition: opacity .7s ease, transform .45s cubic-bezier(.22,.61,.36,1), box-shadow .4s ease, border-color .4s ease;
+      transition: opacity .7s ease, transform .45s cubic-bezier(.22,.61,.36,1),
+                  box-shadow .4s ease, border-color .4s ease;
     }
     .value-card.in { opacity: 1; transform: translateY(0); }
-    .value-card:hover { transform: translateY(-8px); box-shadow: 0 30px 70px rgba(0,0,0,.55); border-color: rgba(255,255,255,.2); }
-    /* full-bleed background tint + readability gradient from the top */
+    .value-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 32px 68px rgba(0,0,0,.58), inset 0 1px 0 rgba(255,255,255,.09);
+    }
+    /* coloured top accent — always visible, brightens on hover */
+    .value-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; z-index: 3;
+      opacity: .7; transition: opacity .35s ease;
+    }
+    .value-card:hover::after { opacity: 1; }
+    .vc-1::after { background: #8b5cf6; }
+    .vc-2::after { background: #6366f1; }
+    .vc-3::after { background: #3b82f6; }
+    .vc-4::after { background: #0ea5e9; }
+    .vc-5::after { background: #06b6d4; }
+    /* label picks up card accent on hover */
+    .vc-1:hover .vc-label { color: #a78bfa; }
+    .vc-2:hover .vc-label { color: #818cf8; }
+    .vc-3:hover .vc-label { color: #60a5fa; }
+    .vc-4:hover .vc-label { color: #38bdf8; }
+    .vc-5:hover .vc-label { color: #22d3ee; }
+    /* hover: card border echoes its accent */
+    .vc-1:hover { border-color: rgba(139,92,246,.45); }
+    .vc-2:hover { border-color: rgba(99,102,241,.45); }
+    .vc-3:hover { border-color: rgba(59,130,246,.45); }
+    .vc-4:hover { border-color: rgba(14,165,233,.45); }
+    .vc-5:hover { border-color: rgba(6,182,212,.45); }
     .value-card::before {
       content: ''; position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(to bottom, rgba(0,0,6,.35) 0%, rgba(0,0,6,0) 45%, rgba(0,0,6,.25) 100%);
+      background: linear-gradient(to bottom, rgba(0,0,6,.3) 0%, rgba(0,0,6,0) 50%, rgba(0,0,6,.2) 100%);
     }
     .vc-bg-icon {
-      position: absolute; right: -20px; bottom: -28px; z-index: 0;
-      font-size: 190px; line-height: 1; color: rgba(255,255,255,.1);
+      position: absolute; right: -12px; bottom: -18px; z-index: 0;
+      font-size: 160px; line-height: 1; color: rgba(255,255,255,.18);
       transition: transform .5s cubic-bezier(.22,.61,.36,1), color .4s ease;
     }
-    .value-card:hover .vc-bg-icon { transform: scale(1.08) rotate(-4deg); color: rgba(255,255,255,.16); }
+    .value-card:hover .vc-bg-icon { transform: scale(1.1) rotate(-5deg); color: rgba(255,255,255,.28); }
     .vc-content { position: relative; z-index: 2; }
-    .vc-label { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #fff; margin-bottom: 16px; }
-    .vc-title { font-size: clamp(18px, 1.35vw, 23px); font-weight: 700; line-height: 1.28; letter-spacing: -.01em; color: #fff; }
-
-    .vc-1 { background: linear-gradient(165deg, #2c1a52 0%, #130a26 100%); }
-    .vc-2 { background: linear-gradient(165deg, #211640 0%, #0e0820 100%); }
-    .vc-3 { background: linear-gradient(165deg, #33205c 0%, #160b2c 100%); }
-    .vc-4 { background: linear-gradient(165deg, #1d1238 0%, #0b0618 100%); }
-    .vc-5 { background: linear-gradient(165deg, #382460 0%, #170c2e 100%); }
+    .vc-label { font-size: clamp(14px, 1.1vw, 17px); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #ffffff; margin-bottom: 0; transition: color .3s ease; line-height: 1.25; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.15); min-height: 72px; display: flex; align-items: flex-end; }
+    .vc-title { font-size: clamp(15px, 1.1vw, 18px); font-weight: 400; line-height: 1.7; letter-spacing: -.005em; color: #ffffff; margin-top: 24px; }
 
     @media (max-width: 1180px) { .values-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 760px)  { .values-grid { grid-template-columns: repeat(2, 1fr); } .values-section { padding: 90px 28px 110px; } }
@@ -239,13 +263,6 @@
       <li><a href="contact.html" class="nav-item"><span class="label">Contact</span></a></li>
     </ul>
   </nav>
-
-  <main class="page-wrap">
-    <div class="who-inner">
-      <p class="who-eyebrow">Who We Are</p>
-      <div class="who-text" id="who-text-block"></div>
-    </div>
-  </main>
 
   <!-- ── WHO PINS ── -->
   <section class="who-pins">
@@ -315,13 +332,14 @@
     <div class="values-video-tint" aria-hidden="true"></div>
     <div class="values-inner">
       <h2 class="values-title">Our Values</h2>
+      <p class="values-subtitle">Five principles that define how we build, teach, and collaborate.</p>
       <div class="values-grid">
 
         <div class="value-card vc-1">
           <i class="ph ph-lightbulb-filament vc-bg-icon"></i>
           <div class="vc-content">
             <div class="vc-label">Innovation</div>
-            <h3 class="vc-title">Encouraging creativity and experimentation.</h3>
+            <h3 class="vc-title">Building learning experiences that inspire curiosity, experimentation, and growth.</h3>
           </div>
         </div>
 
@@ -329,7 +347,7 @@
           <i class="ph ph-brain vc-bg-icon"></i>
           <div class="vc-content">
             <div class="vc-label">Human Intelligence</div>
-            <h3 class="vc-title">Empowering people through technology.</h3>
+            <h3 class="vc-title">Technology that adapts to people — not the other way around.</h3>
           </div>
         </div>
 
@@ -337,7 +355,7 @@
           <i class="ph ph-cpu vc-bg-icon"></i>
           <div class="vc-content">
             <div class="vc-label">Engineering Excellence</div>
-            <h3 class="vc-title">Building world-class technology platforms.</h3>
+            <h3 class="vc-title">Building infrastructure trusted by institutions and accessible to every learner.</h3>
           </div>
         </div>
 
@@ -345,7 +363,7 @@
           <i class="ph ph-handshake vc-bg-icon"></i>
           <div class="vc-content">
             <div class="vc-label">Collaboration</div>
-            <h3 class="vc-title">Connecting educators, engineers, and innovators.</h3>
+            <h3 class="vc-title">Bridging educational vision and technological capability through partnerships and shared innovation.</h3>
           </div>
         </div>
 
@@ -353,7 +371,7 @@
           <i class="ph ph-shield-check vc-bg-icon"></i>
           <div class="vc-content">
             <div class="vc-label">Integrity</div>
-            <h3 class="vc-title">Advancing responsible and ethical innovation.</h3>
+            <h3 class="vc-title">Transparent in practice, principled by design.</h3>
           </div>
         </div>
 
