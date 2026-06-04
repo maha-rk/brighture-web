@@ -28,8 +28,9 @@
     .nav-item .label { font-size: 16.8px; font-weight: 400; color: #fff; letter-spacing: .01em; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
     .chevron { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); transition: transform .22s ease; margin-top: -3px; display: inline-block; flex-shrink: 0; }
     .has-dropdown:hover .chevron { transform: rotate(225deg); margin-top: 3px; }
-    .has-dropdown { position: relative; }
-    .dropdown { position: absolute; top: 100%; left: 0; background: rgba(8,8,8,.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.09); border-top: 2px solid #a100ff; min-width: 170px; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity .2s ease, transform .2s ease; z-index: 200; }
+    .has-dropdown { position: relative; height: 96px; display: flex; align-items: center; }
+    .has-dropdown::after { content: ''; position: absolute; top: 96px; left: 0; right: 0; height: 12px; }
+    .dropdown { position: absolute; top: 96px; left: 0; background: rgba(8,8,8,.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.09); border-top: 2px solid #a100ff; min-width: 170px; opacity: 0; pointer-events: none; transform: translateY(-4px); transition: opacity .2s ease, transform .2s ease; z-index: 200; }
     .has-dropdown:hover .dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
     .dropdown li { display: block; }
     .dropdown a { display: flex; align-items: center; gap: 10px; padding: 13px 20px; font-size: 13px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.06); transition: background .15s, color .15s, padding-left .15s; }
@@ -677,7 +678,7 @@
         <li><a href="ai-products.html"><span class="d-arrow">&#62;</span> AI Products</a></li>
       </ul>
     </li>
-    <li><a href="#" class="nav-item"><span class="label">Contact</span></a></li>
+    <li><a href="contact.html" class="nav-item"><span class="label">Contact</span></a></li>
   </ul>
 </nav>
 

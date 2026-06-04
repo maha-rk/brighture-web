@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# Large source video (exceeds GitHub's 100MB limit) — the site uses bg1-web.mp4
+assets/about/bg1.mp4

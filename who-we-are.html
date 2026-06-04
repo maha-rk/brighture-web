@@ -48,12 +48,14 @@
       margin-top: -3px; display: inline-block; flex-shrink: 0;
     }
     .has-dropdown:hover .chevron { transform: rotate(225deg); margin-top: 3px; }
+    .has-dropdown { position: relative; height: 96px; display: flex; align-items: center; }
+    .has-dropdown::after { content: ''; position: absolute; top: 96px; left: 0; right: 0; height: 12px; }
     .dropdown {
-      position: absolute; top: 100%; left: 0;
+      position: absolute; top: 96px; left: 0;
       background: rgba(8,8,8,0.92); backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.09); border-top: 2px solid #a100ff;
       min-width: 170px; opacity: 0; pointer-events: none;
-      transform: translateY(-6px); transition: opacity 0.2s ease, transform 0.2s ease; z-index: 200;
+      transform: translateY(-4px); transition: opacity 0.2s ease, transform 0.2s ease; z-index: 200;
     }
     .has-dropdown:hover .dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
     .dropdown li { display: block; }
@@ -119,6 +121,90 @@
       transition: opacity 0.45s ease;
     }
     .who-logo-svg { height: 0.76em; width: auto; display: block; }
+
+    /* ── WHO PINS ── */
+    .who-pins { height: 440vh; position: relative; }
+    .who-pins-inner { position: sticky; top: 0; height: 100vh; overflow: hidden; background: #0a0a0c; }
+    .who-pins-title { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: clamp(40px, 8.6vw, 150px); font-weight: 700; letter-spacing: -.04em; line-height: .9; color: #fff; z-index: 1; pointer-events: none; user-select: none; white-space: nowrap; }
+    .who-pin-card { position: absolute; border-radius: 14px; overflow: hidden; z-index: 2; will-change: transform; box-shadow: 0 36px 90px rgba(0,0,0,.45); }
+    .pin-art { position: absolute; inset: 0; pointer-events: none; }
+    .pin-art svg { width: 100%; height: 100%; display: block; }
+    .pin-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 38px 42px; background: linear-gradient(to top, rgba(0,0,8,.78) 0%, rgba(0,0,8,.3) 50%, transparent 100%); }
+    .pin-label { font-size: 18px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #fff; margin-bottom: 14px; }
+    .pin-text { font-size: 18px; color: #fff; line-height: 1.6; max-width: 88%; }
+    .card-mission { width: 38vw; height: 56vh; left: 8vw;  top: 22vh; background: #e0263a; }
+    .card-vision  { width: 38vw; height: 56vh; right: 8vw; top: 22vh; background: #1839c8; }
+    .card-sustain { width: 38vw; height: 56vh; left: calc(50% - 19vw); top: 22vh; background: #e8a800; }
+
+    /* ── VALUES ── */
+    .values-section {
+      padding: 130px 52px 170px; position: relative; overflow: hidden;
+      background: radial-gradient(ellipse 120% 85% at 50% -10%, #2c1a5e 0%, #170c33 55%, #0e0622 100%);
+    }
+    .values-video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      z-index: 0; opacity: .35; pointer-events: none;
+    }
+    .values-video-tint {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 120% 90% at 50% 0%, rgba(40,24,88,.6) 0%, rgba(22,11,48,.82) 55%, rgba(13,6,32,.92) 100%);
+    }
+    .values-inner { max-width: 1480px; margin: 0 auto; position: relative; z-index: 1; }
+    .values-title { font-size: clamp(40px, 5.4vw, 88px); font-weight: 700; letter-spacing: -.03em; line-height: 1; color: #fff; margin-bottom: 64px; text-align: center; }
+    .values-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+    .value-card {
+      position: relative; aspect-ratio: .62; border-radius: 5px; overflow: hidden;
+      padding: 34px 30px; display: flex; flex-direction: column;
+      border: 1px solid rgba(255,255,255,.22);
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s ease, transform .45s cubic-bezier(.22,.61,.36,1), box-shadow .4s ease, border-color .4s ease;
+    }
+    .value-card.in { opacity: 1; transform: translateY(0); }
+    .value-card:hover { transform: translateY(-8px); box-shadow: 0 30px 70px rgba(0,0,0,.55); border-color: rgba(255,255,255,.2); }
+    /* full-bleed background tint + readability gradient from the top */
+    .value-card::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to bottom, rgba(0,0,6,.35) 0%, rgba(0,0,6,0) 45%, rgba(0,0,6,.25) 100%);
+    }
+    .vc-bg-icon {
+      position: absolute; right: -20px; bottom: -28px; z-index: 0;
+      font-size: 190px; line-height: 1; color: rgba(255,255,255,.1);
+      transition: transform .5s cubic-bezier(.22,.61,.36,1), color .4s ease;
+    }
+    .value-card:hover .vc-bg-icon { transform: scale(1.08) rotate(-4deg); color: rgba(255,255,255,.16); }
+    .vc-content { position: relative; z-index: 2; }
+    .vc-label { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #fff; margin-bottom: 16px; }
+    .vc-title { font-size: clamp(18px, 1.35vw, 23px); font-weight: 700; line-height: 1.28; letter-spacing: -.01em; color: #fff; }
+
+    .vc-1 { background: linear-gradient(165deg, #2c1a52 0%, #130a26 100%); }
+    .vc-2 { background: linear-gradient(165deg, #211640 0%, #0e0820 100%); }
+    .vc-3 { background: linear-gradient(165deg, #33205c 0%, #160b2c 100%); }
+    .vc-4 { background: linear-gradient(165deg, #1d1238 0%, #0b0618 100%); }
+    .vc-5 { background: linear-gradient(165deg, #382460 0%, #170c2e 100%); }
+
+    @media (max-width: 1180px) { .values-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 760px)  { .values-grid { grid-template-columns: repeat(2, 1fr); } .values-section { padding: 90px 28px 110px; } }
+    @media (max-width: 460px)  { .values-grid { grid-template-columns: 1fr; } }
+
+    /* ── GLOBAL INNOVATION LAB FRAMEWORK ── */
+    .gilf-section { padding: 160px 80px 170px; background: #0a0a0c; position: relative; overflow: hidden; }
+    .gilf-section::before {
+      content: ''; position: absolute; bottom: -120px; left: -120px; width: 640px; height: 540px;
+      background: radial-gradient(ellipse at 25% 75%, rgba(161,0,255,.12) 0%, rgba(161,0,255,.035) 45%, transparent 72%);
+      filter: blur(60px); pointer-events: none;
+    }
+    .gilf-wrap { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+    .gilf-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 48px; }
+    .gilf-statement {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .28em;
+      font-size: clamp(26px, 3.3vw, 52px); font-weight: 700; line-height: 1.32; letter-spacing: -.025em;
+    }
+    .gilf-statement .who-word { margin-top: .12em; }
+    .gilf-statement .who-word-fg.hl { color: #b65cff; }
+    .gilf-tags { margin-top: 64px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .gilf-tags span { font-size: 13px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.85); }
+    .gilf-tags i { width: 5px; height: 5px; border-radius: 50%; background: #a100ff; display: inline-block; }
+    @media (max-width: 900px) { .gilf-section { padding: 110px 28px 120px; } }
   </style>
 </head>
 <body>
@@ -150,7 +236,7 @@
           <li><a href="ai-products.html"><span class="d-arrow">&#62;</span> AI Products</a></li>
         </ul>
       </li>
-      <li><a href="#" class="nav-item"><span class="label">Contact</span></a></li>
+      <li><a href="contact.html" class="nav-item"><span class="label">Contact</span></a></li>
     </ul>
   </nav>
 
@@ -160,6 +246,133 @@
       <div class="who-text" id="who-text-block"></div>
     </div>
   </main>
+
+  <!-- ── WHO PINS ── -->
+  <section class="who-pins">
+    <div class="who-pins-inner">
+
+      <h2 class="who-pins-title">What We Believe In</h2>
+
+      <!-- MISSION -->
+      <div class="who-pin-card card-mission">
+        <div class="pin-art">
+          <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="170" cy="200" r="270" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+            <circle cx="430" cy="170" r="220" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.5"/>
+            <circle cx="310" cy="350" r="180" fill="none" stroke="rgba(255,255,255,.26)" stroke-width="1.5"/>
+            <circle cx="280" cy="240" r="95" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="1.5"/>
+            <line x1="0" y1="300" x2="600" y2="300" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="pin-body">
+          <div class="pin-label">Mission</div>
+          <p class="pin-text">To engineer innovation ecosystems that empower institutions and enterprises to develop technologies and talent for the AI-driven future.</p>
+        </div>
+      </div>
+
+      <!-- VISION -->
+      <div class="who-pin-card card-vision">
+        <div class="pin-art">
+          <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <path d="M -60 470 C 140 250, 360 410, 660 200" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+            <path d="M -60 410 C 120 200, 340 360, 660 150" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+            <rect x="80" y="80" width="230" height="230" rx="6" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="1.5"/>
+            <rect x="140" y="140" width="120" height="120" rx="3" fill="none" stroke="rgba(255,255,255,.34)" stroke-width="1.5"/>
+            <rect x="340" y="250" width="210" height="210" rx="6" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+            <line x1="80" y1="310" x2="340" y2="250" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="pin-body">
+          <div class="pin-label">Vision</div>
+          <p class="pin-text">To advance human intelligence and innovation in the age of artificial intelligence.</p>
+        </div>
+      </div>
+
+      <!-- SUSTAINABILITY -->
+      <div class="who-pin-card card-sustain">
+        <div class="pin-art">
+          <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 120 250 C 220 60, 470 60, 550 250 C 630 440, 470 580, 300 540 C 150 500, 20 430, 120 250 Z" fill="none" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+            <path d="M 175 270 C 255 120, 440 110, 510 270 C 580 430, 450 545, 300 515 C 175 490, 95 420, 175 270 Z" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="1.5"/>
+            <path d="M 230 290 C 290 180, 400 170, 450 290 C 500 410, 400 510, 300 495 C 210 480, 160 400, 230 290 Z" fill="none" stroke="rgba(255,255,255,.48)" stroke-width="1.5"/>
+            <circle cx="300" cy="360" r="45" fill="none" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="pin-body">
+          <div class="pin-label">Sustainability</div>
+          <p class="pin-text">Brighture is committed to advancing sustainable innovation by enabling technologies that improve efficiency, safety, and responsible technological progress.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── VALUES ── -->
+  <section class="values-section">
+    <video class="values-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="assets/about/bg1-web.mp4" type="video/mp4" />
+    </video>
+    <div class="values-video-tint" aria-hidden="true"></div>
+    <div class="values-inner">
+      <h2 class="values-title">Our Values</h2>
+      <div class="values-grid">
+
+        <div class="value-card vc-1">
+          <i class="ph ph-lightbulb-filament vc-bg-icon"></i>
+          <div class="vc-content">
+            <div class="vc-label">Innovation</div>
+            <h3 class="vc-title">Encouraging creativity and experimentation.</h3>
+          </div>
+        </div>
+
+        <div class="value-card vc-2">
+          <i class="ph ph-brain vc-bg-icon"></i>
+          <div class="vc-content">
+            <div class="vc-label">Human Intelligence</div>
+            <h3 class="vc-title">Empowering people through technology.</h3>
+          </div>
+        </div>
+
+        <div class="value-card vc-3">
+          <i class="ph ph-cpu vc-bg-icon"></i>
+          <div class="vc-content">
+            <div class="vc-label">Engineering Excellence</div>
+            <h3 class="vc-title">Building world-class technology platforms.</h3>
+          </div>
+        </div>
+
+        <div class="value-card vc-4">
+          <i class="ph ph-handshake vc-bg-icon"></i>
+          <div class="vc-content">
+            <div class="vc-label">Collaboration</div>
+            <h3 class="vc-title">Connecting educators, engineers, and innovators.</h3>
+          </div>
+        </div>
+
+        <div class="value-card vc-5">
+          <i class="ph ph-shield-check vc-bg-icon"></i>
+          <div class="vc-content">
+            <div class="vc-label">Integrity</div>
+            <h3 class="vc-title">Advancing responsible and ethical innovation.</h3>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GLOBAL INNOVATION LAB FRAMEWORK ── -->
+  <section class="gilf-section">
+    <div class="gilf-wrap">
+      <p class="gilf-eyebrow">The Framework</p>
+      <div class="gilf-statement" id="gilf-statement"></div>
+      <div class="gilf-tags">
+        <span>Artificial Intelligence</span><i></i>
+        <span>Robotics</span><i></i>
+        <span>Emerging Technologies</span>
+      </div>
+    </div>
+  </section>
 
   <script>
     // CURSOR
@@ -236,6 +449,99 @@
         });
       }
 
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    // WHO PINS SCROLL
+    (function () {
+      var section = document.querySelector('.who-pins');
+      if (!section) return;
+      function easeInOut(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+
+      var EXIT_RISE = 105; // vh the card travels up to clear the top
+
+      // Each card: entry direction (ex in vw, ey in vh), and the scroll windows
+      // [enterStart, enterDuration] / [exitStart, exitDuration]. All exit upward.
+      // Mission slides in from the LEFT, Vision from the RIGHT, Sustainability up from the CENTRE.
+      // A card's exit window OVERLAPS the next card's enter window, and the travel
+      // distances are tuned so that mid-transition BOTH cards are partly on screen.
+      var cards = [
+        { el: document.querySelector('.card-mission'), ex: -78, ey: 0,  enter: [0.04, 0.18], exit: [0.34, 0.22] },
+        { el: document.querySelector('.card-vision'),  ex: 78,  ey: 0,  enter: [0.34, 0.22], exit: [0.62, 0.22] },
+        { el: document.querySelector('.card-sustain'), ex: 0,   ey: 95, enter: [0.62, 0.22], exit: null }
+      ];
+
+      function update() {
+        var rect = section.getBoundingClientRect();
+        var total = section.offsetHeight - window.innerHeight;
+        var progress = Math.max(0, Math.min(1, -rect.top / total));
+
+        cards.forEach(function (c) {
+          var enterP = Math.max(0, Math.min(1, (progress - c.enter[0]) / c.enter[1]));
+          var exitP  = c.exit ? Math.max(0, Math.min(1, (progress - c.exit[0]) / c.exit[1])) : 0;
+          var ee = easeInOut(enterP);
+          var x = c.ex * (1 - ee);                                 // slide in from its edge → 0
+          var y = c.ey * (1 - ee) - easeInOut(exitP) * EXIT_RISE;  // settle, then scroll up & out
+          c.el.style.transform = 'translate(' + x + 'vw, ' + y + 'vh)';
+        });
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
+    // VALUES REVEAL (staggered)
+    (function () {
+      var tiles = document.querySelectorAll('.value-card');
+      if (!tiles.length) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var i = Array.prototype.indexOf.call(tiles, entry.target);
+            entry.target.style.transitionDelay = (i * 0.08) + 's';
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      tiles.forEach(function (t) { io.observe(t); });
+    })();
+
+    // FRAMEWORK STATEMENT — scroll word reveal (same language as the intro)
+    (function () {
+      var container = document.getElementById('gilf-statement');
+      if (!container) return;
+
+      // fragments: { t: text, hl: highlight purple }
+      var frags = [
+        { t: 'The Brighture Global Innovation Lab Framework empowers institutions and enterprises to build world-class ecosystems for' },
+        { t: 'artificial intelligence, robotics, and emerging technologies', hl: true },
+        { t: '— enabling schools, universities, and innovation centers to turn ideas into' },
+        { t: 'intelligent systems and real-world solutions.', hl: true }
+      ];
+
+      var items = [];
+      frags.forEach(function (f) {
+        f.t.split(' ').forEach(function (word) {
+          var span = document.createElement('span'); span.className = 'who-word';
+          var bg = document.createElement('span'); bg.className = 'who-word-bg'; bg.textContent = word;
+          var fg = document.createElement('span'); fg.className = 'who-word-fg' + (f.hl ? ' hl' : ''); fg.textContent = word;
+          span.appendChild(bg); span.appendChild(fg);
+          container.appendChild(span);
+          items.push(fg);
+        });
+      });
+
+      function update() {
+        var vh = window.innerHeight;
+        items.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          var mid = rect.top + rect.height / 2;
+          var p = Math.max(0, Math.min(1, (vh * 0.85 - mid) / (vh * 0.4)));
+          el.style.opacity = p.toFixed(3);
+        });
+      }
       window.addEventListener('scroll', update, { passive: true });
       update();
     })();

@@ -185,9 +185,11 @@
       margin-top: 3px;
     }
 
+    .has-dropdown { position: relative; height: 96px; display: flex; align-items: center; }
+    .has-dropdown::after { content: ''; position: absolute; top: 96px; left: 0; right: 0; height: 12px; }
     .dropdown {
       position: absolute;
-      top: 100%;
+      top: 96px;
       left: 0;
       background: rgba(8, 8, 8, 0.92);
       backdrop-filter: blur(12px);
@@ -196,7 +198,7 @@
       min-width: 170px;
       opacity: 0;
       pointer-events: none;
-      transform: translateY(-6px);
+      transform: translateY(-4px);
       transition: opacity 0.2s ease, transform 0.2s ease;
       z-index: 200;
     }
@@ -2418,7 +2420,7 @@
           <li><a href="ai-products.html"><span class="d-arrow">&#62;</span> AI Products</a></li>
         </ul>
       </li>
-      <li><a href="#" class="nav-item" data-label="CONTACT"><span class="label">Contact</span><span
+      <li><a href="contact.html" class="nav-item" data-label="CONTACT"><span class="label">Contact</span><span
             class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i
                 class="ph ph-envelope"></i></span></span></a></li>
     </ul>

@@ -7,7 +7,7 @@
   <title>AI Products — Brighture</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500&display=swap"
     rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
@@ -148,13 +148,11 @@
       margin-top: 3px;
     }
 
-    .has-dropdown {
-      position: relative;
-    }
-
+    .has-dropdown { position: relative; height: 96px; display: flex; align-items: center; }
+    .has-dropdown::after { content: ''; position: absolute; top: 96px; left: 0; right: 0; height: 12px; }
     .dropdown {
       position: absolute;
-      top: 100%;
+      top: 96px;
       left: 0;
       background: rgba(8, 8, 8, .95);
       backdrop-filter: blur(12px);
@@ -163,7 +161,7 @@
       min-width: 170px;
       opacity: 0;
       pointer-events: none;
-      transform: translateY(-6px);
+      transform: translateY(-4px);
       transition: opacity .2s ease, transform .2s ease;
       z-index: 200;
     }
@@ -1361,89 +1359,22 @@
       z-index: 2;
     }
 
-    /* Section title: large, centred, no decorative lines */
-    .kr-eyebrow-wrap {
-      position: relative;
-      z-index: 10;
-      padding: 100px 64px 0;
-      flex-shrink: 0;
-      text-align: center;
-    }
-
-    .kr-eyebrow {
-      font-size: clamp(30px, 3.8vw, 52px);
-      font-weight: 800;
-      letter-spacing: -.03em;
-      text-transform: uppercase;
-      color: #fff;
-      display: block;
-      line-height: 1.08;
-    }
-
-    .kr-eyebrow::before,
-    .kr-eyebrow::after {
-      display: none;
-    }
+    /* Section header: editorial, left-aligned */
+    .kr-eyebrow-wrap { position: relative; z-index: 10; padding: 72px max(64px,5.5vw) 0; flex-shrink: 0; text-align: left; }
+    .kr-eyebrow-tag { font-size: 10.5px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: #a100ff; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+    .kr-eyebrow-tag::before { content: ''; display: inline-block; width: 28px; height: 1px; background: #a100ff; }
+    .kr-eyebrow { font-size: clamp(22px, 2.2vw, 34px); font-weight: 800; letter-spacing: -.03em; color: #fff; display: block; line-height: 1.1; }
+    .kr-eyebrow::before, .kr-eyebrow::after { display: none; }
 
     /* Arena */
-    .kr-arena {
-      position: relative;
-      flex: 1;
-      overflow: hidden;
-    }
+    .kr-arena { position: relative; flex: 1; overflow: hidden; }
 
-    /* Items: horizontally centred, vertically driven by JS */
-    .kr-item {
-      position: absolute;
-      left: 50%;
-      top: 38%;
-      transform: translate(-50%, -50%);
-      width: min(1000px, 92vw);
-      text-align: center;
-      will-change: opacity, transform;
-    }
-
-    #kr-i1 {
-      top: 52%;
-    }
-
-    #kr-i2 {
-      top: 64%;
-    }
-
-    #kr-i3 {
-      top: 74%;
-    }
-
-    .kr-item-num {
-      display: none;
-    }
-
-    .kr-item-title {
-      font-size: clamp(20px, 2.2vw, 30px);
-      font-weight: 700;
-      color: rgba(255, 255, 255, .9);
-      letter-spacing: -.02em;
-      line-height: 1.1;
-      margin-bottom: 14px;
-      white-space: nowrap;
-    }
-
-    .kr-item-bar {
-      width: 40px;
-      height: 2px;
-      background: #a100ff;
-      border-radius: 2px;
-      margin: 0 auto 16px;
-    }
-
-    .kr-item-desc {
-      font-size: clamp(15px, 1.3vw, 18px);
-      color: rgba(255, 255, 255, .88);
-      line-height: 1.55;
-      font-weight: 400;
-      white-space: nowrap;
-    }
+    /* Items: full-width editorial row, vertically centred, driven by JS */
+    .kr-item { position: absolute; left: max(64px,5.5vw); right: max(64px,5.5vw); top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: 72px 1fr 1.6fr; align-items: center; gap: 0 52px; padding: 36px 0; border-top: 1px solid rgba(255,255,255,.1); border-bottom: 1px solid rgba(255,255,255,.1); will-change: opacity, transform; text-align: left; }
+    .kr-item-num { display: block; font-size: clamp(42px,5.5vw,68px); font-weight: 900; color: rgba(255,255,255,.07); letter-spacing: -.05em; line-height: 1; }
+    .kr-item-title { font-size: clamp(20px,1.9vw,28px); font-weight: 700; color: #fff; letter-spacing: -.025em; line-height: 1.2; margin-bottom: 0; white-space: normal; }
+    .kr-item-bar { display: none; }
+    .kr-item-desc { font-size: clamp(14px,1.15vw,16px); color: rgba(255,255,255,.65); line-height: 1.72; font-weight: 400; white-space: normal; }
 
     /* ── INDUSTRIES SERVED ── */
     .is-section {
@@ -1642,6 +1573,86 @@
       object-position: center 12%;
       display: block;
     }
+
+    /* ── PRODUCT SPECIFICATIONS (tabbed) ── */
+    .spec-section { background: #000; padding: 56px 52px 100px; }
+    .spec-inner { max-width: 1300px; margin: 0 auto; }
+    .spec-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 48px; margin-bottom: 40px; }
+    .spec-title { font-size: clamp(28px,2.8vw,40px); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #fff; }
+    .spec-sub { font-size: clamp(17px,1.5vw,22px); font-weight: 400; color: #fff; text-align: right; line-height: 1.4; letter-spacing: -.01em; flex-shrink: 0; }
+
+    /* Tabs */
+    .spec-tabs { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid #fff; margin-bottom: 0; }
+    .spec-tab { appearance: none; -webkit-appearance: none; background: transparent; border: none; font-family: var(--font); cursor: pointer; font-size: 16.5px; font-weight: 600; color: rgba(255,255,255,.45); padding: 20px 32px; position: relative; letter-spacing: -.015em; transition: color .2s; display: inline-flex; align-items: center; gap: 11px; }
+    .spec-tab::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.22); transition: background .2s, transform .2s; flex-shrink: 0; }
+    .spec-tab:hover { color: rgba(255,255,255,.85); }
+    .spec-tab.active { color: #fff; }
+    .spec-tab.active::before { background: #a100ff; transform: scale(1.25); box-shadow: 0 0 14px rgba(161,0,255,.6); }
+    .spec-tab.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: #a100ff; }
+
+    /* Panels */
+    .spec-panel { display: none; }
+    .spec-panel.active { display: grid; grid-template-columns: 1.35fr 1fr; border: 1px solid #fff; border-top: none; animation: specFade .4s ease; }
+    @keyframes specFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    /* Spec table side */
+    .spec-table-wrap { background: #060a14; }
+    .spec-tbl { width: 100%; border-collapse: collapse; }
+    .spec-tbl td { padding: 11px 36px; font-size: 14px; line-height: 1.4; vertical-align: middle; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .spec-tbl tr:last-child td { border-bottom: none; }
+    .spec-tbl td:first-child { color: #fff; font-weight: 500; width: 46%; letter-spacing: -.005em; }
+    .spec-tbl td:last-child { color: #fff; font-weight: 500; letter-spacing: -.01em; }
+    .spec-cat td { background: rgba(255,255,255,.07) !important; padding: 15px 40px !important; font-size: 18px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #b794f6 !important; text-align: center; border-top: 1px solid rgba(255,255,255,.16); border-bottom: 1px solid rgba(255,255,255,.16); }
+    .spec-perf-fill { color: #a100ff; letter-spacing: 3px; font-size: 17px; }
+    .spec-perf-empty { color: rgba(255,255,255,.16); letter-spacing: 3px; font-size: 17px; }
+    .spec-dash { color: rgba(255,255,255,.28); }
+    .spec-check { color: #a100ff; font-weight: 700; margin-right: 9px; }
+
+    /* Aside: image + points + actions */
+    .spec-aside { background: linear-gradient(180deg, #0c0f1c 0%, #080a12 100%); border-left: 1px solid #fff; padding: 56px 52px; display: flex; flex-direction: column; justify-content: center; }
+    .spec-img { height: 420px; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 36px; }
+    [data-tier="prime"] .spec-img,
+    [data-tier="pro"] .spec-img,
+    [data-tier="ultra"] .spec-img { height: 340px; }
+    [data-tier="prime"] .spec-img img,
+    [data-tier="pro"] .spec-img img,
+    [data-tier="ultra"] .spec-img img { width: 82%; }
+    .spec-img::before { content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(161,0,255,.35) 0%, rgba(161,0,255,.18) 28%, rgba(161,0,255,.08) 52%, rgba(161,0,255,.03) 70%, transparent 90%); top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 0; filter: blur(18px); }
+    .spec-img img { width: 100%; max-height: 100%; object-fit: contain; position: relative; z-index: 1; filter: drop-shadow(0 30px 60px rgba(0,0,0,.65)); }
+    .spec-tier-name { font-size: 30px; font-weight: 700; color: #fff; letter-spacing: -.03em; margin-bottom: 7px; }
+    .spec-tagline { font-size: 12px; font-weight: 600; font-family: var(--font); color: rgba(161,0,255,.85); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 28px; }
+    .spec-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
+    .spec-list li { font-size: 14.5px; color: rgba(255,255,255,.78); line-height: 1.5; display: flex; gap: 13px; align-items: flex-start; letter-spacing: -.005em; }
+    .spec-list li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #a100ff; flex-shrink: 0; margin-top: 7px; }
+    .spec-actions { display: flex; gap: 14px; }
+    .spec-btn-ghost, .spec-btn-fill { flex: 1; text-align: center; padding: 15px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; letter-spacing: -.01em; text-decoration: none; transition: background .2s, border-color .2s, transform .15s; cursor: pointer; }
+    .spec-btn-ghost { border: 1px solid rgba(255,255,255,.28); color: #fff; background: transparent; }
+    .spec-btn-ghost:hover { border-color: #a100ff; background: rgba(161,0,255,.1); }
+    .spec-btn-fill { background: #a100ff; color: #fff; border: 1px solid #a100ff; }
+    .spec-btn-fill:hover { background: #8800dd; transform: translateY(-2px); }
+
+    @media (max-width: 980px) {
+      .spec-panel.active { grid-template-columns: 1fr; }
+      .spec-aside { border-left: none; border-top: 1px solid rgba(255,255,255,.08); }
+      .spec-header { flex-direction: column; align-items: flex-start; gap: 18px; }
+      .spec-sub { text-align: left; }
+      .spec-tbl td { padding: 16px 26px; font-size: 15px; }
+      .spec-cat td { padding-left: 26px !important; padding-right: 26px !important; }
+      .spec-tab { padding: 18px 22px; font-size: 16px; }
+    }
+
+    /* ── HOW TO CHOOSE ── */
+    .htc-section { background: #000; padding: 0 52px 80px; }
+    .htc-inner { max-width: 1300px; margin: 0 auto; }
+    .htc-heading { font-size: clamp(30px,3.4vw,48px); font-weight: 700; letter-spacing: -.025em; color: #fff; margin-bottom: 40px; text-align: center; }
+    /* Guide cards */
+    .htc-cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; background: transparent; border: 1px solid #fff; border-top: none; }
+    .htc-card { background: #060a14; padding: 36px 32px; border-top: 3px solid #a100ff; border-right: 1px solid rgba(255,255,255,.18); transition: background .25s; }
+    .htc-card:last-child { border-right: none; }
+    .htc-card:hover { background: #0b1020; }
+    .htc-card-tier { font-size: 19px; font-weight: 700; color: #fff; margin-bottom: 12px; letter-spacing: -.02em; }
+    .htc-card-arrow { color: #a100ff; margin-right: 9px; font-size: 15px; font-weight: 700; }
+    .htc-card-desc { font-size: 15px; color: rgba(255,255,255,.6); line-height: 1.55; letter-spacing: -.005em; }
 
     /* ── BENEFITS ── */
     .benefits-section {
@@ -1886,7 +1897,7 @@
           <li><a href="ai-products.html" class="active"><span class="d-arrow">&#62;</span> AI Products</a></li>
         </ul>
       </li>
-      <li><a href="#" class="nav-item"><span class="label">Contact</span></a></li>
+      <li><a href="contact.html" class="nav-item"><span class="label">Contact</span></a></li>
     </ul>
   </nav>
 
@@ -2491,7 +2502,8 @@
         <div class="kr-aurora-overlay"></div>
       </div>
       <div class="kr-eyebrow-wrap">
-        <div class="kr-eyebrow">Key Benefits of AI Forklift Safety System</div>
+        <div class="kr-eyebrow-tag">Key Benefits</div>
+        <div class="kr-eyebrow">AI Forklift Safety System</div>
       </div>
       <div class="kr-arena" id="kr-arena">
         <div class="kr-item" id="kr-i0" style="--kc:#a100ff">
@@ -2609,6 +2621,268 @@
       </div>
       <div class="eas-image-wrap">
         <img src="assets/products/edge_title.jpg" alt="Edge AI Systems" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRODUCT SPECIFICATIONS (tabbed) ── -->
+  <section class="spec-section">
+    <div class="spec-inner">
+      <div class="spec-header">
+        <div class="spec-title">Product Specifications</div>
+        <p class="spec-sub">Five Tiers.<br>One Intelligent Platform.</p>
+      </div>
+
+      <div class="spec-tabs" role="tablist">
+        <button class="spec-tab active" data-tier="lite" role="tab">Edge Lite</button>
+        <button class="spec-tab" data-tier="core" role="tab">Edge Core</button>
+        <button class="spec-tab" data-tier="prime" role="tab">Edge Prime</button>
+        <button class="spec-tab" data-tier="pro" role="tab">Edge Pro</button>
+        <button class="spec-tab" data-tier="ultra" role="tab">Edge Ultra</button>
+      </div>
+
+      <!-- LITE -->
+      <div class="spec-panel active" data-tier="lite" role="tabpanel">
+        <div class="spec-table-wrap">
+          <table class="spec-tbl">
+            <tbody>
+              <tr class="spec-cat"><td colspan="2">Overview</td></tr>
+              <tr><td>Positioning</td><td>Entry-Level System</td></tr>
+              <tr><td>Best For</td><td>Beginners</td></tr>
+              <tr><td>Ideal Use Case</td><td>Intro AI Learning</td></tr>
+              <tr class="spec-cat"><td colspan="2">Hardware</td></tr>
+              <tr><td>GPU Power</td><td>Basic AI GPU</td></tr>
+              <tr><td>CPU</td><td>2-Core / 4 Thread</td></tr>
+              <tr><td>RAM</td><td>16GB</td></tr>
+              <tr><td>Storage</td><td>256GB</td></tr>
+              <tr><td>Power Range</td><td>10–75W</td></tr>
+              <tr class="spec-cat"><td colspan="2">AI Capabilities</td></tr>
+              <tr><td>Edge AI Processing</td><td><span class="spec-check">✓</span>Entry</td></tr>
+              <tr><td>Computer Vision</td><td><span class="spec-check">✓</span>Intro</td></tr>
+              <tr><td>Robotics Integration</td><td><span class="spec-check">✓</span>Intro</td></tr>
+              <tr><td>Autonomous Systems</td><td><span class="spec-dash">—</span></td></tr>
+              <tr><td>IoT &amp; Sensors</td><td><span class="spec-check">✓</span>Basic</td></tr>
+              <tr><td>Simulation / Digital Twin</td><td><span class="spec-dash">—</span></td></tr>
+              <tr class="spec-cat"><td colspan="2">System</td></tr>
+              <tr><td>Connectivity</td><td>WiFi 6 + Dual LAN</td></tr>
+              <tr><td>OS Support</td><td>Linux / Windows</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="spec-aside">
+          <div class="spec-img"><img src="assets/products/edge1.png" alt="Edge AI Lite" /></div>
+          <div class="spec-tier-name">Edge Lite</div>
+          <div class="spec-tagline">For Getting Started with AI</div>
+          <ul class="spec-list">
+            <li>Compact and accessible AI system</li>
+            <li>Supports basic robotics, IoT, and programming</li>
+            <li>Ideal for beginners and early-stage learners</li>
+          </ul>
+          <div class="spec-actions">
+                        <a href="mailto:innovate@brightureglobal.com?subject=Edge%20AI%20System%20Inquiry%20-%20Quotation%20Required" class="spec-btn-fill" style="flex:none;width:100%;display:block;">Get a Quote</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CORE -->
+      <div class="spec-panel" data-tier="core" role="tabpanel">
+        <div class="spec-table-wrap">
+          <table class="spec-tbl">
+            <tbody>
+              <tr class="spec-cat"><td colspan="2">Overview</td></tr>
+              <tr><td>Positioning</td><td>Foundation System</td></tr>
+              <tr><td>Best For</td><td>Schools &amp; Training</td></tr>
+              <tr><td>Ideal Use Case</td><td>Learning &amp; Labs</td></tr>
+              <tr class="spec-cat"><td colspan="2">Hardware</td></tr>
+              <tr><td>GPU Power</td><td>Entry AI GPU</td></tr>
+              <tr><td>CPU</td><td>6-Core / 12 Thread</td></tr>
+              <tr><td>RAM</td><td>16GB</td></tr>
+              <tr><td>Storage</td><td>500GB</td></tr>
+              <tr><td>Power Range</td><td>10–75W</td></tr>
+              <tr class="spec-cat"><td colspan="2">AI Capabilities</td></tr>
+              <tr><td>Edge AI Processing</td><td><span class="spec-check">✓</span>Basic</td></tr>
+              <tr><td>Computer Vision</td><td><span class="spec-check">✓</span>Basic</td></tr>
+              <tr><td>Robotics Integration</td><td><span class="spec-check">✓</span>Basic</td></tr>
+              <tr><td>Autonomous Systems</td><td><span class="spec-dash">—</span></td></tr>
+              <tr><td>IoT &amp; Sensors</td><td><span class="spec-check">✓</span>Basic</td></tr>
+              <tr><td>Simulation / Digital Twin</td><td><span class="spec-dash">—</span></td></tr>
+              <tr class="spec-cat"><td colspan="2">System</td></tr>
+              <tr><td>Connectivity</td><td>WiFi 6 + Dual LAN</td></tr>
+              <tr><td>OS Support</td><td>Linux / Windows</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="spec-aside">
+          <div class="spec-img"><img src="assets/products/edge2.png" alt="Edge AI Core" /></div>
+          <div class="spec-tier-name">Edge Core</div>
+          <div class="spec-tagline">For Foundational AI Learning</div>
+          <ul class="spec-list">
+            <li>Entry platform for embedded AI and intelligent systems</li>
+            <li>Sensor integration and basic automation workflows</li>
+            <li>Designed for schools and foundational AI labs</li>
+          </ul>
+          <div class="spec-actions">
+                        <a href="mailto:innovate@brightureglobal.com?subject=Edge%20AI%20System%20Inquiry%20-%20Quotation%20Required" class="spec-btn-fill" style="flex:none;width:100%;display:block;">Get a Quote</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRIME -->
+      <div class="spec-panel" data-tier="prime" role="tabpanel">
+        <div class="spec-table-wrap">
+          <table class="spec-tbl">
+            <tbody>
+              <tr class="spec-cat"><td colspan="2">Overview</td></tr>
+              <tr><td>Positioning</td><td>Applied AI Platform</td></tr>
+              <tr><td>Best For</td><td>Innovation &amp; Prototyping</td></tr>
+              <tr><td>Ideal Use Case</td><td>Product Development</td></tr>
+              <tr class="spec-cat"><td colspan="2">Hardware</td></tr>
+              <tr><td>GPU Power</td><td>Medium (6GB)</td></tr>
+              <tr><td>CPU</td><td>8-Core / 16 Thread</td></tr>
+              <tr><td>RAM</td><td>32GB</td></tr>
+              <tr><td>Storage</td><td>500GB</td></tr>
+              <tr><td>Power Range</td><td>50–95W</td></tr>
+              <tr class="spec-cat"><td colspan="2">AI Capabilities</td></tr>
+              <tr><td>Edge AI Processing</td><td><span class="spec-check">✓</span>Standard</td></tr>
+              <tr><td>Computer Vision</td><td><span class="spec-check">✓</span>Standard</td></tr>
+              <tr><td>Robotics Integration</td><td><span class="spec-check">✓</span>Standard</td></tr>
+              <tr><td>Autonomous Systems</td><td><span class="spec-check">✓</span>Medium</td></tr>
+              <tr><td>IoT &amp; Sensors</td><td><span class="spec-check">✓</span>Standard</td></tr>
+              <tr><td>Simulation / Digital Twin</td><td><span class="spec-check">✓</span>Standard</td></tr>
+              <tr class="spec-cat"><td colspan="2">System</td></tr>
+              <tr><td>Connectivity</td><td>WiFi 6 + Dual LAN</td></tr>
+              <tr><td>OS Support</td><td>Linux / Windows</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="spec-aside">
+          <div class="spec-img"><img src="assets/products/edge3.png" alt="Edge AI Prime" /></div>
+          <div class="spec-tier-name">Edge Prime</div>
+          <div class="spec-tagline">For Applied AI Learning &amp; Innovation</div>
+          <ul class="spec-list">
+            <li>AI processing with applied robotics workflows</li>
+            <li>Supports IoT, automation, and vision-based applications</li>
+            <li>Ideal for innovation labs &amp; advanced STEM programs</li>
+            <li>Bridges learning and real-world implementation</li>
+          </ul>
+          <div class="spec-actions">
+                        <a href="mailto:innovate@brightureglobal.com?subject=Edge%20AI%20System%20Inquiry%20-%20Quotation%20Required" class="spec-btn-fill" style="flex:none;width:100%;display:block;">Get a Quote</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRO -->
+      <div class="spec-panel" data-tier="pro" role="tabpanel">
+        <div class="spec-table-wrap">
+          <table class="spec-tbl">
+            <tbody>
+              <tr class="spec-cat"><td colspan="2">Overview</td></tr>
+              <tr><td>Positioning</td><td>Advanced AI System</td></tr>
+              <tr><td>Best For</td><td>Universities &amp; Labs</td></tr>
+              <tr><td>Ideal Use Case</td><td>AI Labs &amp; Vision Systems</td></tr>
+              <tr class="spec-cat"><td colspan="2">Hardware</td></tr>
+              <tr><td>GPU Power</td><td>High (12GB)</td></tr>
+              <tr><td>CPU</td><td>8-Core / 16 Thread</td></tr>
+              <tr><td>RAM</td><td>32GB</td></tr>
+              <tr><td>Storage</td><td>1TB</td></tr>
+              <tr><td>Power Range</td><td>50–95W</td></tr>
+              <tr class="spec-cat"><td colspan="2">AI Capabilities</td></tr>
+              <tr><td>Edge AI Processing</td><td><span class="spec-check">✓</span>Advanced</td></tr>
+              <tr><td>Computer Vision</td><td><span class="spec-check">✓</span>Multi-stream</td></tr>
+              <tr><td>Robotics Integration</td><td><span class="spec-check">✓</span>Advanced</td></tr>
+              <tr><td>Autonomous Systems</td><td><span class="spec-check">✓</span>High</td></tr>
+              <tr><td>IoT &amp; Sensors</td><td><span class="spec-check">✓</span>Full</td></tr>
+              <tr><td>Simulation / Digital Twin</td><td><span class="spec-check">✓</span>Advanced</td></tr>
+              <tr class="spec-cat"><td colspan="2">System</td></tr>
+              <tr><td>Connectivity</td><td>WiFi 6 + Dual LAN</td></tr>
+              <tr><td>OS Support</td><td>Linux / Windows</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="spec-aside">
+          <div class="spec-img"><img src="assets/products/edge4.png" alt="Edge AI Pro" /></div>
+          <div class="spec-tier-name">Edge Pro</div>
+          <div class="spec-tagline">For High-Performance AI Development</div>
+          <ul class="spec-list">
+            <li>Advanced AI processing and computer vision capabilities</li>
+            <li>Robotics and automation system integration</li>
+            <li>Built for universities and AI development labs</li>
+            <li>Optimized for real-world AI deployment</li>
+          </ul>
+          <div class="spec-actions">
+                        <a href="mailto:innovate@brightureglobal.com?subject=Edge%20AI%20System%20Inquiry%20-%20Quotation%20Required" class="spec-btn-fill" style="flex:none;width:100%;display:block;">Get a Quote</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ULTRA -->
+      <div class="spec-panel" data-tier="ultra" role="tabpanel">
+        <div class="spec-table-wrap">
+          <table class="spec-tbl">
+            <tbody>
+              <tr class="spec-cat"><td colspan="2">Overview</td></tr>
+              <tr><td>Positioning</td><td>Flagship AI Compute</td></tr>
+              <tr><td>Best For</td><td>Research &amp; Industrial AI</td></tr>
+              <tr><td>Ideal Use Case</td><td>Autonomous AI Systems</td></tr>
+              <tr class="spec-cat"><td colspan="2">Hardware</td></tr>
+              <tr><td>GPU Power</td><td>High-end (16GB)</td></tr>
+              <tr><td>CPU</td><td>8-Core / 16 Thread</td></tr>
+              <tr><td>RAM</td><td>32GB</td></tr>
+              <tr><td>Storage</td><td>1TB</td></tr>
+              <tr><td>Power Range</td><td>50–95W</td></tr>
+              <tr class="spec-cat"><td colspan="2">AI Capabilities</td></tr>
+              <tr><td>Edge AI Processing</td><td><span class="spec-check">✓</span>Advanced</td></tr>
+              <tr><td>Computer Vision</td><td><span class="spec-check">✓</span>Multi-camera</td></tr>
+              <tr><td>Robotics Integration</td><td><span class="spec-check">✓</span>Industrial</td></tr>
+              <tr><td>Autonomous Systems</td><td><span class="spec-check">✓</span>Full</td></tr>
+              <tr><td>IoT &amp; Sensors</td><td><span class="spec-check">✓</span>Full</td></tr>
+              <tr><td>Simulation / Digital Twin</td><td><span class="spec-check">✓</span>Advanced</td></tr>
+              <tr class="spec-cat"><td colspan="2">System</td></tr>
+              <tr><td>Connectivity</td><td>WiFi 6 + Dual LAN</td></tr>
+              <tr><td>OS Support</td><td>Linux / Windows</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="spec-aside">
+          <div class="spec-img"><img src="assets/products/edge5.png" alt="Edge AI Ultra" /></div>
+          <div class="spec-tier-name">Edge Ultra</div>
+          <div class="spec-tagline">For Advanced AI &amp; Autonomous Systems</div>
+          <ul class="spec-list">
+            <li>High-performance AI compute for real-time decision systems</li>
+            <li>Multi-camera computer vision and robotics integration</li>
+            <li>Designed for research labs and industrial deployments</li>
+            <li>Ideal for autonomous systems and advanced AI workloads</li>
+          </ul>
+          <div class="spec-actions">
+                        <a href="mailto:innovate@brightureglobal.com?subject=Edge%20AI%20System%20Inquiry%20-%20Quotation%20Required" class="spec-btn-fill" style="flex:none;width:100%;display:block;">Get a Quote</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── HOW TO CHOOSE ── -->
+  <section class="htc-section">
+    <div class="htc-inner">
+      <h2 class="htc-heading">How to Choose</h2>
+      <div class="htc-cards">
+        <div class="htc-card">
+          <div class="htc-card-tier">Lite / Core</div>
+          <div class="htc-card-desc"><span class="htc-card-arrow">→</span>Start your AI journey</div>
+        </div>
+        <div class="htc-card">
+          <div class="htc-card-tier">Prime</div>
+          <div class="htc-card-desc"><span class="htc-card-arrow">→</span>Build real-world systems</div>
+        </div>
+        <div class="htc-card">
+          <div class="htc-card-tier">Pro</div>
+          <div class="htc-card-desc"><span class="htc-card-arrow">→</span>Develop advanced AI applications</div>
+        </div>
+        <div class="htc-card">
+          <div class="htc-card-tier">Ultra</div>
+          <div class="htc-card-desc"><span class="htc-card-arrow">→</span>Deploy autonomous and industrial AI solutions</div>
+        </div>
       </div>
     </div>
   </section>
@@ -3439,7 +3713,7 @@
               : MIN_OP + (1 - MIN_OP) * (1 - absDist / WINDOW);
             var vy = dist * -Y_SCALE;
             item.style.opacity = opacity.toFixed(3);
-            item.style.transform = 'translate(-50%, calc(-50% + ' + vy.toFixed(1) + 'px))';
+            item.style.transform = 'translateY(calc(-50% + ' + vy.toFixed(1) + 'px))';
           });
         });
       }
@@ -3468,6 +3742,21 @@
         });
       }, { threshold: 0.18 });
       cards.forEach(function (c) { io.observe(c); });
+    })();
+
+    /* ── PRODUCT SPECIFICATIONS: tab switching ── */
+    (function () {
+      const tabs = document.querySelectorAll('.spec-tab');
+      const panels = document.querySelectorAll('.spec-panel');
+      tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          const tier = tab.getAttribute('data-tier');
+          tabs.forEach(function (t) { t.classList.toggle('active', t === tab); });
+          panels.forEach(function (p) {
+            p.classList.toggle('active', p.getAttribute('data-tier') === tier);
+          });
+        });
+      });
     })();
   </script>
 
