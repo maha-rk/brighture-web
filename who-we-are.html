@@ -81,39 +81,32 @@
 
     /* ── WHO HERO ── */
     .who-hero {
-      min-height: 68vh; background: #0a0a0c; padding: 140px 72px 80px;
-      display: flex; align-items: center; position: relative; overflow: hidden;
+      height: 82vh; background: #0a0a0c;
+      display: grid; grid-template-columns: 47% 53%;
+      overflow: hidden; margin-top: 0;
     }
-    .who-hero-inner {
-      max-width: 1380px; margin: 0 auto; width: 100%;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    .who-hero-image {
+      position: relative; overflow: hidden;
     }
-    .who-hero-tag { font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #a100ff; margin-bottom: 28px; }
+    .who-hero-image img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;
+    }
+    .who-hero-image::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent 60%, #0a0a0c 100%);
+    }
+    .who-hero-right {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 72px 80px 56px;
+    }
     .who-hero-title {
-      font-size: clamp(36px, 4.8vw, 72px); font-weight: 800; line-height: 1.08;
-      letter-spacing: -.035em; color: #fff; margin-bottom: 28px;
+      font-size: clamp(44px, 6.2vw, 100px); font-weight: 800; line-height: 1.02;
+      letter-spacing: -.04em; color: #fff; margin-bottom: 32px;
     }
-    .who-hero-title .accent { color: #a100ff; }
-    .who-hero-sub { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.65; color: rgba(255,255,255,.58); max-width: 480px; margin-bottom: 42px; }
-    .who-hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
-    .who-hero-pill {
-      font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
-      color: rgba(255,255,255,.7); padding: 9px 18px;
-      border: 1px solid rgba(255,255,255,.15); border-radius: 100px;
-      background: rgba(255,255,255,.04);
+    .who-hero-sub {
+      font-size: clamp(17px, 1.4vw, 22px); line-height: 1.62;
+      color: rgba(255,255,255,.62); max-width: 520px;
     }
-    /* scattered collage */
-    .who-hero-collage { position: relative; height: 420px; }
-    .who-hero-img {
-      position: absolute; border-radius: 16px; overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0,0,0,.55);
-      transition: transform .4s ease, box-shadow .4s ease;
-    }
-    .who-hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .who-hero-img:hover { transform: translateY(-6px) rotate(0deg) !important; box-shadow: 0 36px 80px rgba(0,0,0,.65); z-index: 10; }
-    .who-hero-img-1 { width: 54%; height: 52%; top: 0; right: 4%; transform: rotate(2.5deg); z-index: 3; }
-    .who-hero-img-2 { width: 50%; height: 48%; top: 28%; left: 0; transform: rotate(-3deg); z-index: 2; }
-    .who-hero-img-3 { width: 46%; height: 44%; bottom: 0; right: 8%; transform: rotate(1.5deg); z-index: 4; }
 
     /* ── WHO INTRO ── */
     .who-intro { padding: 120px 80px 100px; background: #0a0a0c; }
@@ -311,32 +304,12 @@
 
   <!-- ── WHO HERO ── -->
   <section class="who-hero">
-    <div class="who-hero-inner">
-
-      <div class="who-hero-left">
-        <p class="who-hero-tag">Who We Are</p>
-        <h1 class="who-hero-title">Engineering <span class="accent">Human Intelligence</span> for the AI Future</h1>
-        <p class="who-hero-sub">Brighture builds AI innovation labs, robotics ecosystems, and future skills infrastructure for institutions and enterprises worldwide.</p>
-        <div class="who-hero-pills">
-          <span class="who-hero-pill">AI Labs</span>
-          <span class="who-hero-pill">Robotics</span>
-          <span class="who-hero-pill">Emerging Tech</span>
-          <span class="who-hero-pill">Future Skills</span>
-        </div>
-      </div>
-
-      <div class="who-hero-collage">
-        <div class="who-hero-img who-hero-img-1">
-          <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=700&q=80" alt="AI circuit brain"/>
-        </div>
-        <div class="who-hero-img who-hero-img-2">
-          <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=700&q=80" alt="Humanoid robot"/>
-        </div>
-        <div class="who-hero-img who-hero-img-3">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=700&q=80" alt="Circuit board"/>
-        </div>
-      </div>
-
+    <div class="who-hero-image">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1400&q=85" alt="Human intelligence and technology"/>
+    </div>
+    <div class="who-hero-right">
+      <h1 class="who-hero-title">Engineering Human Intelligence for the AI Future</h1>
+      <p class="who-hero-sub">Brighture partners with institutions worldwide to build AI innovation labs, robotics ecosystems, and future skills infrastructure for the next generation of innovators.</p>
     </div>
   </section>
 
