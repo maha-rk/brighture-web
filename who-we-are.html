@@ -123,10 +123,11 @@
     .who-hero-btn:hover i { transform: translateX(4px); }
 
     /* ── MASKED TEXT ── */
-    .masked-section { background: #0a0a0c; padding: 70px 40px 110px; text-align: center; }
+    .masked-section { background: #0a0a0c; padding: 0px 40px 110px; text-align: center; margin-top: -30px; }
     .masked-text {
-      font-size: clamp(64px, 16vw, 280px); font-weight: 800; line-height: .9;
-      letter-spacing: -.045em; margin: 0;
+      font-size: clamp(64px, 16vw, 280px); font-weight: 800; line-height: 1.15;
+      letter-spacing: -.03em; margin: 0; padding-bottom: 0.15em; overflow: visible;
+      filter: brightness(1.45);
       background-image: url('assets/about/masked.jpg');
       background-size: cover; background-position: center;
       -webkit-background-clip: text; background-clip: text;
@@ -247,8 +248,8 @@
       background: linear-gradient(180deg, rgba(19,18,30,.96) 0%, rgba(10,9,16,.98) 100%);
       border: 1.5px solid rgba(255,255,255,.16);
       box-shadow: 0 18px 42px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);
-      opacity: 0; transform: translateY(30px);
-      transition: opacity .7s ease, transform .45s cubic-bezier(.22,.61,.36,1),
+      opacity: 1; transform: translateY(0);
+      transition: transform .45s cubic-bezier(.22,.61,.36,1),
                   box-shadow .4s ease, border-color .4s ease;
     }
     .value-card.in { opacity: 1; transform: translateY(0); }
@@ -426,8 +427,8 @@
     </video>
     <div class="who-intro-overlay" aria-hidden="true"></div>
     <div class="who-intro-inner">
-      <p class="who-intro-para who-intro-reveal">Brighture is a global innovation platform focused on building <strong>AI Innovation Labs, robotics ecosystems, and future skills infrastructure</strong> for institutions and enterprises.</p>
-      <p class="who-intro-para who-intro-reveal">Brighture combines <strong>technology infrastructure, experiential learning, and innovation programs</strong> to help develop the next generation of engineers, innovators, and technology leaders.</p>
+      <p class="who-intro-para">Brighture is a global innovation platform focused on building <strong>AI Innovation Labs, robotics ecosystems, and future skills infrastructure</strong> for institutions and enterprises.</p>
+      <p class="who-intro-para">Brighture combines <strong>technology infrastructure, experiential learning, and innovation programs</strong> to help develop the next generation of engineers, innovators, and technology leaders.</p>
     </div>
   </section>
 
@@ -549,8 +550,8 @@
   <!-- ── NEED FOR INFRASTRUCTURE ── -->
   <section class="need-section">
     <div class="need-inner">
-      <h2 class="need-title who-intro-reveal">The Need for Innovation Infrastructure</h2>
-      <p class="need-lead who-intro-reveal">Artificial intelligence is transforming every industry — yet most institutions still lack the infrastructure to explore, test, and deploy it in real-world scenarios. Traditional classrooms weren't built for robotics, autonomous systems, or intelligent devices.</p>
+      <h2 class="need-title">The Need for Innovation Infrastructure</h2>
+      <p class="need-lead">Artificial intelligence is transforming every industry — yet most institutions still lack the infrastructure to explore, test, and deploy it in real-world scenarios. Traditional classrooms weren't built for robotics, autonomous systems, or intelligent devices.</p>
 
       <div class="gaps-label who-intro-reveal">
         <span>The gaps institutions face</span>
@@ -678,7 +679,7 @@
 
   <!-- ── MASKED TEXT ── -->
   <section class="masked-section">
-    <h2 class="masked-text"><span>Intelligence,</span><span>Simplified.</span></h2>
+    <h2 class="masked-text"><span>intelligence</span><span>simplified.</span></h2>
   </section>
 
   <script>
