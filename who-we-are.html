@@ -89,16 +89,15 @@
       position: relative; overflow: hidden; background: #0a0a0c;
     }
     .who-hero-image img {
-      width: 100%; height: 92%; object-fit: cover; object-position: center; display: block;
+      width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;
     }
-    /* tint confined to the image only (top 92%), never the empty strip below */
     .who-hero-image::after {
-      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 92%; pointer-events: none;
+      content: ''; position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(135deg, rgba(120,30,210,.26) 0%, rgba(60,12,130,.14) 55%, rgba(20,6,45,.28) 100%);
       mix-blend-mode: screen; opacity: .5;
     }
     .who-hero-image::before {
-      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 92%; pointer-events: none; z-index: 1;
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
       background: rgba(86,22,160,.13);
     }
     .who-hero-right {
@@ -138,11 +137,11 @@
     /* ── WHO INTRO ── */
     .who-intro { padding: 150px 80px 140px; background: #0a0a0c; position: relative; overflow: hidden; }
     .who-intro-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
-    .who-intro-overlay { position: absolute; inset: 0; z-index: 0; background: rgba(6,6,10,.42); }
-    .who-intro-inner { max-width: 980px; margin: 0 auto; position: relative; z-index: 1; }
-    .who-intro-para { font-family: var(--font); font-size: clamp(25px, 2.5vw, 40px); line-height: 1.55; color: #ffffff; margin-bottom: 46px; font-weight: 400; }
+    .who-intro-overlay { position: absolute; inset: 0; z-index: 0; background: rgba(6,6,10,.2); }
+    .who-intro-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+    .who-intro-para { font-family: var(--font); font-size: clamp(18px, 1.6vw, 24px); line-height: 1.75; color: #ffffff; margin-bottom: 36px; font-weight: 400; }
     .who-intro-para:last-child { margin-bottom: 0; }
-    .who-intro-para strong { color: #fff; font-weight: 700; }
+    .who-intro-para strong { color: #d2c4f0; font-weight: 700; }
     .who-intro-reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
     .who-intro-reveal.in { opacity: 1; transform: translateY(0); }
 
