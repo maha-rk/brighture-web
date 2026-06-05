@@ -6,7 +6,7 @@
   <title>Who We Are — Brighture</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -134,12 +134,33 @@
     }
     .masked-text span { display: block; }
 
+    /* ── SCROLL CUE ── */
+    .scroll-cue {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      z-index: 900; display: flex; flex-direction: column; align-items: center; gap: 9px;
+      pointer-events: none; transition: opacity .5s ease, transform .5s ease;
+    }
+    .scroll-cue-text { font-size: 10.5px; letter-spacing: .28em; text-transform: uppercase; color: rgba(255,255,255,.62); font-weight: 600; }
+    .scroll-cue-arrow { color: #fff; font-size: 22px; line-height: 1; animation: scrollBob 1.7s ease-in-out infinite; }
+    .scroll-cue-arrow i { display: block; }
+    @keyframes scrollBob { 0%,100% { transform: translateY(0); opacity: .55; } 50% { transform: translateY(7px); opacity: 1; } }
+    .scroll-cue.hidden { opacity: 0; transform: translateX(-50%) translateY(12px); }
+
     /* ── WHO INTRO ── */
     .who-intro { padding: 150px 80px 140px; background: #0a0a0c; position: relative; overflow: hidden; }
     .who-intro-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
-    .who-intro-overlay { position: absolute; inset: 0; z-index: 0; background: rgba(6,6,10,.2); }
-    .who-intro-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
-    .who-intro-para { font-family: var(--font); font-size: clamp(18px, 1.6vw, 24px); line-height: 1.75; color: #ffffff; margin-bottom: 36px; font-weight: 400; }
+    .who-intro-overlay {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background: linear-gradient(to bottom,
+        #0a0a0c 0%,
+        rgba(10,10,12,.6) 11%,
+        rgba(10,10,12,.1) 28%,
+        rgba(10,10,12,.1) 72%,
+        rgba(10,10,12,.6) 89%,
+        #0a0a0c 100%);
+    }
+    .who-intro-inner { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+    .who-intro-para { font-family: 'Hanken Grotesk', var(--font); font-size: clamp(24px, 2.2vw, 36px); line-height: 1.68; color: #ffffff; margin-bottom: 42px; font-weight: 400; }
     .who-intro-para:last-child { margin-bottom: 0; }
     .who-intro-para strong { color: #d2c4f0; font-weight: 700; }
     .who-intro-reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
@@ -205,19 +226,19 @@
     /* ── VALUES ── */
     .values-section {
       padding: 130px 52px 170px; position: relative; overflow: hidden;
-      background: radial-gradient(ellipse 120% 85% at 50% -10%, #2c1a5e 0%, #170c33 55%, #0e0622 100%);
+      background: radial-gradient(ellipse 150% 95% at 50% -25%, #3a2378 0%, #1d1048 55%, #1c0f46 100%);
     }
     .values-video {
       position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-      z-index: 0; opacity: .35; pointer-events: none;
+      z-index: 0; opacity: .5; pointer-events: none;
     }
     .values-video-tint {
       position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(ellipse 120% 90% at 50% 0%, rgba(40,24,88,.6) 0%, rgba(22,11,48,.82) 55%, rgba(13,6,32,.92) 100%);
+      background: rgba(24,13,54,.42);
     }
     .values-inner { max-width: 1480px; margin: 0 auto; position: relative; z-index: 1; }
     .values-title { font-size: clamp(40px, 5.4vw, 88px); font-weight: 700; letter-spacing: -.03em; line-height: 1; color: #fff; margin-bottom: 16px; text-align: center; }
-    .values-subtitle { font-size: 17px; color: #ffffff; text-align: center; margin-bottom: 60px; font-weight: 400; letter-spacing: .01em; }
+    .values-subtitle { font-size: 20px; color: #ffffff; text-align: center; margin-bottom: 60px; font-weight: 400; letter-spacing: .01em; }
     .values-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; align-items: stretch; }
     .value-card {
       position: relative; border-radius: 8px; overflow: hidden;
@@ -263,38 +284,88 @@
       background: linear-gradient(to bottom, rgba(0,0,6,.3) 0%, rgba(0,0,6,0) 50%, rgba(0,0,6,.2) 100%);
     }
     .vc-bg-icon {
-      position: absolute; right: -12px; bottom: -18px; z-index: 0;
-      font-size: 160px; line-height: 1; color: rgba(255,255,255,.18);
+      position: absolute; right: 50%; bottom: -16px; transform: translateX(50%); z-index: 0;
+      font-size: 150px; line-height: 1; color: rgba(255,255,255,.16);
       transition: transform .5s cubic-bezier(.22,.61,.36,1), color .4s ease;
     }
-    .value-card:hover .vc-bg-icon { transform: scale(1.1) rotate(-5deg); color: rgba(255,255,255,.28); }
+    .value-card:hover .vc-bg-icon { transform: translateX(50%) scale(1.08) rotate(-4deg); }
+    /* per-card accent: bottom glow behind the icon + tinted icon */
+    .vc-1 { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(139,92,246,.2) 0%, transparent 62%), linear-gradient(180deg, rgba(19,18,30,.95) 0%, rgba(10,9,16,.975) 100%); }
+    .vc-2 { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(99,102,241,.2) 0%, transparent 62%), linear-gradient(180deg, rgba(19,18,30,.95) 0%, rgba(10,9,16,.975) 100%); }
+    .vc-3 { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(59,130,246,.2) 0%, transparent 62%), linear-gradient(180deg, rgba(19,18,30,.95) 0%, rgba(10,9,16,.975) 100%); }
+    .vc-4 { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(14,165,233,.2) 0%, transparent 62%), linear-gradient(180deg, rgba(19,18,30,.95) 0%, rgba(10,9,16,.975) 100%); }
+    .vc-5 { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(6,182,212,.2) 0%, transparent 62%), linear-gradient(180deg, rgba(19,18,30,.95) 0%, rgba(10,9,16,.975) 100%); }
+    .vc-1 .vc-bg-icon { color: rgba(167,139,250,.26); }
+    .vc-2 .vc-bg-icon { color: rgba(129,140,248,.26); }
+    .vc-3 .vc-bg-icon { color: rgba(96,165,250,.26); }
+    .vc-4 .vc-bg-icon { color: rgba(56,189,248,.26); }
+    .vc-5 .vc-bg-icon { color: rgba(34,211,238,.26); }
     .vc-content { position: relative; z-index: 2; }
-    .vc-label { font-size: clamp(14px, 1.1vw, 17px); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #ffffff; margin-bottom: 0; transition: color .3s ease; line-height: 1.25; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.15); min-height: 72px; display: flex; align-items: flex-end; }
-    .vc-title { font-size: clamp(15px, 1.1vw, 18px); font-weight: 400; line-height: 1.7; letter-spacing: -.005em; color: #ffffff; margin-top: 24px; }
+    .vc-label { font-size: clamp(18px, 1.55vw, 25px); font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: #ffffff; margin-bottom: 0; transition: color .3s ease; line-height: 1.18; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.15); min-height: 84px; display: flex; align-items: flex-end; justify-content: center; text-align: center; }
+    .vc-title { font-size: clamp(15px, 1.1vw, 18px); font-weight: 400; line-height: 1.7; letter-spacing: -.005em; color: #ffffff; margin-top: 24px; text-align: center; }
 
     @media (max-width: 1180px) { .values-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 760px)  { .values-grid { grid-template-columns: repeat(2, 1fr); } .values-section { padding: 90px 28px 110px; } }
     @media (max-width: 460px)  { .values-grid { grid-template-columns: 1fr; } }
 
+    /* ── NEED FOR INFRASTRUCTURE ── */
+    .need-section { background: #0a0a0c; padding: 130px 80px 70px; }
+    .need-inner { max-width: 1180px; margin: 0 auto; }
+    .need-title { font-family: var(--font); font-size: clamp(38px, 4.6vw, 72px); font-weight: 700; line-height: 1; letter-spacing: -.04em; color: #fff; margin-bottom: 30px; }
+    .need-lead { font-size: clamp(17px, 1.4vw, 23px); line-height: 1.7; color: #fff; margin-bottom: 76px; }
+    .gaps-label { display: flex; align-items: center; gap: 24px; margin-bottom: 60px; }
+    .gaps-label span { font-size: 22px; letter-spacing: .14em; text-transform: uppercase; color: #c9a6ff; font-weight: 700; white-space: nowrap; }
+    .gaps-rule { flex: 1; height: 1px; background: rgba(255,255,255,.18); }
+    .gaps-grid { display: grid; grid-template-columns: 1fr minmax(300px, 440px) 1fr; gap: 54px; align-items: center; }
+    .gaps-col { display: flex; flex-direction: column; gap: 64px; }
+    .gaps-right { text-align: left; }
+    .gaps-image { aspect-ratio: 4 / 5; border-radius: 4px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,.5); }
+    .gaps-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gap-num { color: #a100ff; font-size: 14px; font-weight: 700; letter-spacing: .14em; margin-bottom: 15px; }
+    .gap-title { font-size: clamp(19px, 1.45vw, 25px); font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 16px; }
+    .gap-underline { width: 34px; height: 2px; background: #a100ff; margin-bottom: 20px; }
+    .gap-desc { font-size: 18.5px; line-height: 1.6; color: #fff; }
+    /* "fill the gap" interactive closer */
+    .gaps-fill { display: flex; align-items: center; gap: 32px; margin-top: 88px; }
+    .gaps-fill-rule { flex: 1; height: 2px; background: rgba(255,255,255,.2); }
+    .gaps-fill-text {
+      font-style: italic; font-weight: 500; font-size: clamp(19px, 1.7vw, 28px);
+      color: #fff; white-space: nowrap; padding: 0 2px;
+      clip-path: inset(0 100% 0 0); will-change: clip-path;
+    }
+    @media (max-width: 640px) { .gaps-fill-text { white-space: normal; text-align: center; } }
+    @media (max-width: 900px) {
+      .need-section { padding: 90px 28px 100px; }
+      .gaps-grid { grid-template-columns: 1fr; gap: 48px; }
+      .gaps-col { gap: 48px; }
+      .gaps-right { text-align: left; }
+      .gaps-right .gap-underline { margin-left: 0; }
+      .gaps-image { order: -1; aspect-ratio: 16 / 10; }
+    }
+
     /* ── GLOBAL INNOVATION LAB FRAMEWORK ── */
-    .gilf-section { padding: 160px 80px 170px; background: #0a0a0c; position: relative; overflow: hidden; }
-    .gilf-section::before {
-      content: ''; position: absolute; bottom: -120px; left: -120px; width: 640px; height: 540px;
-      background: radial-gradient(ellipse at 25% 75%, rgba(161,0,255,.12) 0%, rgba(161,0,255,.035) 45%, transparent 72%);
-      filter: blur(60px); pointer-events: none;
+    .gilf-section { padding: 36px 80px 150px; background: #0a0a0c; position: relative; overflow: hidden; }
+    .gilf-inner { max-width: 1320px; margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+    .gilf-heading { font-size: clamp(38px, 4.6vw, 72px); font-weight: 700; line-height: 1; letter-spacing: -.04em; color: #fff; margin-bottom: 34px; }
+    .gilf-desc { font-size: clamp(17px, 1.35vw, 23px); line-height: 1.7; color: #fff; margin-bottom: 22px; }
+    .gilf-desc .hl { color: #b65cff; font-weight: 600; }
+    .gilf-art { display: flex; justify-content: center; }
+    .gilf-art svg { width: 100%; max-width: 700px; height: auto; color: #fff; }
+    .gilf-cta {
+      display: inline-flex; align-items: center; gap: 11px; margin-top: 22px;
+      background: #a100ff; color: #fff; font-size: 16px; font-weight: 600; letter-spacing: .01em;
+      padding: 16px 34px; border-radius: 6px; text-decoration: none;
+      transition: background .3s ease, transform .3s ease;
     }
-    .gilf-wrap { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
-    .gilf-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 48px; }
-    .gilf-statement {
-      display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .28em;
-      font-size: clamp(26px, 3.3vw, 52px); font-weight: 700; line-height: 1.32; letter-spacing: -.025em;
+    .gilf-cta i { font-size: 18px; transition: transform .3s ease; }
+    .gilf-cta:hover { background: #b62fff; transform: translateY(-2px); }
+    .gilf-cta:hover i { transform: translateX(4px); }
+    @media (max-width: 900px) {
+      .gilf-section { padding: 80px 28px 110px; }
+      .gilf-inner { grid-template-columns: 1fr; gap: 48px; }
+      .gilf-art { order: -1; }
+      .gilf-art svg { max-width: 360px; }
     }
-    .gilf-statement .who-word { margin-top: .12em; }
-    .gilf-statement .who-word-fg.hl { color: #b65cff; }
-    .gilf-tags { margin-top: 64px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-    .gilf-tags span { font-size: 13px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.85); }
-    .gilf-tags i { width: 5px; height: 5px; border-radius: 50%; background: #a100ff; display: inline-block; }
-    @media (max-width: 900px) { .gilf-section { padding: 110px 28px 120px; } }
   </style>
 </head>
 <body>
@@ -315,7 +386,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="who-we-are.html" class="nav-item active"><span class="label">Who We Are</span></a></li>
-      <li><a href="index.html#" class="nav-item"><span class="label">How We Do</span></a></li>
+      <li><a href="how-we-do.html" class="nav-item"><span class="label">How We Do</span></a></li>
       <li class="has-dropdown">
         <button type="button" class="nav-item" style="background:none;border:none;height:96px;">
           <span class="label">What We Offer <span class="chevron"></span></span>
@@ -330,6 +401,12 @@
     </ul>
   </nav>
 
+  <!-- ── SCROLL CUE ── -->
+  <div class="scroll-cue hidden" id="scroll-cue">
+    <span class="scroll-cue-text">Scroll</span>
+    <span class="scroll-cue-arrow"><i class="ph ph-caret-down"></i></span>
+  </div>
+
   <!-- ── WHO HERO ── -->
   <section class="who-hero">
     <div class="who-hero-image">
@@ -337,7 +414,7 @@
     </div>
     <div class="who-hero-right">
       <h1 class="who-hero-title">Engineering Human Intelligence for the AI Future</h1>
-      <p class="who-hero-sub">Building the labs, tools, and talent that move institutions from AI-curious to AI-capable.</p>
+      <p class="who-hero-sub">Building the labs, tools, and talent that move institutions from:<br>AI-curious &rarr; AI-capable.</p>
       <a href="contact.html" class="who-hero-btn">Join Us On Our Journey <i class="ph ph-arrow-right"></i></a>
     </div>
   </section>
@@ -469,15 +546,132 @@
     </div>
   </section>
 
+  <!-- ── NEED FOR INFRASTRUCTURE ── -->
+  <section class="need-section">
+    <div class="need-inner">
+      <h2 class="need-title who-intro-reveal">The Need for Innovation Infrastructure</h2>
+      <p class="need-lead who-intro-reveal">Artificial intelligence is transforming every industry — yet most institutions still lack the infrastructure to explore, test, and deploy it in real-world scenarios. Traditional classrooms weren't built for robotics, autonomous systems, or intelligent devices.</p>
+
+      <div class="gaps-label who-intro-reveal">
+        <span>The gaps institutions face</span>
+        <i class="gaps-rule"></i>
+      </div>
+
+      <div class="gaps-grid">
+        <div class="gaps-col gaps-left">
+          <div class="gap-item">
+            <div class="gap-num">01</div>
+            <h3 class="gap-title">No hands-on lab infrastructure</h3>
+            <div class="gap-underline"></div>
+            <p class="gap-desc">Students graduate without ever touching the tools industry actually uses — robotics, autonomous systems, or intelligent devices.</p>
+          </div>
+          <div class="gap-item">
+            <div class="gap-num">02</div>
+            <h3 class="gap-title">Curricula lag behind industry</h3>
+            <div class="gap-underline"></div>
+            <p class="gap-desc">What's taught in classrooms is years behind what employers expect on day one.</p>
+          </div>
+        </div>
+
+        <div class="gaps-image">
+          <img src="assets/about/hands.jpg" alt="A robotic hand reaching toward a human hand" />
+        </div>
+
+        <div class="gaps-col gaps-right">
+          <div class="gap-item">
+            <div class="gap-num">03</div>
+            <h3 class="gap-title">Workforces unprepared for AI roles</h3>
+            <div class="gap-underline"></div>
+            <p class="gap-desc">Institutions produce graduates who can't operate, let alone build, intelligent systems.</p>
+          </div>
+          <div class="gap-item">
+            <div class="gap-num">04</div>
+            <h3 class="gap-title">Dependency on external vendors</h3>
+            <div class="gap-underline"></div>
+            <p class="gap-desc">Every upgrade requires outside help — no in-house capability ever gets built.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gaps-fill" id="gaps-fill">
+        <span class="gaps-fill-rule"></span>
+        <span class="gaps-fill-text">This gap is what Brighture fills.</span>
+        <span class="gaps-fill-rule"></span>
+      </div>
+    </div>
+  </section>
+
   <!-- ── GLOBAL INNOVATION LAB FRAMEWORK ── -->
   <section class="gilf-section">
-    <div class="gilf-wrap">
-      <p class="gilf-eyebrow">The Framework</p>
-      <div class="gilf-statement" id="gilf-statement"></div>
-      <div class="gilf-tags">
-        <span>Artificial Intelligence</span><i></i>
-        <span>Robotics</span><i></i>
-        <span>Emerging Technologies</span>
+    <div class="gilf-inner">
+      <div class="gilf-text">
+        <h2 class="gilf-heading">The Brighture Global Innovation Lab Framework</h2>
+        <p class="gilf-desc">The <span class="hl">Brighture Global Innovation Lab Framework</span> empowers institutions and enterprises to build world-class ecosystems for artificial intelligence, robotics, and emerging technologies.</p>
+        <p class="gilf-desc">This framework enables schools, universities, innovation centers, and organizations to create <span class="hl">hands-on technology ecosystems</span> where ideas become <span class="hl">intelligent systems</span> and <span class="hl">real-world solutions</span>.</p>
+        <a href="how-we-do.html" class="gilf-cta">Learn More <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="gilf-art">
+        <svg viewBox="0 0 580 520" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- spokes: edge-to-edge, no crossing through the hub -->
+          <line x1="265" y1="212" x2="223" y2="138" />
+          <line x1="315" y1="212" x2="357" y2="138" />
+          <line x1="240" y1="255" x2="155" y2="255" />
+          <line x1="340" y1="255" x2="425" y2="255" />
+          <line x1="265" y1="298" x2="223" y2="372" />
+          <line x1="315" y1="298" x2="357" y2="372" />
+
+          <!-- central hub: Brighture chevron -->
+          <circle cx="290" cy="255" r="50" />
+          <path d="M270 265 L290 245 L310 265" stroke-width="2.4" />
+
+          <!-- institution / building (top-left) -->
+          <circle cx="198" cy="95" r="50" />
+          <path d="M180 89 L198 75 L216 89 Z" fill="#a100ff" stroke="none" />
+          <path d="M177 90 L198 73 L219 90" />
+          <path d="M181 90 H215" /><path d="M181 96 H215" />
+          <path d="M187 96 V114" /><path d="M198 96 V114" /><path d="M209 96 V114" />
+          <path d="M179 114 H217" /><path d="M175 120 H221" />
+
+          <!-- globe / network (top-right) -->
+          <circle cx="382" cy="95" r="50" />
+          <circle cx="382" cy="95" r="34" />
+          <ellipse cx="382" cy="95" rx="34" ry="13" />
+          <ellipse cx="382" cy="95" rx="13" ry="34" />
+          <path d="M348 95 H416" />
+          <circle cx="382" cy="95" r="5.5" fill="#a100ff" stroke="none" />
+
+          <!-- AI chip (left) -->
+          <circle cx="105" cy="255" r="50" />
+          <rect x="83" y="233" width="44" height="44" rx="4" />
+          <rect x="95" y="245" width="20" height="20" rx="2" fill="#a100ff" />
+          <path d="M91 233 V225" /><path d="M105 233 V225" /><path d="M119 233 V225" />
+          <path d="M91 277 V285" /><path d="M105 277 V285" /><path d="M119 277 V285" />
+          <path d="M83 243 H75" /><path d="M83 255 H75" /><path d="M83 267 H75" />
+          <path d="M127 243 H135" /><path d="M127 255 H135" /><path d="M127 267 H135" />
+
+          <!-- lab flask (right) -->
+          <circle cx="475" cy="255" r="50" />
+          <path d="M468 237 h14 M471 237 v9 l-12 26 a5 5 0 0 0 5 7 h24 a5 5 0 0 0 5 -7 l-12 -26 v-9" />
+          <path d="M460 269 L459 272 a5 5 0 0 0 5 7 h24 a5 5 0 0 0 5 -7 L490 269 Z" fill="#a100ff" stroke="none" />
+          <path d="M459 269 H491" />
+          <circle cx="468" cy="275" r="2" fill="#fff" stroke="none" />
+
+          <!-- gear / engineering (bottom-left) -->
+          <circle cx="198" cy="415" r="50" />
+          <circle cx="198" cy="415" r="18" />
+          <circle cx="198" cy="415" r="7" fill="#a100ff" />
+          <path d="M198 397 V389" /><path d="M198 433 V441" />
+          <path d="M180 415 H172" /><path d="M216 415 H224" />
+          <path d="M185 402 L179 396" /><path d="M211 402 L217 396" />
+          <path d="M185 428 L179 434" /><path d="M211 428 L217 434" />
+
+          <!-- graduation cap (bottom-right) -->
+          <circle cx="382" cy="415" r="50" />
+          <path d="M382 399 L408 409 L382 419 L356 409 Z" />
+          <path d="M368 414 v9 q14 7 28 0 v-9" />
+          <path d="M408 409 V423" />
+          <circle cx="408" cy="425" r="3" fill="#a100ff" stroke="none" />
+        </svg>
       </div>
     </div>
   </section>
@@ -566,6 +760,50 @@
       update();
     })();
 
+    // "FILL THE GAP" — wipe the closer text in left-to-right as it scrolls up
+    (function () {
+      var wrap = document.getElementById('gaps-fill');
+      if (!wrap) return;
+      var text = wrap.querySelector('.gaps-fill-text');
+      function update() {
+        var r = wrap.getBoundingClientRect();
+        var vh = window.innerHeight;
+        // 0 when the line is near the bottom of the viewport, 1 once it reaches the upper-middle
+        var p = (vh * 0.9 - r.top) / (vh * 0.42);
+        p = Math.max(0, Math.min(1, p));
+        text.style.clipPath = 'inset(0 ' + ((1 - p) * 100).toFixed(2) + '% 0 0)';
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    // SCROLL CUE — appears only near the end of the intro (2nd) section,
+    // then disappears for good once the Mission card slides into view.
+    (function () {
+      var cue = document.getElementById('scroll-cue');
+      var intro = document.querySelector('.who-intro');
+      var mission = document.querySelector('.card-mission');
+      if (!cue || !intro || !mission) return;
+      var seen = false;
+
+      function missionVisible() {
+        var r = mission.getBoundingClientRect();
+        return r.bottom > 0 && r.top < window.innerHeight && r.right > 0 && r.left < window.innerWidth;
+      }
+      function update() {
+        if (seen) { cue.classList.add('hidden'); return; }
+        if (missionVisible()) { seen = true; cue.classList.add('hidden'); return; }
+        var bottom = intro.getBoundingClientRect().bottom;
+        // show only when the bottom of the intro section is near / past the viewport bottom
+        if (bottom <= window.innerHeight * 1.1) cue.classList.remove('hidden');
+        else cue.classList.add('hidden');
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
     // WHO INTRO REVEAL
     (function () {
       var els = document.querySelectorAll('.who-intro-reveal');
@@ -647,7 +885,7 @@
       var frags = [
         { t: 'The Brighture Global Innovation Lab Framework empowers institutions and enterprises to build world-class ecosystems for' },
         { t: 'artificial intelligence, robotics, and emerging technologies', hl: true },
-        { t: '— enabling schools, universities, and innovation centers to turn ideas into' },
+        { t: '— enabling schools, universities, and innovation centers to create hands-on technology ecosystems where ideas become' },
         { t: 'intelligent systems and real-world solutions.', hl: true }
       ];
 
