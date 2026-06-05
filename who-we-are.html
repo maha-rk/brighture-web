@@ -123,6 +123,18 @@
     .who-hero-btn:hover { background: #b62fff; transform: translateY(-2px); }
     .who-hero-btn:hover i { transform: translateX(4px); }
 
+    /* ── MASKED TEXT ── */
+    .masked-section { background: #0a0a0c; padding: 70px 40px 110px; text-align: center; }
+    .masked-text {
+      font-size: clamp(64px, 16vw, 280px); font-weight: 800; line-height: .9;
+      letter-spacing: -.045em; margin: 0;
+      background-image: url('assets/about/masked.jpg');
+      background-size: cover; background-position: center;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+    }
+    .masked-text span { display: block; }
+
     /* ── WHO INTRO ── */
     .who-intro { padding: 120px 80px 100px; background: #0a0a0c; }
     .who-intro-inner { max-width: 860px; margin: 0 auto; }
@@ -324,9 +336,14 @@
     </div>
     <div class="who-hero-right">
       <h1 class="who-hero-title">Engineering Human Intelligence for the AI Future</h1>
-      <p class="who-hero-sub">A global platform helping institutions lead with confidence in the age of artificial intelligence.</p>
+      <p class="who-hero-sub">Building the labs, tools, and talent that move institutions from AI-curious to AI-capable.</p>
       <a href="contact.html" class="who-hero-btn">Join Us On Our Journey <i class="ph ph-arrow-right"></i></a>
     </div>
+  </section>
+
+  <!-- ── MASKED TEXT ── -->
+  <section class="masked-section">
+    <h2 class="masked-text"><span>Intelligence,</span><span>Simplified.</span></h2>
   </section>
 
   <!-- ── WHO INTRO ── -->
