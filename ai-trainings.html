@@ -992,13 +992,20 @@
       var FAST   = 3.4;
 
       function makeWheel(wrap, labelText) {
-        wrap.innerHTML = '';
+        // Remove old SVG but KEEP arc-icon (shows in centre)
+        var oldSvg = wrap.querySelector('.arc-svg');
+        if (oldSvg) oldSvg.remove();
+        var oldWheel = wrap.querySelector('.spin-wheel');
+        if (oldWheel) oldWheel.remove();
+
         var t = labelText + ' • ';
         while (t.length < 20) t += labelText + ' • ';
         t = t.slice(0, 30);
         var r = 32;
         var div = document.createElement('div');
-        div.style.cssText = 'position:relative;width:76px;height:76px;';
+        div.className = 'spin-wheel';
+        // Absolutely centred inside arc-wrap; rotation applied in tick()
+        div.style.cssText = 'position:absolute;width:76px;height:76px;top:50%;left:50%;';
         Array.from(t).forEach(function(ch, i) {
           var deg = (360 / t.length) * i;
           var rad = deg * Math.PI / 180;
@@ -1009,7 +1016,11 @@
           s.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translate('+x.toFixed(2)+'px,'+y.toFixed(2)+'px) rotate('+deg.toFixed(2)+'deg);font-size:8.5px;font-weight:800;color:rgba(255,255,255,.85);user-select:none;line-height:1;font-family:Inter,sans-serif;letter-spacing:0;';
           div.appendChild(s);
         });
-        wrap.appendChild(div);
+        // Insert BEFORE arc-icon so icon sits on top
+        var icon = wrap.querySelector('.arc-icon');
+        if (icon) wrap.insertBefore(div, icon);
+        else wrap.appendChild(div);
+
         div._angle = 0; div._speed = NORMAL; div._target = NORMAL;
         return div;
       }
@@ -1029,7 +1040,8 @@
         wheels.forEach(function(w) {
           w._speed += (w._target - w._speed) * 0.09;
           w._angle += w._speed;
-          w.style.transform = 'rotate(' + w._angle + 'deg)';
+          // translate(-50%,-50%) centres the wheel; then rotate around its own centre
+          w.style.transform = 'translate(-50%,-50%) rotate(' + w._angle + 'deg)';
         });
         requestAnimationFrame(tick);
       })();
