@@ -360,23 +360,6 @@
     }
     .hero-spline spline-viewer.loaded { opacity: 1; }
 
-    .robot-loader {
-      position: absolute;
-      top: 50%; left: 55%;
-      transform: translate(-50%, -50%);
-      z-index: 3; pointer-events: none;
-      transition: opacity 0.5s ease;
-    }
-    .robot-loader.hidden { opacity: 0; pointer-events: none; }
-    .robot-loader-pulse {
-      width: 120px; height: 120px; border-radius: 50%;
-      border: 1.5px solid rgba(161,0,255,.3);
-      animation: robotPulse 1.6s ease-in-out infinite;
-    }
-    @keyframes robotPulse {
-      0%, 100% { transform: scale(0.95); opacity: 0.4; box-shadow: 0 0 0 0 rgba(161,0,255,.35); }
-      50%       { transform: scale(1.05); opacity: 0.8; box-shadow: 0 0 0 16px rgba(161,0,255,0); }
-    }
 
     spline-viewer::part(logo),
     spline-viewer::part(watermark) {
@@ -2461,10 +2444,7 @@
     </div>
     <div class="hero-spline">
       <div class="robot-glow"></div>
-      <div class="robot-loader" id="robotLoader">
-        <div class="robot-loader-pulse"></div>
-      </div>
-      <spline-viewer url="https://prod.spline.design/brxdeKpGd5NEsV5C/scene.splinecode" events-target="global"></spline-viewer>
+<spline-viewer url="https://prod.spline.design/brxdeKpGd5NEsV5C/scene.splinecode" events-target="global"></spline-viewer>
     </div>
   </section>
 
@@ -2958,26 +2938,15 @@
     })();
 
     // SPLINE CURSOR RELAY
-    // ROBOT LOADER — reveal spline viewer once it has loaded
+    // ROBOT — fade in spline viewer once loaded
     (function () {
       var sv = document.querySelector('.hero-spline spline-viewer');
-      var loader = document.getElementById('robotLoader');
       if (!sv) return;
-      function onLoad() {
-        sv.classList.add('loaded');
-        if (loader) loader.classList.add('hidden');
-      }
-      sv.addEventListener('load', onLoad);
-      // Fallback: hide loader after 6s regardless
-      setTimeout(function() {
-        if (!sv.classList.contains('loaded')) {
-          sv.classList.add('loaded');
-          if (loader) loader.classList.add('hidden');
-        }
-      }, 6000);
+      sv.addEventListener('load', function() { sv.classList.add('loaded'); });
+      setTimeout(function() { sv.classList.add('loaded'); }, 6000);
     })();
 
-    // spline-viewer listens on the *window* for pointermove/mousemove.
+// spline-viewer listens on the *window* for pointermove/mousemove.
     // The .lbp-thumb cards capture those events (pointer-events:auto) so
     // Spline never sees them. We re-fire an identical synthetic event on
     // the window so Spline's internal listener picks it up as if the cards
