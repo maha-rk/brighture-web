@@ -6,7 +6,7 @@
   <title>How We Do — Brighture</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@400&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,12 +58,12 @@
     .hwd-hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
     .hwd-hero-image::after {
       content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(135deg, rgba(120,30,210,.26) 0%, rgba(60,12,130,.14) 55%, rgba(20,6,45,.28) 100%);
-      mix-blend-mode: screen; opacity: .5;
+      background: linear-gradient(135deg, rgba(120,30,210,.12) 0%, rgba(60,12,130,.06) 55%, rgba(20,6,45,.14) 100%);
+      mix-blend-mode: screen; opacity: .35;
     }
     .hwd-hero-image::before {
       content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
-      background: rgba(86,22,160,.13);
+      background: rgba(86,22,160,.05);
     }
     .hwd-hero-right {
       display: flex; flex-direction: column; justify-content: flex-start;
@@ -171,10 +171,10 @@
     }
 
     /* PLATFORM COMPARISON */
-    .cmp-section { background: #0a0a0c; padding: 30px 80px 70px; }
+    .cmp-section { background: #0a0a0c; padding: 30px 80px 0; }
     .cmp-inner { max-width: 1180px; margin: 0 auto; }
     .cmp-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #a100ff; margin-bottom: 20px; }
-    .cmp-title { font-size: clamp(34px, 4vw, 60px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; color: #fff; margin-bottom: 22px; }
+    .cmp-title { font-size: clamp(28px, 3.2vw, 48px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; color: #fff; margin-bottom: 22px; text-align: center; }
     .cmp-lead { font-size: clamp(16px, 1.3vw, 20px); line-height: 1.65; color: #fff; max-width: none; margin-bottom: 48px; }
 
     /* framed, ruled table — matches the Product Specifications aesthetic */
@@ -220,111 +220,115 @@
     .cmp-grid > *:nth-last-child(-n+4) { border-bottom: none; }
 
     .cmp-footnote {
-      margin-top: 26px; font-size: 14px; font-style: italic; font-weight: 600;
+      margin-top: 14px; margin-bottom: 10px; font-size: 14px; font-style: italic; font-weight: 600;
       color: #b794f6; display: flex; align-items: center; gap: 9px;
     }
     .cmp-footnote i { font-size: 17px; color: #a100ff; }
 
     /* ── FOUR PILLARS ── */
 
-    /* ── INNOVATION JOURNEY — BOARD GAME ── */
-    .board-section { background: #0a0a0c; padding: 120px 80px; }
-    .board-inner { max-width: 1140px; margin: 0 auto; }
-    .board-hdr { text-align: center; margin-bottom: 64px; }
+    /* ── EXPANDABLE DRAWERS JOURNEY ── */
+    .drawers-section { background: #0a0a0c; padding: 120px 80px 160px; }
+    .drawers-inner   { max-width: 1240px; margin: 0 auto; }
+    .drawers-hdr     { text-align: center; margin-bottom: 48px; padding-top: 0; }
     .board-eyebrow {
       display: block; font-size: 11px; font-weight: 700;
       letter-spacing: .22em; text-transform: uppercase;
       color: #a100ff; margin-bottom: 16px;
     }
     .board-title {
-      font-size: clamp(32px, 4vw, 60px); font-weight: 800;
+      font-size: clamp(32px, 4vw, 58px); font-weight: 800;
       letter-spacing: -.03em; color: #fff; line-height: 1.05;
     }
-    .board-wrap {
-      position: relative; border: 2px solid rgba(255,255,255,.1);
-      border-radius: 8px; overflow: hidden;
-      box-shadow: 0 0 100px rgba(161,0,255,.06), 0 40px 120px rgba(0,0,0,.5);
-    }
-    .board-svg {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 5;
-    }
-    .board-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 1px; background: rgba(255,255,255,.07);
-    }
-    .sq {
-      position: relative; background: #0c0c1a;
-      padding: 26px 22px 24px;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      min-height: 265px; overflow: hidden;
-    }
-    .sq-alt { background: #0e0e1e; }
-    .sq-red   { background: #110809; justify-content: flex-start; box-shadow: inset 4px 0 0 rgba(239,68,68,.5); }
-    .sq-blue  { background: #080c19; justify-content: flex-start; box-shadow: inset 4px 0 0 rgba(59,130,246,.5); }
-    .sq-amber { background: #120e04; justify-content: flex-start; box-shadow: inset 4px 0 0 rgba(245,158,11,.5); }
-    .sq-green { background: #040f0c; justify-content: flex-start; box-shadow: inset 4px 0 0 rgba(16,185,129,.5); }
-    .sq-red::before, .sq-blue::before, .sq-amber::before, .sq-green::before {
-      content: attr(data-gn);
-      position: absolute; right: -0.06em; bottom: -0.15em;
-      font-size: 6em; font-weight: 900; line-height: 1;
-      color: #fff; opacity: .03; pointer-events: none; user-select: none;
-    }
-    .sq-n {
-      position: absolute; top: 11px; right: 13px;
-      font-size: 10px; font-weight: 800; letter-spacing: .15em;
-      color: rgba(255,255,255,.15);
-    }
-    .sq-badge {
-      display: inline-block; align-self: flex-start;
-      font-size: 8px; font-weight: 800; letter-spacing: .22em;
-      text-transform: uppercase; padding: 3px 7px; border-radius: 2px; margin-bottom: 12px;
-    }
-    .sq-badge-s { background: rgba(239,68,68,.15); color: #f87171; border: 1px solid rgba(239,68,68,.35); }
-    .sq-badge-f { background: rgba(16,185,129,.15); color: #34d399; border: 1px solid rgba(16,185,129,.35); }
-    .sq-icon { font-size: 34px; margin-bottom: 10px; }
-    .sq-red   .sq-icon { color: #ef4444; }
-    .sq-blue  .sq-icon { color: #3b82f6; }
-    .sq-amber .sq-icon { color: #f59e0b; }
-    .sq-green .sq-icon { color: #10b981; }
-    .sq-slabel {
-      font-size: 9px; font-weight: 800; letter-spacing: .22em;
-      text-transform: uppercase; margin-bottom: 6px;
-    }
-    .sq-red   .sq-slabel { color: #f87171; }
-    .sq-blue  .sq-slabel { color: #60a5fa; }
-    .sq-amber .sq-slabel { color: #fbbf24; }
-    .sq-green .sq-slabel { color: #34d399; }
-    .sq-title {
-      font-size: clamp(17px, 1.5vw, 23px); font-weight: 800;
-      letter-spacing: -.02em; color: #fff; line-height: 1.1; margin-bottom: 10px;
-    }
-    .sq-desc {
-      font-size: clamp(12px, .9vw, 14px); line-height: 1.65;
-      color: rgba(255,255,255,.5);
-    }
-    .sq-icon-sm { font-size: 22px; color: rgba(255,255,255,.22); margin-bottom: 8px; }
-    .sq-mini { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.42); margin-bottom: 3px; }
-    .sq-mini-sub { font-size: 11px; color: rgba(255,255,255,.22); line-height: 1.4; }
-    @media (max-width: 900px) {
-      .board-section { padding: 80px 24px; }
-      .board-grid { grid-template-columns: repeat(2, 1fr); }
-      .board-svg { display: none; }
-      .sq { min-height: 200px; }
-    }
-    @media (max-width: 540px) {
-      .board-grid { grid-template-columns: 1fr; }
-      .sq { min-height: 160px; }
+
+    .drawers-wrap {
+      border-radius: 0 0 40px 40px;
+      overflow: hidden;
     }
 
-    .hwd-pillars { height: 700vh; position: relative; }
+    .drawer {
+      position: relative;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      cursor: pointer;
+    }
+    .drawer:last-child { border-bottom: none; }
+
+    .drawer-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 60px 0 40px; height: 98px;
+      position: relative; overflow: hidden; user-select: none;
+    }
+    /* exact Framer purple shades per drawer */
+    .drawer-bar::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      transition: background .3s;
+    }
+    .drawer-1 .drawer-bar::before { background: rgb(233,224,255); }
+    .drawer-2 .drawer-bar::before { background: rgb(206,189,252); }
+    .drawer-3 .drawer-bar::before { background: rgb(175,146,252); }
+    .drawer-4 .drawer-bar::before { background: rgb(133,90,250); }
+    /* hover sweep — subtle dark edge on light bg */
+    .drawer-bar::after {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(90deg, rgba(255,255,255,.28) 0%, rgba(0,0,0,.07) 100%);
+      opacity: 0; pointer-events: none; transition: opacity .28s;
+    }
+    .drawer:hover .drawer-bar::after { opacity: 1; }
+
+    .drawer-title {
+      font-size: clamp(22px, 2.4vw, 34px); font-weight: 700;
+      letter-spacing: -.025em; color: #1c1c1c;
+      position: relative; z-index: 2;
+    }
+
+    .drawer-num {
+      font-family: 'Oswald', 'Inter', sans-serif;
+      font-size: clamp(60px, 6.5vw, 92px); font-weight: 400; line-height: 1;
+      color: rgba(255,255,255,.75); position: relative; z-index: 2;
+      padding-top: 30px;
+      transition: padding-top .45s cubic-bezier(.44,0,.16,1);
+    }
+    .drawer.is-open .drawer-num { padding-top: 0; }
+
+    /* Expandable content — white panel with black text */
+    .drawer-content {
+      max-height: 0; overflow: hidden; opacity: 0;
+      background: #fff;
+      transition: max-height .62s cubic-bezier(.44,0,.16,1), opacity .35s ease .15s;
+    }
+    .drawer.is-open .drawer-content { max-height: 600px; opacity: 1; }
+
+    .drawer-cols {
+      display: flex; flex-direction: row; justify-content: space-between;
+      padding: 52px 50px 68px; gap: 32px;
+    }
+    .drawer-col { flex: 1; }
+    .drawer-col:nth-child(2) { padding-top: 60px; }
+    .drawer-col:nth-child(3) { padding-top: 120px; }
+
+    .drawer-col-title {
+      font-size: clamp(20px, 1.9vw, 26px); font-weight: 700;
+      letter-spacing: -.02em; color: #121212; line-height: 1.2; margin-bottom: 12px;
+    }
+    .drawer-col-desc {
+      font-size: 17px; line-height: 1.72; color: #444;
+    }
+
+    @media (max-width: 960px) {
+      .drawers-section { padding: 80px 24px 100px; }
+      .drawer-bar { padding: 0 24px; height: 78px; }
+      .drawer-cols { flex-direction: column; padding: 32px 24px 48px; gap: 28px; }
+      .drawer-col:nth-child(2), .drawer-col:nth-child(3) { padding-top: 0; }
+      .drawer.is-open .drawer-content { max-height: 1600px; }
+    }
+
+    .hwd-pillars { height: 300vh; position: relative; margin-top: -30px; }
     .hwd-pillars-inner { position: sticky; top: 0; height: 100vh; overflow: hidden; background: #0a0a0c; }
     .hwd-pillars-title {
-      position: absolute; top: 0; left: 0; right: 0; z-index: 20;
-      padding: 98px 40px 30px; text-align: center;
-      font-size: clamp(34px, 5.4vw, 80px); font-weight: 900; letter-spacing: -.045em;
-      line-height: 1.04; color: #fff; pointer-events: none; user-select: none;
-      white-space: nowrap;
+      position: absolute; top: 96px; left: 0; right: 0; z-index: 25;
+      padding: 28px 40px 24px; text-align: center;
+      font-size: clamp(36px, 4.6vw, 64px); font-weight: 800; letter-spacing: -.03em;
+      line-height: 1.02; color: #fff; pointer-events: none; user-select: none;
       text-shadow: 0 2px 30px rgba(0,0,0,.6);
       background: linear-gradient(to bottom, rgba(10,10,12,.97) 74%, transparent 100%);
     }
@@ -361,19 +365,56 @@
       .cmp-feat::before { display: none; }
     }
 
+    .section-sub { font-size: clamp(16px, 1.3vw, 19px); line-height: 1.7; color: #fff; max-width: 680px; margin: 16px auto 0; text-align: center; }
+    .section-sub.left { text-align: left; margin-left: 0; }
+
     /* PROCESS */
     .hwd-process { padding: 40px 80px 160px; max-width: 1180px; margin: 0 auto; }
-    .hwd-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; border-top: 1px solid rgba(255,255,255,.12); }
-    .hwd-step { padding: 54px 50px 54px 0; border-bottom: 1px solid rgba(255,255,255,.12); }
-    .hwd-step:nth-child(odd) { padding-right: 60px; border-right: 1px solid rgba(255,255,255,.12); padding-left: 0; }
+    .hwd-process-label { font-size: clamp(28px, 3vw, 46px); font-weight: 800; letter-spacing: -.025em; color: #fff; margin-bottom: 48px; line-height: 1.1; }
+    .hwd-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; border-top: 2px solid rgba(255,255,255,.28); }
+    .hwd-step { padding: 54px 50px 54px 0; border-bottom: 2px solid rgba(255,255,255,.28); }
+    .hwd-step:nth-child(odd) { padding-right: 60px; border-right: 2px solid rgba(255,255,255,.28); padding-left: 0; }
     .hwd-step:nth-child(even) { padding-left: 60px; }
     .hwd-step-num { font-size: 14px; font-weight: 700; letter-spacing: .14em; color: #a100ff; margin-bottom: 22px; }
     .hwd-step-title { font-size: clamp(24px, 2vw, 34px); font-weight: 700; letter-spacing: -.02em; color: #fff; margin-bottom: 16px; }
-    .hwd-step-desc { font-size: 17px; line-height: 1.65; color: rgba(255,255,255,.62); max-width: 460px; }
+    .hwd-step-desc { font-size: 17px; line-height: 1.65; color: #fff; max-width: 460px; }
     .hwd-step i { font-size: 30px; color: #a100ff; margin-bottom: 24px; display: block; }
 
+    /* SCROLL HINT */
+    .scroll-hint {
+      position: fixed; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      z-index: 200; pointer-events: none;
+      opacity: 0; transition: opacity .5s ease;
+    }
+    .scroll-hint.visible { opacity: 1; }
+    .scroll-hint-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .22em;
+      text-transform: uppercase; color: rgba(255,255,255,.55);
+    }
+    .scroll-hint-arrow {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1.5px solid rgba(161,0,255,.5);
+      display: flex; align-items: center; justify-content: center;
+      animation: scrollBounce 1.4s ease-in-out infinite;
+    }
+    .scroll-hint-arrow svg { width: 14px; height: 14px; }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+
     /* CTA */
-    .hwd-cta-section { padding: 0 80px 170px; max-width: 1180px; margin: 0 auto; text-align: center; }
+    .hwd-cta-section {
+      position: relative; text-align: center;
+      background-image: url('https://images.pexels.com/photos/29067690/pexels-photo-29067690.jpeg?auto=compress&cs=tinysrgb&w=1920');
+      background-size: cover; background-position: center;
+    }
+    .hwd-cta-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(5,0,15,.72);
+    }
+    .hwd-cta-inner { position: relative; z-index: 1; padding: 120px 80px 140px; max-width: 1180px; margin: 0 auto; }
     .hwd-cta-title { font-size: clamp(30px, 3.4vw, 56px); font-weight: 800; letter-spacing: -.03em; color: #fff; line-height: 1.08; margin-bottom: 36px; }
     .hwd-cta { display: inline-flex; align-items: center; gap: 11px; background: #a100ff; color: #fff; font-size: 16px; font-weight: 600; padding: 17px 38px; border-radius: 6px; text-decoration: none; transition: background .3s ease, transform .3s ease; }
     .hwd-cta i { font-size: 18px; transition: transform .3s ease; }
@@ -388,7 +429,7 @@
       .hwd-process { padding: 20px 28px 110px; }
       .hwd-steps { grid-template-columns: 1fr; }
       .hwd-step, .hwd-step:nth-child(odd), .hwd-step:nth-child(even) { padding: 44px 0; border-right: none; }
-      .hwd-cta-section { padding: 0 28px 120px; }
+      .hwd-cta-inner { padding: 80px 28px 100px; }
     }
   </style>
 </head>
@@ -443,7 +484,7 @@
 
       <!-- 1: Adaptive AI Learning -->
       <div class="lms-card">
-        <img class="lms-card-img" src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=800&q=80" alt="Adaptive AI Learning" />
+        <img class="lms-card-img" src="assets/lms/feature1.png" alt="Adaptive AI Learning" />
         <div class="lms-card-tint"></div>
         <div class="lms-card-gradient"></div>
         <div class="lms-card-front">
@@ -459,7 +500,7 @@
 
       <!-- 2: Future-Tech Curriculum Stack -->
       <div class="lms-card">
-        <img class="lms-card-img" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80" alt="Future-Tech Curriculum Stack" />
+        <img class="lms-card-img" src="https://images.unsplash.com/photo-1717967358042-16a11cde30f9?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0" alt="Future-Tech Curriculum Stack" />
         <div class="lms-card-tint"></div>
         <div class="lms-card-gradient"></div>
         <div class="lms-card-front">
@@ -551,7 +592,7 @@
   <section class="cmp-section">
     <div class="cmp-inner">
       <h2 class="cmp-title">Why Brighture LMS Stands Out</h2>
-      <p class="cmp-lead">A learning platform built from the ground up around AI, hands-on practice, and future-tech innovation — to empower the creators, engineers, and problem-solvers of tomorrow.</p>
+      <p class="cmp-lead">A learning platform built from the ground up around AI, hands-on practice, and future-tech innovation — to empower the creators, engineers, and problem-solvers of tomorrow. But the platform is only one layer of what makes Brighture different.</p>
 
       <div class="cmp-grid">
         <!-- header -->
@@ -604,8 +645,8 @@
   <!-- ── FOUR PILLARS ── -->
   <section class="hwd-pillars">
     <div class="hwd-pillars-inner">
-
-      <h2 class="hwd-pillars-title">The Four Pillars of the Brighture<br>Global Innovation Lab Framework</h2>
+      <h2 class="hwd-pillars-title" style="text-align:center">The Four Pillars of the<br>Brighture Global Innovation Lab Framework</h2>
+      <p class="hwd-pillars-sub">Every Brighture lab is built on four interlocking pillars — the infrastructure, culture, and capability that turn institutions into engines of real innovation.</p>
 
       <!-- Card 1: Technology Infrastructure (Red, from left) -->
       <div class="hwd-pin-card hwd-p1">
@@ -678,159 +719,133 @@
   </section>
 
   <!-- BOARD GAME JOURNEY -->
-  <section class="board-section">
-    <div class="board-inner">
-      <div class="board-hdr">
-        <span class="board-eyebrow">The Brighture Innovation Journey</span>
+  <section class="drawers-section">
+    <div class="drawers-inner">
+      <div class="drawers-hdr">
         <h2 class="board-title reveal">Navigate Your Path to Innovation</h2>
+        <p class="section-sub reveal">Inside every lab, students move through four stages — from first contact with technology all the way to launching their own ventures and research.</p>
       </div>
-      <div class="board-wrap">
 
-        <!-- SVG snake path overlay — viewBox 0 0 4 3 maps to 4 cols × 3 rows -->
-        <svg class="board-svg" viewBox="0 0 4 3" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <marker id="arr" viewBox="0 0 8 8" refX="8" refY="4"
-                    markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M0 0 L8 4 L0 8 z" fill="#a100ff" opacity=".9"/>
-            </marker>
-          </defs>
-          <!-- glow trail -->
-          <path d="M 0.5 2.5 H 3.5 V 1.5 H 0.5 V 0.5 H 3.5"
-                fill="none" stroke="rgba(161,0,255,.13)" stroke-width="0.22" stroke-linecap="round"/>
-          <!-- directional segments with arrowheads -->
-          <path d="M 0.5 2.5 H 3.5"   fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
-          <path d="M 3.5 2.45 V 1.55" fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
-          <path d="M 3.5 1.5 H 0.5"   fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
-          <path d="M 0.55 1.5 V 0.55" fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
-          <path d="M 0.5 0.5 H 3.5"   fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
-        </svg>
+      <div class="drawers-wrap">
 
-        <div class="board-grid">
-
-          <!-- ROW 1 — TOP OF BOARD — squares 9→12, path flows → -->
-          <div class="sq sq-amber" data-gn="09">
-            <span class="sq-n">09</span>
-            <i class="ph ph-lightbulb sq-icon"></i>
-            <p class="sq-slabel">Step 03</p>
-            <h3 class="sq-title">Innovation</h3>
-            <p class="sq-desc">Students develop solutions for real-world challenges using intelligent systems.</p>
+        <!-- Drawer 1 — Exploration -->
+        <div class="drawer drawer-1 reveal">
+          <div class="drawer-bar">
+            <span class="drawer-title">Exploration</span>
+            <span class="drawer-num">01</span>
           </div>
-          <div class="sq sq-alt">
-            <span class="sq-n">10</span>
-            <i class="ph ph-magnifying-glass sq-icon-sm"></i>
-            <p class="sq-mini">Deep Research</p>
-            <p class="sq-mini-sub">Investigate and challenge assumptions</p>
+          <div class="drawer-content">
+            <div class="drawer-cols">
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Hands-On Experimentation</h4>
+                <p class="drawer-col-desc">Students discover emerging technologies by diving straight into building — trying, failing, and learning through direct, real experience.</p>
+              </div>
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Team Collaboration</h4>
+                <p class="drawer-col-desc">Working alongside peers from different backgrounds, students challenge assumptions and combine diverse skills to tackle complex problems.</p>
+              </div>
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Guided Discovery</h4>
+                <p class="drawer-col-desc">Experienced mentors help students navigate the landscape, connecting curiosity to real-world impact and meaningful opportunity.</p>
+              </div>
+            </div>
           </div>
-          <div class="sq">
-            <span class="sq-n">11</span>
-            <i class="ph ph-rocket sq-icon-sm"></i>
-            <p class="sq-mini">Launch</p>
-            <p class="sq-mini-sub">Ship your project to the real world</p>
-          </div>
-          <div class="sq sq-green" data-gn="12">
-            <span class="sq-n">12</span>
-            <span class="sq-badge sq-badge-f">Finish</span>
-            <i class="ph ph-graduation-cap sq-icon"></i>
-            <p class="sq-slabel">Step 04</p>
-            <h3 class="sq-title">Research &amp;<br>Entrepreneurship</h3>
-            <p class="sq-desc">Advanced innovators explore research and technology entrepreneurship.</p>
-          </div>
-
-          <!-- ROW 2 — MIDDLE — displayed 8,7,6,5 left→right; path flows 5←6←7←8 -->
-          <div class="sq">
-            <span class="sq-n">08</span>
-            <i class="ph ph-presentation-chart sq-icon-sm"></i>
-            <p class="sq-mini">Present</p>
-            <p class="sq-mini-sub">Show your work to peers and mentors</p>
-          </div>
-          <div class="sq sq-alt">
-            <span class="sq-n">07</span>
-            <i class="ph ph-arrows-clockwise sq-icon-sm"></i>
-            <p class="sq-mini">Iterate</p>
-            <p class="sq-mini-sub">Refine, improve, and keep building</p>
-          </div>
-          <div class="sq">
-            <span class="sq-n">06</span>
-            <i class="ph ph-paint-brush sq-icon-sm"></i>
-            <p class="sq-mini">Create</p>
-            <p class="sq-mini-sub">Build something entirely your own</p>
-          </div>
-          <div class="sq sq-alt">
-            <span class="sq-n">05</span>
-            <i class="ph ph-hand-pointing sq-icon-sm"></i>
-            <p class="sq-mini">Apply</p>
-            <p class="sq-mini-sub">Turn knowledge into real outcomes</p>
-          </div>
-
-          <!-- ROW 3 — BOTTOM OF BOARD — squares 1→4, path flows → -->
-          <div class="sq sq-red" data-gn="01">
-            <span class="sq-n">01</span>
-            <span class="sq-badge sq-badge-s">Start</span>
-            <i class="ph ph-compass sq-icon"></i>
-            <p class="sq-slabel">Step 01</p>
-            <h3 class="sq-title">Exploration</h3>
-            <p class="sq-desc">Students discover emerging technologies through hands-on experimentation.</p>
-          </div>
-          <div class="sq sq-alt">
-            <span class="sq-n">02</span>
-            <i class="ph ph-flask sq-icon-sm"></i>
-            <p class="sq-mini">Experiment</p>
-            <p class="sq-mini-sub">Try, fail, learn, and keep going</p>
-          </div>
-          <div class="sq">
-            <span class="sq-n">03</span>
-            <i class="ph ph-users sq-icon-sm"></i>
-            <p class="sq-mini">Collaborate</p>
-            <p class="sq-mini-sub">Team up and build together</p>
-          </div>
-          <div class="sq sq-blue" data-gn="04">
-            <span class="sq-n">04</span>
-            <i class="ph ph-wrench sq-icon"></i>
-            <p class="sq-slabel">Step 02</p>
-            <h3 class="sq-title">Development</h3>
-            <p class="sq-desc">Participants build real technology systems including robotics, AI models, and smart devices.</p>
-          </div>
-
         </div>
+
+        <!-- Drawer 2 — Development -->
+        <div class="drawer drawer-2 reveal">
+          <div class="drawer-bar">
+            <span class="drawer-title">Development</span>
+            <span class="drawer-num">02</span>
+          </div>
+          <div class="drawer-content">
+            <div class="drawer-cols">
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Apply to Real Problems</h4>
+                <p class="drawer-col-desc">Students move from concept to action, turning ideas into functional systems — robotics, AI models, smart devices, and software.</p>
+              </div>
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Build, Iterate, Improve</h4>
+                <p class="drawer-col-desc">Through repeated cycles of building and refining, students develop the engineering mindset of continuous, purposeful improvement.</p>
+              </div>
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Present Your Work</h4>
+                <p class="drawer-col-desc">Regular presentations to peers and mentors sharpen communication skills and validate progress at every stage of development.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drawer 3 — Innovation -->
+        <div class="drawer drawer-3 reveal">
+          <div class="drawer-bar">
+            <span class="drawer-title">Innovation</span>
+            <span class="drawer-num">03</span>
+          </div>
+          <div class="drawer-content">
+            <div class="drawer-cols">
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Deep Research</h4>
+                <p class="drawer-col-desc">Students investigate real-world problems, challenge assumptions, and go beyond surface-level understanding to uncover root causes and novel solutions.</p>
+              </div>
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Intelligent Systems</h4>
+                <p class="drawer-col-desc">Using AI and emerging technology as tools, students develop solutions that are both technically sound and genuinely impactful in the real world.</p>
+              </div>
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Launch to the World</h4>
+                <p class="drawer-col-desc">Ideas move from prototype to live product — shipped, tested, and shared with a real audience for genuine, unfiltered feedback.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drawer 4 — Research & Entrepreneurship -->
+        <div class="drawer drawer-4 reveal">
+          <div class="drawer-bar">
+            <span class="drawer-title">Research &amp; Entrepreneurship</span>
+            <span class="drawer-num">04</span>
+          </div>
+          <div class="drawer-content">
+            <div class="drawer-cols">
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Publish &amp; Share</h4>
+                <p class="drawer-col-desc">Advanced students document and present their work through research papers, public presentations, and open-source contributions to the wider community.</p>
+              </div>
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Technology Entrepreneurship</h4>
+                <p class="drawer-col-desc">Students explore how to transform innovations into ventures — learning product-market fit, go-to-market strategy, and early-stage growth.</p>
+              </div>
+              <div class="drawer-col">
+                <h4 class="drawer-col-title">Build Your Venture</h4>
+                <p class="drawer-col-desc">With mentorship from industry leaders, students take their first steps toward founding companies grounded in meaningful, impactful technology.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- PROCESS -->
-  <section class="hwd-process">
-    <div class="hwd-steps">
-      <div class="hwd-step reveal">
-        <i class="ph ph-magnifying-glass"></i>
-        <div class="hwd-step-num">01 — ASSESS</div>
-        <h2 class="hwd-step-title">Understand the gap</h2>
-        <p class="hwd-step-desc">We map an institution's goals, existing capabilities, and missing infrastructure to design the right innovation foundation.</p>
-      </div>
-      <div class="hwd-step reveal">
-        <i class="ph ph-cube"></i>
-        <div class="hwd-step-num">02 — BUILD</div>
-        <h2 class="hwd-step-title">Deploy the infrastructure</h2>
-        <p class="hwd-step-desc">We set up AI labs, robotics ecosystems, and the hands-on environments needed for real-world experimentation.</p>
-      </div>
-      <div class="hwd-step reveal">
-        <i class="ph ph-graduation-cap"></i>
-        <div class="hwd-step-num">03 — ENABLE</div>
-        <h2 class="hwd-step-title">Develop the people</h2>
-        <p class="hwd-step-desc">We train educators, engineers, and students through experiential programs and future-skills curricula.</p>
-      </div>
-      <div class="hwd-step reveal">
-        <i class="ph ph-trend-up"></i>
-        <div class="hwd-step-num">04 — SCALE</div>
-        <h2 class="hwd-step-title">Build lasting capability</h2>
-        <p class="hwd-step-desc">We help institutions grow in-house capability so innovation continues long after launch — no permanent dependency.</p>
-      </div>
-    </div>
-  </section>
 
   <!-- CTA -->
   <section class="hwd-cta-section">
-    <h2 class="hwd-cta-title reveal">Ready to build your innovation ecosystem?</h2>
-    <a href="contact.html" class="hwd-cta reveal">Get in Touch <i class="ph ph-arrow-right"></i></a>
+    <div class="hwd-cta-inner">
+      <h2 class="hwd-cta-title reveal">Ready to build your innovation ecosystem?</h2>
+      <a href="contact.html" class="hwd-cta reveal">Get in Touch <i class="ph ph-arrow-right"></i></a>
+    </div>
   </section>
+
+  <!-- SCROLL HINT -->
+  <div class="scroll-hint" id="scrollHint">
+    <span class="scroll-hint-label">Scroll</span>
+    <div class="scroll-hint-arrow">
+      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 4.5L7 9.5L12 4.5" stroke="#a100ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
 
   <script>
     // CURSOR
@@ -864,10 +879,20 @@
       }, { threshold: 0.18 });
       els.forEach(function (el) { io.observe(el); });
     })();
+    // EXPANDABLE DRAWERS
+    (function () {
+      document.querySelectorAll('.drawer-bar').forEach(function (bar) {
+        bar.addEventListener('click', function () {
+          this.closest('.drawer').classList.toggle('is-open');
+        });
+      });
+    })();
+
     // FOUR PILLARS — chain reaction scroll
     (function () {
       var section = document.querySelector('.hwd-pillars');
       if (!section) return;
+      var hint = document.getElementById('scrollHint');
       function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
       function ph(p, a, b) { return ease(Math.max(0, Math.min(1, (p - a) / (b - a)))); }
       var c1 = document.querySelector('.hwd-p1');
@@ -880,26 +905,24 @@
         var rect  = section.getBoundingClientRect();
         var total = section.offsetHeight - window.innerHeight;
         var p     = Math.max(0, Math.min(1, -rect.top / total));
+        // show hint while inside the section, hide near the end
+        var inSection = rect.top <= 0 && rect.bottom > 0;
+        if (hint) hint.classList.toggle('visible', inSection && p < 0.82);
 
         // Beat 1: card 1 enters (left) → top slot
         // Beat 2: card 2 enters (right) → bottom slot
         // Beat 3 (simultaneous): card 1 exits ↑  |  card 2 bottom→top  |  card 3 enters (left) bottom
         // Beat 4 (simultaneous): card 2 exits ↑  |  card 3 bottom→top  |  card 4 enters (right) bottom
         var c1e  = ph(p, 0.00, 0.12);
-        var c2e  = ph(p, 0.20, 0.34);
-        var B3   = [0.42, 0.56]; // beat 3 range — everything in it moves together
-        var B4   = [0.66, 0.80]; // beat 4 range
-        var b3   = ph(p, B3[0], B3[1]);
-        var b4   = ph(p, B4[0], B4[1]);
+        var c2e  = ph(p, 0.14, 0.26);
+        var b3   = ph(p, 0.30, 0.44);
+        var b4   = ph(p, 0.50, 0.64);
 
-        // Card 1 — enters to top slot, exits up during beat 3
         c1.style.transform = 'translate(' + ((1 - c1e) * -OFF) + 'vw,' + (b3 * -110) + 'vh)';
-        // Card 2 — enters to bottom slot, pushes up to top in beat 3, exits up in beat 4
         c2.style.transform = 'translate(' + ((1 - c2e) * OFF) + 'vw,' + ((1 - b3) * BOT + b4 * -110) + 'vh)';
-        // Card 3 — enters bottom slot from left during beat 3, pushes up to top in beat 4
         c3.style.transform = 'translate(' + ((1 - b3) * -OFF) + 'vw,' + ((1 - b4) * BOT) + 'vh)';
-        // Card 4 — enters bottom slot from right during beat 4, holds at bottom
         c4.style.transform = 'translate(' + ((1 - b4) * OFF) + 'vw,' + BOT + 'vh)';
+
       }
       window.addEventListener('scroll', update, { passive: true });
       update();
