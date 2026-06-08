@@ -1227,7 +1227,56 @@
   })();
 
 
-</script>
+
+    // NAV SPIN TEXT
+    (function () {
+      var NORMAL = 0.38;
+      var FAST   = 3.4;
+
+      function makeWheel(wrap, labelText) {
+        wrap.innerHTML = '';
+        var t = labelText + ' • ';
+        while (t.length < 20) t += labelText + ' • ';
+        t = t.slice(0, 30);
+        var r = 32;
+        var div = document.createElement('div');
+        div.style.cssText = 'position:relative;width:76px;height:76px;';
+        Array.from(t).forEach(function(ch, i) {
+          var deg = (360 / t.length) * i;
+          var rad = deg * Math.PI / 180;
+          var x = Math.sin(rad) * r;
+          var y = -Math.cos(rad) * r;
+          var s = document.createElement('span');
+          s.textContent = ch;
+          s.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translate('+x.toFixed(2)+'px,'+y.toFixed(2)+'px) rotate('+deg.toFixed(2)+'deg);font-size:8.5px;font-weight:800;color:rgba(255,255,255,.85);user-select:none;line-height:1;font-family:Inter,sans-serif;letter-spacing:0;';
+          div.appendChild(s);
+        });
+        wrap.appendChild(div);
+        div._angle = 0; div._speed = NORMAL; div._target = NORMAL;
+        return div;
+      }
+
+      var wheels = [];
+      document.querySelectorAll('.nav-item').forEach(function(item) {
+        var wrap = item.querySelector('.arc-wrap');
+        var lbl  = item.dataset.label;
+        if (!wrap || !lbl) return;
+        var wheel = makeWheel(wrap, lbl);
+        wheels.push(wheel);
+        item.addEventListener('mouseenter', function() { wheel._target = FAST; });
+        item.addEventListener('mouseleave',  function() { wheel._target = NORMAL; });
+      });
+
+      (function tick() {
+        wheels.forEach(function(w) {
+          w._speed += (w._target - w._speed) * 0.09;
+          w._angle += w._speed;
+          w.style.transform = 'rotate(' + w._angle + 'deg)';
+        });
+        requestAnimationFrame(tick);
+      })();
+    })();
+  </script>
 
   <!-- ── SITE FOOTER ── -->
   <style>
