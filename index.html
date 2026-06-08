@@ -360,6 +360,17 @@
     }
     .hero-spline spline-viewer.loaded { opacity: 1; }
 
+    #robot-canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px;
+      height: 380px;
+      z-index: 3;
+      display: block;
+      pointer-events: auto;
+    }
 
     spline-viewer::part(logo),
     spline-viewer::part(watermark) {
@@ -392,14 +403,6 @@
       background: #0a0a0c;
     }
 
-    .spline-fullscreen-section spline-viewer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-    }
 
     *,
     *::before,
@@ -432,9 +435,10 @@
       position: relative;
       z-index: 10;
       background: #0a0a0c;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.22);
       padding: 28px 0;
+      margin-bottom: 40px;
     }
 
     .stats-grid {
@@ -450,7 +454,7 @@
       justify-content: center;
       gap: 8px;
       padding: 8px 0;
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      border-right: 1px solid rgba(255, 255, 255, 0.18);
       text-align: center;
     }
 
@@ -596,7 +600,7 @@
     .csa-perspective-wrap {
       width: 100%;
       max-width: 1060px;
-      perspective: 1200px;
+      perspective: 1000px;
     }
 
     .csa-header {
@@ -1061,7 +1065,7 @@
     .lbp-thumb {
       position: absolute;
       top: 0;
-      width: 28vw;
+      width: calc(50% - 8px);
       height: 100%;
       overflow: hidden;
       cursor: pointer;
@@ -1110,8 +1114,10 @@
       inset: 0;
       background: rgba(0, 0, 0, 0.28);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 28px;
       overflow: hidden;
       padding: 24px;
     }
@@ -1121,7 +1127,7 @@
       width: 100%;
       text-align: center;
       transform: none;
-      font-size: clamp(18px, 2.2vw, 30px);
+      font-size: clamp(32px, 4vw, 64px);
       font-weight: 800;
       color: rgba(255, 255, 255, 0.96);
       letter-spacing: 0.14em;
@@ -1134,12 +1140,10 @@
 
     /* ── Touch-hint sonar rings ── */
     .lbp-touch-hint {
-      position: absolute;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
+      position: relative;
       width: 44px;
       height: 44px;
+      flex-shrink: 0;
       pointer-events: none;
     }
 
@@ -2444,6 +2448,7 @@
     </div>
     <div class="hero-spline">
       <div class="robot-glow"></div>
+      <canvas id="robot-canvas" width="320" height="380"></canvas>
 <spline-viewer url="https://prod.spline.design/brxdeKpGd5NEsV5C/scene.splinecode" events-target="global"></spline-viewer>
     </div>
   </section>
@@ -2481,7 +2486,7 @@
         <li class="scroll-word">intelligent systems</li>
         <li class="scroll-word">applied research labs</li>
         <li class="scroll-word">nexus campuses</li>
-        <li class="scroll-word scroll-word--gold">global networks</li>
+        <li class="scroll-word scroll-word--gold">ONE global network.</li>
       </ul>
     </div>
   </section>
@@ -2506,7 +2511,7 @@
         <div class="card-inner">
           <div class="card-content-wrap">
             <div class="card-image-layer">
-              <img class="card-front-img" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=700&q=80"
+              <img class="card-front-img" src="https://images.pexels.com/photos/5745520/pexels-photo-5745520.jpeg?auto=compress&cs=tinysrgb&w=700&h=750&fit=crop"
                 alt="AI Labs" />
               <div class="card-overlay"></div>
               <div class="card-header">
@@ -2532,7 +2537,7 @@
         <div class="card-inner">
           <div class="card-content-wrap">
             <div class="card-image-layer">
-              <img class="card-front-img" src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=700&q=80"
+              <img class="card-front-img" src="https://images.pexels.com/photos/33373082/pexels-photo-33373082.jpeg?auto=compress&cs=tinysrgb&w=700&h=750&fit=crop"
                 alt="AI Trainings" />
               <div class="card-overlay"></div>
               <div class="card-header">
@@ -2558,7 +2563,7 @@
         <div class="card-inner">
           <div class="card-content-wrap">
             <div class="card-image-layer">
-              <img class="card-front-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&q=80"
+              <img class="card-front-img" src="https://images.pexels.com/photos/34987121/pexels-photo-34987121.jpeg?auto=compress&cs=tinysrgb&w=700&h=750&fit=crop"
                 alt="AI Products" />
               <div class="card-overlay"></div>
               <div class="card-header">
@@ -2598,15 +2603,13 @@
 
   <!-- FULLSCREEN SPLINE SECTION -->
   <div class="robot-panel">
-    <section class="spline-fullscreen-section">
-      <spline-viewer url="https://prod.spline.design/NOps2r45J6rZA073/scene.splinecode"></spline-viewer>
-    </section>
+    <section class="spline-fullscreen-section"></section>
 
     <!-- LIGHTBOX PERSPECTIVE SECTION -->
     <section class="lbp-section scroll-fade-in">
       <div class="lbp-cards-row">
         <div class="lbp-thumb" data-track="0">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80"
+          <img src="https://images.pexels.com/photos/20200756/pexels-photo-20200756.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             alt="For changemaking institutions" />
           <div class="lbp-thumb-overlay">
             <span class="lbp-thumb-label">For<br>changemaking<br>institutions</span>
@@ -2614,7 +2617,7 @@
           </div>
         </div>
         <div class="lbp-thumb" data-track="1">
-          <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80"
+          <img src="https://images.pexels.com/photos/7743257/pexels-photo-7743257.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             alt="For pioneering leaders" />
           <div class="lbp-thumb-overlay">
             <span class="lbp-thumb-label">For<br>pioneering<br>leaders</span>
@@ -2847,7 +2850,7 @@
     // STATS
     (function () {
       const items = document.querySelectorAll('.stat-item'); let done = false;
-      function run(el) { const t = parseInt(el.dataset.target), c = el.querySelector('.stat-count'), s = performance.now(); (function step(n) { const p = Math.min((n - s) / 2000, 1), e = 1 - Math.pow(1 - p, 3); c.textContent = Math.floor(e * t); if (p < 1) requestAnimationFrame(step); else c.textContent = t; })(s); }
+      function run(el) { const t = parseInt(el.dataset.target), c = el.querySelector('.stat-count'), s = performance.now(); (function step(n) { const p = Math.min((n - s) / 700, 1); c.textContent = Math.floor(p * t); if (p < 1) requestAnimationFrame(step); else c.textContent = t; })(s); }
       new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting && !done) { done = true; items.forEach(run); } }); }, { threshold: 0.2 }).observe(items[0]);
     })();
 
@@ -2878,19 +2881,7 @@
           w.style.opacity = d === 0 ? '1' : d === 1 ? '0.35' : d === 2 ? '0.15' : '0.07';
         });
 
-        // Fade out prefix + last word together once last word passes centre
-        const lastWord = words[words.length - 1];
-        const lastRect = lastWord.getBoundingClientRect();
-        const lastCenter = lastRect.top + LH / 2;
-        if (lastCenter < targetY) {
-          const fade = Math.max(0, 1 - (targetY - lastCenter) / LH).toFixed(3);
-          prefix.style.opacity = fade;
-          lastWord.style.transition = 'none';
-          lastWord.style.opacity = fade;
-        } else {
-          prefix.style.opacity = '1';
-          lastWord.style.transition = '';
-        }
+        prefix.style.opacity = '1';
       }
 
       setup();
@@ -2946,51 +2937,6 @@
       setTimeout(function() { sv.classList.add('loaded'); }, 6000);
     })();
 
-// spline-viewer listens on the *window* for pointermove/mousemove.
-    // The .lbp-thumb cards capture those events (pointer-events:auto) so
-    // Spline never sees them. We re-fire an identical synthetic event on
-    // the window so Spline's internal listener picks it up as if the cards
-    // weren't there.
-    (function () {
-      var panel = document.querySelector('.robot-panel');
-      if (!panel) return;
-      var _relaying = false;   // guard against re-entrance
-
-      function relay(e) {
-        if (_relaying) return;
-        _relaying = true;
-        // Re-fire on window (Spline's primary listener) and on document
-        var opts = {
-          bubbles: true, cancelable: true, view: window,
-          clientX: e.clientX, clientY: e.clientY,
-          screenX: e.screenX, screenY: e.screenY,
-          movementX: e.movementX || 0, movementY: e.movementY || 0
-        };
-        window.dispatchEvent(new PointerEvent('pointermove', opts));
-        window.dispatchEvent(new MouseEvent('mousemove', opts));
-
-        // Also hit the canvas directly as a fallback
-        var viewer = panel.querySelector('spline-viewer');
-        if (viewer && viewer.shadowRoot) {
-          var canvas = viewer.shadowRoot.querySelector('canvas');
-          if (canvas) {
-            canvas.dispatchEvent(new PointerEvent('pointermove', opts));
-            canvas.dispatchEvent(new MouseEvent('mousemove', opts));
-          }
-        }
-        _relaying = false;
-      }
-
-      function attach() {
-        panel.querySelectorAll('.lbp-thumb').forEach(function (thumb) {
-          thumb.removeEventListener('mousemove', relay);
-          thumb.addEventListener('mousemove', relay);
-        });
-      }
-
-      attach();
-      setTimeout(attach, 1500);
-    })();
 
     // ROBOT PANEL — SCROLL & DRAG CONTROLS
     (function () {
@@ -3016,37 +2962,6 @@
 
     })();
 
-    // ROBOT PANEL — HIDE CANVAS DOT (cursor-following sphere in Spline scene)
-    (function () {
-      var viewer = document.querySelector('.robot-panel spline-viewer');
-      if (!viewer) return;
-
-      function tryHide() {
-        try {
-          var app = viewer.spline;
-          if (!app || typeof app.getAllObjects !== 'function') return;
-          app.getAllObjects().forEach(function (obj) {
-            var n = (obj.name || '').toLowerCase();
-            if (
-              n.includes('cursor') || n.includes('dot') ||
-              n.includes('pointer') || n.includes('mouse') ||
-              n.includes('sphere') || n.includes('circle') ||
-              n.includes('ball') || n.includes('follow')
-            ) {
-              obj.visible = false;
-            }
-          });
-        } catch (e) { }
-      }
-
-      viewer.addEventListener('load', function () {
-        setTimeout(tryHide, 300);
-        setTimeout(tryHide, 1000);
-        setTimeout(tryHide, 2500);
-      });
-      // Fallback if load already fired
-      [1000, 2500, 5000].forEach(function (t) { setTimeout(tryHide, t); });
-    })();
 
     // CONTAINER SCROLL ANIMATION
     (function () {
@@ -3060,8 +2975,8 @@
         const sh = section.offsetHeight;
         const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh + sh)));
 
-        const rotate = 20 * (1 - progress);
-        const scale = 1.05 - 0.05 * progress;
+        const rotate = 32 - 40 * progress;
+        const scale = 0.95 + 0.05 * progress;
 
         card.style.transform = `rotateX(${rotate}deg) scale(${scale})`;
       }
@@ -3749,6 +3664,149 @@
       <span class="sf-bottom-tag">intelligence simplified.</span>
     </div>
   </footer>
-</body>
 
+  <!-- 3D Robot Mascot -->
+  <script src="assets/three.min.js"></script>
+  <script>
+    (function () {
+      'use strict';
+      var canvas = document.getElementById('robot-canvas');
+      if (!canvas || typeof THREE === 'undefined') return;
+
+        var W = 320, H = 380;
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 50);
+        camera.position.set(0, 0.5, 5.5);
+        camera.lookAt(0, 0.4, 0);
+
+        var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setSize(W, H);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = false;
+        renderer.setClearColor(0x000000, 0);
+
+        // Lights
+        scene.add(new THREE.AmbientLight(0x111111, 1));
+        var mainLight = new THREE.PointLight(0xC0A0FF, 2.5, 20);
+        mainLight.position.set(2, 4, 3);
+        scene.add(mainLight);
+        var rimLight = new THREE.PointLight(0x3A0D7C, 1.8, 15);
+        rimLight.position.set(-2, 0.5, -3);
+        scene.add(rimLight);
+
+        // Materials
+        var bodyMat = new THREE.MeshStandardMaterial({ color: 0x242433, metalness: 0.85, roughness: 0.25 });
+        var neckMat = new THREE.MeshStandardMaterial({ color: 0x1e1e2e, metalness: 0.85, roughness: 0.25 });
+        var headMat = new THREE.MeshStandardMaterial({ color: 0x7B2FBE, metalness: 0.55, roughness: 0.38 });
+        var eyeWhiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x9090ff, emissiveIntensity: 0.3, roughness: 0.1 });
+        var eyePupilMat = new THREE.MeshStandardMaterial({ color: 0x0a0a1a, emissive: 0x220033, emissiveIntensity: 0.3 });
+
+        // Geometries
+        var bodyGeo = new THREE.BoxGeometry(0.9, 0.85, 0.75);
+        var neckGeo = new THREE.CylinderGeometry(0.1, 0.12, 0.22, 8);
+        var headGeo = new THREE.BoxGeometry(1.0, 0.78, 0.82);
+        var eyeGeo = new THREE.SphereGeometry(0.12, 12, 8);
+        var pupilGeo = new THREE.SphereGeometry(0.055, 8, 6);
+
+        // Robot group
+        var robot = new THREE.Group();
+        robot.position.y = -0.3;
+        scene.add(robot);
+
+        // Body
+        robot.add(new THREE.Mesh(bodyGeo, bodyMat));
+
+        // Neck
+        var neck = new THREE.Mesh(neckGeo, neckMat);
+        neck.position.y = 0.535;
+        robot.add(neck);
+
+        // Head group (rotates to track cursor)
+        var head = new THREE.Group();
+        head.position.y = 1.035;
+        robot.add(head);
+
+        var headMesh = new THREE.Mesh(headGeo, headMat);
+        headMesh.rotation.z = 0.04;
+        head.add(headMesh);
+
+        // Eyes — shared materials so pulse animates both together
+        var leftEye = new THREE.Mesh(eyeGeo, eyeWhiteMat);
+        leftEye.position.set(-0.22, 0.05, 0.41);
+        head.add(leftEye);
+        var leftPupil = new THREE.Mesh(pupilGeo, eyePupilMat);
+        leftPupil.position.set(-0.22, 0.05, 0.50);
+        head.add(leftPupil);
+
+        var rightEye = new THREE.Mesh(eyeGeo, eyeWhiteMat);
+        rightEye.position.set(0.22, 0.05, 0.41);
+        head.add(rightEye);
+        var rightPupil = new THREE.Mesh(pupilGeo, eyePupilMat);
+        rightPupil.position.set(0.22, 0.05, 0.50);
+        head.add(rightPupil);
+
+        // Interaction state
+        var targetRotX = 0, targetRotY = 0;
+        var currentRotX = 0, currentRotY = 0;
+        var hovered = false;
+
+        canvas.addEventListener('mousemove', function (e) {
+          var rect = canvas.getBoundingClientRect();
+          var nx = (e.clientX - rect.left) / rect.width * 2 - 1;
+          var ny = -((e.clientY - rect.top) / rect.height * 2 - 1);
+          targetRotY = nx * 0.45;
+          targetRotX = ny * 0.22;
+        });
+        canvas.addEventListener('mouseenter', function () { hovered = true; });
+        canvas.addEventListener('mouseleave', function () {
+          hovered = false;
+          targetRotX = 0;
+          targetRotY = 0;
+        });
+
+        // Pause render loop when canvas is off-screen
+        var visible = true;
+        var ioObs = new IntersectionObserver(function (e) {
+          visible = e[0].isIntersecting;
+        }, { threshold: 0.1 });
+        ioObs.observe(canvas);
+
+        var rafId, t = 0;
+
+        function tick() {
+          rafId = requestAnimationFrame(tick);
+          if (!visible) return;
+          t += 0.016;
+
+          // Gentle floating bob
+          robot.position.y = -0.3 + Math.sin(t * 0.8) * 0.1;
+
+          // Lerp head toward cursor target + idle sway
+          currentRotX += (targetRotX + Math.sin(t * 0.31) * 0.035 - currentRotX) * 0.06;
+          currentRotY += (targetRotY + Math.sin(t * 0.42) * 0.09  - currentRotY) * 0.06;
+          head.rotation.x = currentRotX;
+          head.rotation.y = currentRotY;
+
+          // Eye brightness: pulse on hover, steady otherwise
+          eyeWhiteMat.emissiveIntensity = hovered
+            ? 0.7 + Math.sin(t * 4.5) * 0.3
+            : 0.3;
+
+          renderer.render(scene, camera);
+        }
+
+        tick();
+
+        // Dispose on page unload
+        window.addEventListener('beforeunload', function () {
+          cancelAnimationFrame(rafId);
+          ioObs.disconnect();
+          [bodyGeo, neckGeo, headGeo, eyeGeo, pupilGeo].forEach(function (g) { g.dispose(); });
+          [bodyMat, neckMat, headMat, eyeWhiteMat, eyePupilMat].forEach(function (m) { m.dispose(); });
+          renderer.dispose();
+        });
+    })();
+  </script>
+
+</body>
 </html>
