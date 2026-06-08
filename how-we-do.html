@@ -50,10 +50,316 @@
     body:not(:hover) #custom-cursor { opacity: 0; }
 
     /* HERO */
-    .hwd-hero { padding: 200px 80px 110px; max-width: 1180px; margin: 0 auto; }
-    .hwd-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; color: #a100ff; margin-bottom: 26px; }
-    .hwd-title { font-size: clamp(48px, 7vw, 110px); font-weight: 800; line-height: 1; letter-spacing: -.04em; color: #fff; margin-bottom: 32px; }
-    .hwd-sub { font-size: clamp(18px, 1.6vw, 26px); line-height: 1.55; color: rgba(255,255,255,.62); max-width: 680px; }
+    .hwd-hero {
+      height: calc(100vh - 96px); margin-top: 96px; background: #0a0a0c;
+      display: grid; grid-template-columns: 48% 52%; overflow: hidden;
+    }
+    .hwd-hero-image { position: relative; overflow: hidden; background: #0a0a0c; }
+    .hwd-hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+    .hwd-hero-image::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(135deg, rgba(120,30,210,.26) 0%, rgba(60,12,130,.14) 55%, rgba(20,6,45,.28) 100%);
+      mix-blend-mode: screen; opacity: .5;
+    }
+    .hwd-hero-image::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background: rgba(86,22,160,.13);
+    }
+    .hwd-hero-right {
+      display: flex; flex-direction: column; justify-content: flex-start;
+      padding: 54px 72px 60px 60px;
+    }
+    .hwd-hero-title {
+      font-size: clamp(44px, 6.2vw, 100px); font-weight: 800; line-height: 1.02;
+      letter-spacing: -.04em; color: #fff; margin-bottom: 26px;
+    }
+    .hwd-hero-sub {
+      font-size: clamp(16px, 1.25vw, 19px); line-height: 1.6;
+      color: rgba(255,255,255,.92); max-width: 600px; margin-bottom: 40px;
+    }
+    .hwd-hero-sub strong { color: #fff; font-weight: 700; }
+    .hwd-hero-btn {
+      display: inline-flex; align-items: center; gap: 11px; align-self: flex-start;
+      background: #a100ff; color: #fff; font-size: 16px; font-weight: 600; letter-spacing: .01em;
+      padding: 16px 34px; border-radius: 6px; text-decoration: none;
+      transition: background .3s ease, transform .3s ease;
+    }
+    .hwd-hero-btn i { font-size: 18px; transition: transform .3s ease; }
+    .hwd-hero-btn:hover { background: #b62fff; transform: translateY(-2px); }
+    .hwd-hero-btn:hover i { transform: translateX(4px); }
+
+    /* LMS FEATURES CARDS */
+    #features { background: #0a0a0c; padding: 100px 80px 120px; }
+    .lms-features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      column-gap: 90px; row-gap: 84px;
+      max-width: 1240px; margin: 0 auto;
+    }
+    .lms-card {
+      position: relative; overflow: hidden; aspect-ratio: 3/3.8;
+      background: #111118; cursor: pointer;
+    }
+    .lms-card-img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.72s cubic-bezier(.4,0,.2,1), opacity 0.48s ease;
+      transform-origin: 100% 100%;
+      will-change: transform, opacity;
+    }
+    .lms-card:hover .lms-card-img {
+      transform: translate(42%, 42%) scale(0.18);
+      opacity: 0;
+    }
+    .lms-card-tint {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(160deg, rgba(120,50,210,.2) 0%, rgba(70,24,150,.12) 55%, rgba(30,10,70,.22) 100%);
+      mix-blend-mode: soft-light;
+      transition: opacity 0.45s ease;
+    }
+    .lms-card:hover .lms-card-tint { opacity: 0; }
+    .lms-card-gradient {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(to bottom, rgba(10,8,24,.85) 0%, rgba(10,8,24,.4) 26%, rgba(10,8,24,.05) 48%, rgba(10,8,24,0) 66%);
+      transition: opacity 0.35s;
+    }
+    .lms-card:hover .lms-card-gradient { opacity: 0; }
+    .lms-card-front {
+      position: absolute; inset: 0; padding: 34px 34px;
+      display: flex; flex-direction: column; gap: 18px;
+      transition: opacity 0.28s;
+    }
+    .lms-card:hover .lms-card-front { opacity: 0; pointer-events: none; }
+    .lms-card-tag {
+      font-size: 12px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: #fff;
+    }
+    .lms-card-title-front {
+      font-size: clamp(20px, 1.6vw, 27px); font-weight: 600;
+      color: #fff; line-height: 1.22; letter-spacing: -.01em; max-width: 94%;
+    }
+    .lms-card-back {
+      position: absolute; inset: 0; padding: 34px 34px 38px;
+      background: #f2f1ef;
+      display: flex; flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.4s 0.18s;
+      pointer-events: none;
+    }
+    .lms-card:hover .lms-card-back {
+      opacity: 1; pointer-events: auto;
+    }
+    .lms-card-back .lms-card-tag { color: #1a1a1a; }
+    .lms-card-back-title {
+      font-size: clamp(20px, 1.6vw, 27px); font-weight: 600;
+      color: #0a0a0c; line-height: 1.22; letter-spacing: -.01em; margin: 16px 0 20px;
+    }
+    .lms-card-desc {
+      font-size: clamp(14px, 1.05vw, 17px); line-height: 1.7;
+      color: #33333a;
+    }
+    .lms-card-list {
+      list-style: none; margin: 12px 0 0; padding: 0;
+      font-size: clamp(13px, 1vw, 16px); line-height: 2;
+      color: #33333a;
+    }
+    .lms-card-list li::before { content: '→ '; color: #a100ff; font-weight: 700; }
+    @media (max-width: 1024px) {
+      #features { padding: 70px 28px 90px; }
+      .lms-features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 620px) {
+      .lms-features-grid { grid-template-columns: 1fr; }
+    }
+
+    /* PLATFORM COMPARISON */
+    .cmp-section { background: #0a0a0c; padding: 30px 80px 70px; }
+    .cmp-inner { max-width: 1180px; margin: 0 auto; }
+    .cmp-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #a100ff; margin-bottom: 20px; }
+    .cmp-title { font-size: clamp(34px, 4vw, 60px); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; color: #fff; margin-bottom: 22px; }
+    .cmp-lead { font-size: clamp(16px, 1.3vw, 20px); line-height: 1.65; color: #fff; max-width: none; margin-bottom: 48px; }
+
+    /* framed, ruled table — matches the Product Specifications aesthetic */
+    .cmp-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1.5fr 1fr 1.1fr;
+      background: #060a14;
+      border: 1px solid #fff;
+    }
+    .cmp-cell {
+      display: flex; align-items: center; gap: 11px;
+      padding: 18px 30px; min-height: 64px;
+      font-size: clamp(14px, 1.05vw, 16px); color: #fff; line-height: 1.4;
+      border-right: 1px solid rgba(255,255,255,.1);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .cmp-cell i { font-size: 19px; flex-shrink: 0; }
+    .cmp-feat { font-weight: 600; color: #fff; gap: 14px; }
+    .cmp-feat i { font-size: 22px; color: #fff; flex-shrink: 0; }
+    .cmp-yes  { color: #fff; font-weight: 500; }
+    .cmp-yes i  { color: #a100ff; }
+    .cmp-no i   { color: #d94f4f; }
+    .cmp-warn i { color: #e8a838; }
+
+    /* header row — banded like the spec category rows */
+    .cmp-h {
+      display: flex; align-items: center;
+      padding: 30px 30px; min-height: 88px;
+      font-size: clamp(17px, 1.4vw, 22px); font-weight: 800; letter-spacing: -.02em;
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      border-right: 1px solid rgba(255,255,255,.1);
+      border-bottom: 1.5px solid rgba(255,255,255,.28);
+    }
+    .cmp-h-bright { color: #c9a6ff; }
+
+    /* featured Brighture column tint (2nd of every 4) */
+    .cmp-grid > *:nth-child(4n+2) { background: rgba(161,0,255,.07); }
+    .cmp-grid > .cmp-h.cmp-h-bright { background: rgba(161,0,255,.12); }
+    /* last column: no trailing vertical rule */
+    .cmp-grid > *:nth-child(4n) { border-right: none; }
+    /* last data row: no trailing horizontal rule */
+    .cmp-grid > *:nth-last-child(-n+4) { border-bottom: none; }
+
+    .cmp-footnote {
+      margin-top: 26px; font-size: 14px; font-style: italic; font-weight: 600;
+      color: #b794f6; display: flex; align-items: center; gap: 9px;
+    }
+    .cmp-footnote i { font-size: 17px; color: #a100ff; }
+
+    /* ── FOUR PILLARS ── */
+
+    /* ── INNOVATION JOURNEY — BOARD GAME ── */
+    .board-section { background: #0a0a0c; padding: 120px 80px; }
+    .board-inner { max-width: 1140px; margin: 0 auto; }
+    .board-hdr { text-align: center; margin-bottom: 64px; }
+    .board-eyebrow {
+      display: block; font-size: 11px; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: #a100ff; margin-bottom: 16px;
+    }
+    .board-title {
+      font-size: clamp(32px, 4vw, 60px); font-weight: 800;
+      letter-spacing: -.03em; color: #fff; line-height: 1.05;
+    }
+    .board-wrap {
+      position: relative; border: 2px solid rgba(255,255,255,.1);
+      border-radius: 8px; overflow: hidden;
+      box-shadow: 0 0 100px rgba(161,0,255,.06), 0 40px 120px rgba(0,0,0,.5);
+    }
+    .board-svg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 5;
+    }
+    .board-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: rgba(255,255,255,.07);
+    }
+    .sq {
+      position: relative; background: #0c0c1a;
+      padding: 26px 22px 24px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      min-height: 265px; overflow: hidden;
+    }
+    .sq-alt { background: #0e0e1e; }
+    .sq-red   { background: #110809; justify-content: flex-start; box-shadow: inset 4px 0 0 rgba(239,68,68,.5); }
+    .sq-blue  { background: #080c19; justify-content: flex-start; box-shadow: inset 4px 0 0 rgba(59,130,246,.5); }
+    .sq-amber { background: #120e04; justify-content: flex-start; box-shadow: inset 4px 0 0 rgba(245,158,11,.5); }
+    .sq-green { background: #040f0c; justify-content: flex-start; box-shadow: inset 4px 0 0 rgba(16,185,129,.5); }
+    .sq-red::before, .sq-blue::before, .sq-amber::before, .sq-green::before {
+      content: attr(data-gn);
+      position: absolute; right: -0.06em; bottom: -0.15em;
+      font-size: 6em; font-weight: 900; line-height: 1;
+      color: #fff; opacity: .03; pointer-events: none; user-select: none;
+    }
+    .sq-n {
+      position: absolute; top: 11px; right: 13px;
+      font-size: 10px; font-weight: 800; letter-spacing: .15em;
+      color: rgba(255,255,255,.15);
+    }
+    .sq-badge {
+      display: inline-block; align-self: flex-start;
+      font-size: 8px; font-weight: 800; letter-spacing: .22em;
+      text-transform: uppercase; padding: 3px 7px; border-radius: 2px; margin-bottom: 12px;
+    }
+    .sq-badge-s { background: rgba(239,68,68,.15); color: #f87171; border: 1px solid rgba(239,68,68,.35); }
+    .sq-badge-f { background: rgba(16,185,129,.15); color: #34d399; border: 1px solid rgba(16,185,129,.35); }
+    .sq-icon { font-size: 34px; margin-bottom: 10px; }
+    .sq-red   .sq-icon { color: #ef4444; }
+    .sq-blue  .sq-icon { color: #3b82f6; }
+    .sq-amber .sq-icon { color: #f59e0b; }
+    .sq-green .sq-icon { color: #10b981; }
+    .sq-slabel {
+      font-size: 9px; font-weight: 800; letter-spacing: .22em;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .sq-red   .sq-slabel { color: #f87171; }
+    .sq-blue  .sq-slabel { color: #60a5fa; }
+    .sq-amber .sq-slabel { color: #fbbf24; }
+    .sq-green .sq-slabel { color: #34d399; }
+    .sq-title {
+      font-size: clamp(17px, 1.5vw, 23px); font-weight: 800;
+      letter-spacing: -.02em; color: #fff; line-height: 1.1; margin-bottom: 10px;
+    }
+    .sq-desc {
+      font-size: clamp(12px, .9vw, 14px); line-height: 1.65;
+      color: rgba(255,255,255,.5);
+    }
+    .sq-icon-sm { font-size: 22px; color: rgba(255,255,255,.22); margin-bottom: 8px; }
+    .sq-mini { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.42); margin-bottom: 3px; }
+    .sq-mini-sub { font-size: 11px; color: rgba(255,255,255,.22); line-height: 1.4; }
+    @media (max-width: 900px) {
+      .board-section { padding: 80px 24px; }
+      .board-grid { grid-template-columns: repeat(2, 1fr); }
+      .board-svg { display: none; }
+      .sq { min-height: 200px; }
+    }
+    @media (max-width: 540px) {
+      .board-grid { grid-template-columns: 1fr; }
+      .sq { min-height: 160px; }
+    }
+
+    .hwd-pillars { height: 700vh; position: relative; }
+    .hwd-pillars-inner { position: sticky; top: 0; height: 100vh; overflow: hidden; background: #0a0a0c; }
+    .hwd-pillars-title {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+      padding: 104px 40px 30px; text-align: center;
+      font-size: clamp(34px, 5.4vw, 80px); font-weight: 900; letter-spacing: -.045em;
+      line-height: 1.04; color: #fff; pointer-events: none; user-select: none;
+      white-space: nowrap;
+      text-shadow: 0 2px 30px rgba(0,0,0,.6);
+      background: linear-gradient(to bottom, rgba(10,10,12,.97) 74%, transparent 100%);
+    }
+    .hwd-pin-card {
+      position: absolute; border-radius: 16px; overflow: hidden;
+      z-index: 2; will-change: transform; box-shadow: 0 40px 110px rgba(0,0,0,.65);
+      width: 47vw; height: 34vh; top: 31vh;
+    }
+    .hwd-p1 { transform: translateX(-120vw); }
+    .hwd-p2 { transform: translateX(120vw); }
+    .hwd-p3 { transform: translate(-120vw, 35vh); }
+    .hwd-p4 { transform: translate(120vw, 35vh); }
+    .hwd-pin-card .pin-art { position: absolute; inset: 0; }
+    .hwd-pin-card .pin-art svg { width: 100%; height: 100%; }
+    .hwd-pin-card .pin-body {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 30px 40px 32px;
+      background: linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%);
+    }
+    .hwd-pin-card .pin-label { font-size: 20px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #fff; margin-bottom: 12px; }
+    .hwd-pin-card .pin-text { font-size: clamp(15px, 1.3vw, 20px); color: rgba(255,255,255,.94); line-height: 1.6; max-width: 90%; }
+    .hwd-p1 { background: #b91c1c; left: 4vw; }
+    .hwd-p2 { background: #1d4ed8; right: 4vw; }
+    .hwd-p3 { background: #92400e; left: 4vw; }
+    .hwd-p4 { background: #065f46; right: 4vw; }
+
+    @media (max-width: 860px) {
+      .cmp-section { padding: 20px 24px 100px; }
+      .cmp-grid { grid-template-columns: 1fr; }
+      .cmp-h { display: none; }
+      .cmp-cell { padding: 13px 18px; min-height: 0; border-right: none; }
+      .cmp-grid > *:nth-child(4n+2) { background: rgba(161,0,255,.07); }
+      .cmp-feat { font-size: 18px; padding-top: 26px; background: rgba(255,255,255,.04); }
+      .cmp-cell::before { content: attr(data-label) ': '; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.4); width: 124px; flex-shrink: 0; }
+      .cmp-feat::before { display: none; }
+    }
 
     /* PROCESS */
     .hwd-process { padding: 40px 80px 160px; max-width: 1180px; margin: 0 auto; }
@@ -121,9 +427,373 @@
 
   <!-- HERO -->
   <section class="hwd-hero">
-    <p class="hwd-eyebrow reveal">How We Do</p>
-    <h1 class="hwd-title reveal">From assessment to a self-sustaining innovation ecosystem.</h1>
-    <p class="hwd-sub reveal">The Brighture Global Innovation Lab Framework follows a structured path — turning an institution's ambition into working infrastructure, capable people, and lasting in-house capability.</p>
+    <div class="hwd-hero-image">
+      <img src="assets/lms/hero.jpg" alt="Brighture Learning Management System"/>
+    </div>
+    <div class="hwd-hero-right">
+      <h1 class="hwd-hero-title">Brighture Learning Management System (LMS)</h1>
+      <p class="hwd-hero-sub">Brighture's Learning Management System is designed as an <strong>AI-first digital learning environment</strong>, delivering personalized, immersive, and future-ready education experiences.</p>
+      <a href="#features" class="hwd-hero-btn">Explore Features <i class="ph ph-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- LMS FEATURES -->
+  <section id="features">
+    <div class="lms-features-grid">
+
+      <!-- 1: Adaptive AI Learning -->
+      <div class="lms-card">
+        <img class="lms-card-img" src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=800&q=80" alt="Adaptive AI Learning" />
+        <div class="lms-card-tint"></div>
+        <div class="lms-card-gradient"></div>
+        <div class="lms-card-front">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-title-front">Adaptive AI Learning</h3>
+        </div>
+        <div class="lms-card-back">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-back-title">Adaptive AI Learning</h3>
+          <p class="lms-card-desc">An intelligent system continuously analyzes learner behavior to dynamically adjust pace, difficulty, and content delivery.</p>
+        </div>
+      </div>
+
+      <!-- 2: Future-Tech Curriculum Stack -->
+      <div class="lms-card">
+        <img class="lms-card-img" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80" alt="Future-Tech Curriculum Stack" />
+        <div class="lms-card-tint"></div>
+        <div class="lms-card-gradient"></div>
+        <div class="lms-card-front">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-title-front">Future-Tech Curriculum Stack</h3>
+        </div>
+        <div class="lms-card-back">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-back-title">Future-Tech Curriculum Stack</h3>
+          <p class="lms-card-desc">A comprehensive ecosystem covering:</p>
+          <ul class="lms-card-list">
+            <li>Programming (Scratch to Advanced)</li>
+            <li>Robotics &amp; Embedded Systems</li>
+            <li>Drones &amp; Automation</li>
+            <li>Computer Vision &amp; Machine Learning</li>
+            <li>AR / VR Development</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3: Built for Real-World Skills -->
+      <div class="lms-card">
+        <img class="lms-card-img" src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=800&q=80" alt="Built for Real-World Skills" />
+        <div class="lms-card-tint"></div>
+        <div class="lms-card-gradient"></div>
+        <div class="lms-card-front">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-title-front">Built for Real-World Skills</h3>
+        </div>
+        <div class="lms-card-back">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-back-title">Built for Real-World Skills</h3>
+          <p class="lms-card-desc">A 100% practical learning model focused on building, experimentation, and real-world problem solving.</p>
+        </div>
+      </div>
+
+      <!-- 4: Personalized Growth Engine -->
+      <div class="lms-card">
+        <img class="lms-card-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Personalized Growth Engine" />
+        <div class="lms-card-tint"></div>
+        <div class="lms-card-gradient"></div>
+        <div class="lms-card-front">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-title-front">Personalized Growth Engine</h3>
+        </div>
+        <div class="lms-card-back">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-back-title">Personalized Growth Engine</h3>
+          <p class="lms-card-desc">AI-driven assessments recommend tailored learning pathways aligned with each student's progress and capability.</p>
+        </div>
+      </div>
+
+      <!-- 5: Connected Learning Ecosystem -->
+      <div class="lms-card">
+        <img class="lms-card-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Connected Learning Ecosystem" />
+        <div class="lms-card-tint"></div>
+        <div class="lms-card-gradient"></div>
+        <div class="lms-card-front">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-title-front">Connected Learning Ecosystem</h3>
+        </div>
+        <div class="lms-card-back">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-back-title">Connected Learning Ecosystem</h3>
+          <p class="lms-card-desc">Enables collaboration, peer learning, and project showcasing within an innovation-driven community.</p>
+        </div>
+      </div>
+
+      <!-- 6: Discover a Smarter Way to Learn -->
+      <div class="lms-card">
+        <img class="lms-card-img" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Smarter Way to Learn" />
+        <div class="lms-card-tint"></div>
+        <div class="lms-card-gradient"></div>
+        <div class="lms-card-front">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-title-front">Discover a Smarter Way to Learn</h3>
+        </div>
+        <div class="lms-card-back">
+          <span class="lms-card-tag">Feature</span>
+          <h3 class="lms-card-back-title">Discover a Smarter Way to Learn</h3>
+          <p class="lms-card-desc">Powered by AI, the platform delivers hands-on video learning combined with real-world use cases — features that make every session engaging and impactful.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PLATFORM COMPARISON -->
+  <section class="cmp-section">
+    <div class="cmp-inner">
+      <h2 class="cmp-title">Why Brighture LMS Stands Out</h2>
+      <p class="cmp-lead">A learning platform built from the ground up around AI, hands-on practice, and future-tech innovation — to empower the creators, engineers, and problem-solvers of tomorrow.</p>
+
+      <div class="cmp-grid">
+        <!-- header -->
+        <div class="cmp-h">Feature / Capability</div>
+        <div class="cmp-h cmp-h-bright">Brighture LMS</div>
+        <div class="cmp-h">Traditional LMS</div>
+        <div class="cmp-h">Generic EdTech</div>
+
+        <!-- AI Personalization -->
+        <div class="cmp-cell cmp-feat"><i class="ph ph-brain"></i> AI Personalization</div>
+        <div class="cmp-cell cmp-b cmp-yes" data-label="Brighture"><i class="ph-fill ph-check-circle"></i> Advanced adaptive AI</div>
+        <div class="cmp-cell cmp-no" data-label="Traditional"><i class="ph-fill ph-x-circle"></i> None</div>
+        <div class="cmp-cell cmp-warn" data-label="Generic EdTech"><i class="ph-fill ph-warning"></i> Limited</div>
+
+        <!-- Practical Learning -->
+        <div class="cmp-cell cmp-feat"><i class="ph ph-pencil-ruler"></i> Practical Learning</div>
+        <div class="cmp-cell cmp-b cmp-yes" data-label="Brighture"><i class="ph-fill ph-check-circle"></i> 100% hands-on</div>
+        <div class="cmp-cell cmp-warn" data-label="Traditional"><i class="ph-fill ph-warning"></i> Minimal</div>
+        <div class="cmp-cell cmp-warn" data-label="Generic EdTech"><i class="ph-fill ph-warning"></i> Partial</div>
+
+        <!-- Future-Tech Courses -->
+        <div class="cmp-cell cmp-feat"><i class="ph ph-rocket"></i> Future-Tech Courses</div>
+        <div class="cmp-cell cmp-b cmp-yes" data-label="Brighture"><i class="ph-fill ph-check-circle"></i> AI, Robotics, CV, Drones, AR/VR</div>
+        <div class="cmp-cell cmp-no" data-label="Traditional"><i class="ph-fill ph-x-circle"></i> Limited</div>
+        <div class="cmp-cell cmp-warn" data-label="Generic EdTech"><i class="ph-fill ph-warning"></i> Selective</div>
+
+        <!-- Learning Pathways -->
+        <div class="cmp-cell cmp-feat"><i class="ph ph-git-branch"></i> Learning Pathways</div>
+        <div class="cmp-cell cmp-b cmp-yes" data-label="Brighture"><i class="ph-fill ph-check-circle"></i> Dynamic &amp; AI-driven</div>
+        <div class="cmp-cell cmp-no" data-label="Traditional"><i class="ph-fill ph-x-circle"></i> Static</div>
+        <div class="cmp-cell cmp-warn" data-label="Generic EdTech"><i class="ph-fill ph-warning"></i> Semi-adaptive</div>
+
+        <!-- Community Ecosystem -->
+        <div class="cmp-cell cmp-feat"><i class="ph ph-users-three"></i> Community Ecosystem</div>
+        <div class="cmp-cell cmp-b cmp-yes" data-label="Brighture"><i class="ph-fill ph-check-circle"></i> Built-in</div>
+        <div class="cmp-cell cmp-no" data-label="Traditional"><i class="ph-fill ph-x-circle"></i> None</div>
+        <div class="cmp-cell cmp-warn" data-label="Generic EdTech"><i class="ph-fill ph-warning"></i> Limited</div>
+
+        <!-- Industry Alignment -->
+        <div class="cmp-cell cmp-feat"><i class="ph ph-buildings"></i> Industry Alignment</div>
+        <div class="cmp-cell cmp-b cmp-yes" data-label="Brighture"><i class="ph-fill ph-check-circle"></i> Strong</div>
+        <div class="cmp-cell cmp-no" data-label="Traditional"><i class="ph-fill ph-x-circle"></i> Weak</div>
+        <div class="cmp-cell cmp-warn" data-label="Generic EdTech"><i class="ph-fill ph-warning"></i> Moderate</div>
+      </div>
+
+      <p class="cmp-footnote"><i class="ph-fill ph-lightning"></i> Powered by SPARKY (SPRW)</p>
+    </div>
+  </section>
+
+  <!-- ── FOUR PILLARS ── -->
+  <section class="hwd-pillars">
+    <div class="hwd-pillars-inner">
+
+      <h2 class="hwd-pillars-title">The Four Pillars of the Brighture<br>Global Innovation Lab Framework</h2>
+
+      <!-- Card 1: Technology Infrastructure (Red, from left) -->
+      <div class="hwd-pin-card hwd-p1">
+        <div class="pin-art">
+          <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="170" cy="200" r="270" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+            <circle cx="430" cy="170" r="220" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="1.5"/>
+            <circle cx="310" cy="350" r="180" fill="none" stroke="rgba(255,255,255,.26)" stroke-width="1.5"/>
+            <circle cx="280" cy="240" r="95"  fill="none" stroke="rgba(255,255,255,.32)" stroke-width="1.5"/>
+            <line x1="0" y1="300" x2="600" y2="300" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="pin-body">
+          <div class="pin-label">Technology Infrastructure</div>
+          <p class="pin-text">Brighture Labs deploy AI platforms, robotics systems, embedded hardware, intelligent sensors, IoT devices, and computer vision technologies — enabling real intelligent system development.</p>
+        </div>
+      </div>
+
+      <!-- Card 2: Experiential Learning (Blue, from right) -->
+      <div class="hwd-pin-card hwd-p2">
+        <div class="pin-art">
+          <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <path d="M -60 470 C 140 250, 360 410, 660 200" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+            <path d="M -60 410 C 120 200, 340 360, 660 150" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+            <rect x="80"  y="80"  width="230" height="230" rx="6" fill="none" stroke="rgba(255,255,255,.24)" stroke-width="1.5"/>
+            <rect x="140" y="140" width="120" height="120" rx="3" fill="none" stroke="rgba(255,255,255,.34)" stroke-width="1.5"/>
+            <rect x="340" y="250" width="210" height="210" rx="6" fill="none" stroke="rgba(255,255,255,.2)"  stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="pin-body">
+          <div class="pin-label">Experiential Learning</div>
+          <p class="pin-text">Participants build robotics systems, train AI models, develop smart devices, and test autonomous systems. Learning shifts from theory to practical technology creation.</p>
+        </div>
+      </div>
+
+      <!-- Card 3: Innovation Culture (Amber, from left) -->
+      <div class="hwd-pin-card hwd-p3">
+        <div class="pin-art">
+          <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 120 250 C 220 60, 470 60, 550 250 C 630 440, 470 580, 300 540 C 150 500, 20 430, 120 250 Z"  fill="none" stroke="rgba(255,255,255,.3)"  stroke-width="1.5"/>
+            <path d="M 175 270 C 255 120, 440 110, 510 270 C 580 430, 450 545, 300 515 C 175 490, 95 420, 175 270 Z" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+            <path d="M 230 290 C 290 180, 400 170, 450 290 C 500 410, 400 510, 300 495 C 210 480, 160 400, 230 290 Z" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="1.5"/>
+            <circle cx="300" cy="360" r="45" fill="none" stroke="rgba(255,255,255,.42)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="pin-body">
+          <div class="pin-label">Innovation Culture</div>
+          <p class="pin-text">Labs foster creativity, collaboration, and experimentation — empowering students and innovators to explore new ideas, experiment with emerging tech, and solve real-world problems.</p>
+        </div>
+      </div>
+
+      <!-- Card 4: Institutional Capability (Green, from right) -->
+      <div class="hwd-pin-card hwd-p4">
+        <div class="pin-art">
+          <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="0" x2="600" y2="600" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+            <line x1="600" y1="0" x2="0" y2="600" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+            <circle cx="300" cy="300" r="260" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5"/>
+            <circle cx="300" cy="300" r="180" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
+            <circle cx="300" cy="300" r="90"  fill="none" stroke="rgba(255,255,255,.38)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="pin-body">
+          <div class="pin-label">Institutional Capability</div>
+          <p class="pin-text">Institutions build lasting capability through educator training, curriculum integration, research programs, hackathons, and industry partnerships — evolving into innovation hubs.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BOARD GAME JOURNEY -->
+  <section class="board-section">
+    <div class="board-inner">
+      <div class="board-hdr">
+        <span class="board-eyebrow">The Brighture Innovation Journey</span>
+        <h2 class="board-title reveal">Navigate Your Path to Innovation</h2>
+      </div>
+      <div class="board-wrap">
+
+        <!-- SVG snake path overlay — viewBox 0 0 4 3 maps to 4 cols × 3 rows -->
+        <svg class="board-svg" viewBox="0 0 4 3" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arr" viewBox="0 0 8 8" refX="8" refY="4"
+                    markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#a100ff" opacity=".9"/>
+            </marker>
+          </defs>
+          <!-- glow trail -->
+          <path d="M 0.5 2.5 H 3.5 V 1.5 H 0.5 V 0.5 H 3.5"
+                fill="none" stroke="rgba(161,0,255,.13)" stroke-width="0.22" stroke-linecap="round"/>
+          <!-- directional segments with arrowheads -->
+          <path d="M 0.5 2.5 H 3.5"   fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
+          <path d="M 3.5 2.45 V 1.55" fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
+          <path d="M 3.5 1.5 H 0.5"   fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
+          <path d="M 0.55 1.5 V 0.55" fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
+          <path d="M 0.5 0.5 H 3.5"   fill="none" stroke="#a100ff" stroke-width="0.04" stroke-opacity=".65" marker-end="url(#arr)"/>
+        </svg>
+
+        <div class="board-grid">
+
+          <!-- ROW 1 — TOP OF BOARD — squares 9→12, path flows → -->
+          <div class="sq sq-amber" data-gn="09">
+            <span class="sq-n">09</span>
+            <i class="ph ph-lightbulb sq-icon"></i>
+            <p class="sq-slabel">Step 03</p>
+            <h3 class="sq-title">Innovation</h3>
+            <p class="sq-desc">Students develop solutions for real-world challenges using intelligent systems.</p>
+          </div>
+          <div class="sq sq-alt">
+            <span class="sq-n">10</span>
+            <i class="ph ph-magnifying-glass sq-icon-sm"></i>
+            <p class="sq-mini">Deep Research</p>
+            <p class="sq-mini-sub">Investigate and challenge assumptions</p>
+          </div>
+          <div class="sq">
+            <span class="sq-n">11</span>
+            <i class="ph ph-rocket sq-icon-sm"></i>
+            <p class="sq-mini">Launch</p>
+            <p class="sq-mini-sub">Ship your project to the real world</p>
+          </div>
+          <div class="sq sq-green" data-gn="12">
+            <span class="sq-n">12</span>
+            <span class="sq-badge sq-badge-f">Finish</span>
+            <i class="ph ph-graduation-cap sq-icon"></i>
+            <p class="sq-slabel">Step 04</p>
+            <h3 class="sq-title">Research &amp;<br>Entrepreneurship</h3>
+            <p class="sq-desc">Advanced innovators explore research and technology entrepreneurship.</p>
+          </div>
+
+          <!-- ROW 2 — MIDDLE — displayed 8,7,6,5 left→right; path flows 5←6←7←8 -->
+          <div class="sq">
+            <span class="sq-n">08</span>
+            <i class="ph ph-presentation-chart sq-icon-sm"></i>
+            <p class="sq-mini">Present</p>
+            <p class="sq-mini-sub">Show your work to peers and mentors</p>
+          </div>
+          <div class="sq sq-alt">
+            <span class="sq-n">07</span>
+            <i class="ph ph-arrows-clockwise sq-icon-sm"></i>
+            <p class="sq-mini">Iterate</p>
+            <p class="sq-mini-sub">Refine, improve, and keep building</p>
+          </div>
+          <div class="sq">
+            <span class="sq-n">06</span>
+            <i class="ph ph-paint-brush sq-icon-sm"></i>
+            <p class="sq-mini">Create</p>
+            <p class="sq-mini-sub">Build something entirely your own</p>
+          </div>
+          <div class="sq sq-alt">
+            <span class="sq-n">05</span>
+            <i class="ph ph-hand-pointing sq-icon-sm"></i>
+            <p class="sq-mini">Apply</p>
+            <p class="sq-mini-sub">Turn knowledge into real outcomes</p>
+          </div>
+
+          <!-- ROW 3 — BOTTOM OF BOARD — squares 1→4, path flows → -->
+          <div class="sq sq-red" data-gn="01">
+            <span class="sq-n">01</span>
+            <span class="sq-badge sq-badge-s">Start</span>
+            <i class="ph ph-compass sq-icon"></i>
+            <p class="sq-slabel">Step 01</p>
+            <h3 class="sq-title">Exploration</h3>
+            <p class="sq-desc">Students discover emerging technologies through hands-on experimentation.</p>
+          </div>
+          <div class="sq sq-alt">
+            <span class="sq-n">02</span>
+            <i class="ph ph-flask sq-icon-sm"></i>
+            <p class="sq-mini">Experiment</p>
+            <p class="sq-mini-sub">Try, fail, learn, and keep going</p>
+          </div>
+          <div class="sq">
+            <span class="sq-n">03</span>
+            <i class="ph ph-users sq-icon-sm"></i>
+            <p class="sq-mini">Collaborate</p>
+            <p class="sq-mini-sub">Team up and build together</p>
+          </div>
+          <div class="sq sq-blue" data-gn="04">
+            <span class="sq-n">04</span>
+            <i class="ph ph-wrench sq-icon"></i>
+            <p class="sq-slabel">Step 02</p>
+            <h3 class="sq-title">Development</h3>
+            <p class="sq-desc">Participants build real technology systems including robotics, AI models, and smart devices.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- PROCESS -->
@@ -193,6 +863,46 @@
         });
       }, { threshold: 0.18 });
       els.forEach(function (el) { io.observe(el); });
+    })();
+    // FOUR PILLARS — chain reaction scroll
+    (function () {
+      var section = document.querySelector('.hwd-pillars');
+      if (!section) return;
+      function ease(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+      function ph(p, a, b) { return ease(Math.max(0, Math.min(1, (p - a) / (b - a)))); }
+      var c1 = document.querySelector('.hwd-p1');
+      var c2 = document.querySelector('.hwd-p2');
+      var c3 = document.querySelector('.hwd-p3');
+      var c4 = document.querySelector('.hwd-p4');
+      var BOT = 35; // vh — vertical gap between the top slot and the bottom slot
+      var OFF = 120; // vw — off-screen horizontal start
+      function update() {
+        var rect  = section.getBoundingClientRect();
+        var total = section.offsetHeight - window.innerHeight;
+        var p     = Math.max(0, Math.min(1, -rect.top / total));
+
+        // Beat 1: card 1 enters (left) → top slot
+        // Beat 2: card 2 enters (right) → bottom slot
+        // Beat 3 (simultaneous): card 1 exits ↑  |  card 2 bottom→top  |  card 3 enters (left) bottom
+        // Beat 4 (simultaneous): card 2 exits ↑  |  card 3 bottom→top  |  card 4 enters (right) bottom
+        var c1e  = ph(p, 0.00, 0.12);
+        var c2e  = ph(p, 0.20, 0.34);
+        var B3   = [0.42, 0.56]; // beat 3 range — everything in it moves together
+        var B4   = [0.66, 0.80]; // beat 4 range
+        var b3   = ph(p, B3[0], B3[1]);
+        var b4   = ph(p, B4[0], B4[1]);
+
+        // Card 1 — enters to top slot, exits up during beat 3
+        c1.style.transform = 'translate(' + ((1 - c1e) * -OFF) + 'vw,' + (b3 * -110) + 'vh)';
+        // Card 2 — enters to bottom slot, pushes up to top in beat 3, exits up in beat 4
+        c2.style.transform = 'translate(' + ((1 - c2e) * OFF) + 'vw,' + ((1 - b3) * BOT + b4 * -110) + 'vh)';
+        // Card 3 — enters bottom slot from left during beat 3, pushes up to top in beat 4
+        c3.style.transform = 'translate(' + ((1 - b3) * -OFF) + 'vw,' + ((1 - b4) * BOT) + 'vh)';
+        // Card 4 — enters bottom slot from right during beat 4, holds at bottom
+        c4.style.transform = 'translate(' + ((1 - b4) * OFF) + 'vw,' + BOT + 'vh)';
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      update();
     })();
   </script>
 </body>
