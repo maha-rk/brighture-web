@@ -505,10 +505,7 @@
       background-image: radial-gradient(circle, rgba(161,0,255,.055) 1px, transparent 1px);
       background-size: 46px 46px;
     }
-    .why-section::after {
-      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-      background: radial-gradient(600px circle at var(--wmx,50%) var(--wmy,50%), rgba(161,0,255,.10) 0%, transparent 60%);
-    }
+    /* ::after spotlight removed — caused section-wide repaint on every mousemove */
     .why-orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; will-change: transform; }
     .why-orb-1 { width: 700px; height: 700px; top: -150px; left: -130px;
       background: radial-gradient(circle, rgba(110,0,255,.18) 0%, transparent 55%);
@@ -562,18 +559,19 @@
     .why-block {
       position: absolute; z-index: 4;
       opacity: 0; transition: opacity .7s cubic-bezier(.4,0,.2,1);
+      will-change: transform;
     }
     .why-block-inner {
-      background: rgba(100,0,240,.13);
+      background: rgba(40,0,100,.72);
       border: 1px solid rgba(161,0,255,.4);
       border-radius: 14px; padding: 15px 18px;
       width: 210px;
       display: flex; align-items: flex-start; gap: 10px;
       font-size: 13px; font-weight: 500;
       color: rgba(255,255,255,.92); line-height: 1.6;
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 6px 24px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
-      transition: border-color .28s, background .28s, box-shadow .28s, transform .28s cubic-bezier(.4,0,.2,1);
+      transition: border-color .28s, background .28s, transform .28s cubic-bezier(.4,0,.2,1);
+      will-change: transform;
     }
     .why-block-inner:hover {
       border-color: rgba(161,0,255,.8);
@@ -588,8 +586,8 @@
       animation: dotPulse 2.2s ease-in-out infinite;
     }
     @keyframes dotPulse {
-      0%,100%{box-shadow:0 0 6px rgba(161,0,255,.7)}
-      50%{box-shadow:0 0 18px rgba(161,0,255,1),0 0 36px rgba(161,0,255,.45)}
+      0%,100%{ opacity: 1; }
+      50%    { opacity: 0.45; }
     }
     .why-block.revealed { opacity: 1; }
 
@@ -603,7 +601,7 @@
     /* Ghost deco blocks — scattered ALL AROUND the section */
     .why-deco {
       position: absolute; border-radius: 10px; pointer-events: none; z-index: 2;
-      backdrop-filter: blur(3px);
+      will-change: transform;
     }
     /* Edges & corners */
     .wd-1  { width:86px;  height:50px; top:4%;    left:3%;    background:rgba(161,0,255,.09); border:1px solid rgba(161,0,255,.24); animation:fF 9s   ease-in-out        infinite; }
@@ -1204,23 +1202,6 @@
     var whyBlocks  = document.querySelectorAll('.why-block');
     if (!whySection) return;
 
-    /* Mouse-tracking spotlight — rAF throttled, cached rect */
-    var whyRect = whySection.getBoundingClientRect();
-    window.addEventListener('resize', function() { whyRect = whySection.getBoundingClientRect(); }, { passive: true });
-    window.addEventListener('scroll', function() { whyRect = whySection.getBoundingClientRect(); }, { passive: true });
-    var whyRafPending = false, whyMX = 0, whyMY = 0;
-    whySection.addEventListener('mousemove', function (e) {
-      whyMX = e.clientX; whyMY = e.clientY;
-      if (whyRafPending) return;
-      whyRafPending = true;
-      requestAnimationFrame(function() {
-        var x = ((whyMX - whyRect.left) / whyRect.width  * 100).toFixed(1);
-        var y = ((whyMY - whyRect.top)  / whyRect.height * 100).toFixed(1);
-        whySection.style.setProperty('--wmx', x + '%');
-        whySection.style.setProperty('--wmy', y + '%');
-        whyRafPending = false;
-      });
-    });
 
     /* Sequential block reveal */
     var fired = false;
