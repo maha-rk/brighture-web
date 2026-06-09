@@ -20,15 +20,15 @@
     body:not(:hover) #custom-cursor { opacity: 0; }
 
     /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; z-index: 1000; background: rgba(6,6,12,0.68); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    nav { position: fixed; top: 0; left: 0; right: 0; height: 84px; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; z-index: 1000; background: rgba(6,6,12,0.68); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(255,255,255,0.1); }
     .nav-logo { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
     .nav-logo svg { height: 38px; width: auto; overflow: visible; }
     .nav-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.65); text-transform: lowercase; white-space: nowrap; }
     .nav-links { display: flex; align-items: center; list-style: none; gap: 4px; }
-    .nav-item { position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 8px 16px; height: 68px; text-decoration: none; background: none; border: none; font-family: var(--font); }
+    .nav-item { position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 8px 16px; height: 84px; text-decoration: none; background: none; border: none; font-family: var(--font); }
     .nav-item .label { font-size: 16.8px; font-weight: 400; color: #fff; letter-spacing: .01em; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
     .chevron { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); transition: transform .22s ease; margin-top: -3px; display: inline-block; flex-shrink: 0; }
-    .has-dropdown { position: relative; height: 68px; display: flex; align-items: center; }
+    .has-dropdown { position: relative; height: 84px; display: flex; align-items: center; }
     .has-dropdown:hover .chevron { transform: rotate(225deg); margin-top: 3px; }
     .has-dropdown::after { content: ''; position: absolute; top: 96px; left: 0; right: 0; height: 12px; }
     .dropdown { position: absolute; top: 96px; left: 0; background: rgba(8,8,8,.95); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.09); border-top: 2px solid #a100ff; min-width: 170px; opacity: 0; pointer-events: none; transform: translateY(-4px); transition: opacity .2s ease, transform .2s ease; z-index: 200; }
