@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet" />
-  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none !important; }
@@ -75,15 +75,11 @@
     .c-eyebrow::before { content: none; }
     .c-hero-title { font-size: clamp(56px, 7.2vw, 116px); font-weight: 700; letter-spacing: -.05em; line-height: .93; color: #fff; margin-bottom: 30px; }
     .c-hero-sub { font-family: var(--serif); font-size: clamp(18px, 1.6vw, 24px); color: #fff; line-height: 1.55; max-width: none; }
-    .c-eyebrow { animation: accFade .6s ease both; }
-    .c-hero-title { animation: accFade .8s .08s ease both; }
-    .c-hero-sub { animation: accFade .8s .2s ease both; }
 
     /* ── AUDIENCE CARDS ── */
     .c-cards { padding-bottom: 80px; }
     .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; background: transparent; border: none; }
-    .acard { background: #000; padding: 32px 32px 28px; display: flex; flex-direction: column; min-height: 210px; text-decoration: none; transition: background .25s, transform .55s ease, opacity .55s ease; opacity: 0; transform: translateY(22px); border: none; }
-    .acard.in-view { opacity: 1; transform: none; }
+    .acard { background: #000; padding: 32px 32px 28px; display: flex; flex-direction: column; min-height: 210px; text-decoration: none; transition: background .25s; border: none; }
     .acard:hover { background: #0b0b10; }
     .acard-ic { height: 46px; margin-bottom: 20px; display: flex; align-items: center; }
     .acard-ic svg { width: 52px; height: 52px; }
@@ -157,7 +153,10 @@
     .req { color: #a100ff; font-weight: 700; }
     /* CAPTCHA */
     .captcha-field { gap: 12px; }
-    .h-captcha { min-height: 78px; }
+    .cf-turnstile { min-height: 65px; }
+    .phone-row { display: flex; gap: 10px; align-items: center; }
+    .phone-code { width: 64px; flex: none; text-align: center; }
+    .phone-number { flex: 1; }
     .captcha-error { font-size: 13px; color: #ff5b7f; opacity: 0; transition: opacity .2s; height: 0; }
     .captcha-error.show { opacity: 1; height: auto; margin-top: 2px; }
     /* CAPTCHA + PARTNER ROW */
@@ -167,8 +166,7 @@
     .partner-box-title { font-size: 15px; font-weight: 700; color: #000; letter-spacing: -.01em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
     .partner-box-body { font-family: var(--font); font-size: 14.5px; color: #111; line-height: 1.65; }
     /* SCROLL REVEAL */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.in-view { opacity: 1; transform: none; }
+    .reveal { opacity: 1; transform: none; }
 
     /* success / error banner */
     .form-status { display: none; margin-top: 22px; padding: 16px 22px; border-radius: 8px; font-size: 15px; font-weight: 500; }
@@ -202,8 +200,7 @@
     .faq-title { font-size: clamp(36px, 4vw, 58px); font-weight: 700; letter-spacing: -.04em; line-height: 1.0; color: #fff; margin-bottom: 18px; white-space: nowrap; }
     .faq-sub { font-family: var(--serif); font-size: 18px; color: #fff; line-height: 1.6; }
     .faq-list { display: flex; flex-direction: column; max-width: 920px; margin: 0 auto; }
-    .faq-item { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; border-bottom: 1px solid rgba(255,255,255,.1); }
-    .faq-item.in-view { opacity: 1; transform: none; }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,.1); }
     .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; background: none; border: none; font-family: var(--font); cursor: none; padding: 22px 0; text-align: left; }
     .faq-q-bubble { display: contents; }
     .faq-q-bubble span { font-size: 18px; font-weight: 500; color: #fff; letter-spacing: -.01em; line-height: 1.4; flex: 1; transition: color .2s; }
@@ -454,7 +451,7 @@
 
       <form action="https://api.web3forms.com/submit" method="POST" id="contactForm">
         <!-- ▼▼ Web3Forms: paste your access key (free at web3forms.com, register innovate@brightureglobal.com) ▼▼ -->
-        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+        <input type="hidden" name="access_key" value="51527b7d-f89a-4e87-9ed3-6b2552e3584f" />
         <input type="hidden" name="subject" value="New Contact Inquiry — Brighture Global" />
         <input type="hidden" name="from_name" value="Brighture Website" />
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
@@ -475,8 +472,13 @@
             <input type="email" id="email" name="email" placeholder="you@organisation.com" required />
           </div>
           <div class="field">
-            <label for="phone">Phone Number <span class="req">*</span></label>
-            <input type="tel" id="phone" name="phone" placeholder="+[country code] number" required />
+            <label for="phone_number">Phone Number <span class="req">*</span></label>
+            <div class="phone-row">
+              <input type="text" id="phone_code" class="phone-code" placeholder="+__" maxlength="5" aria-label="Country code" title="Enter country code" />
+              <input type="tel" id="phone_number" class="phone-number" inputmode="numeric" maxlength="10" placeholder="10-digit number" required />
+            </div>
+            <input type="hidden" name="phone" id="phone" />
+            <span class="captcha-error" id="phoneError">Please enter a valid 10-digit phone number.</span>
           </div>
         </div>
         <div class="form-row">
@@ -511,7 +513,7 @@
         <!-- CAPTCHA -->
         <div class="field captcha-field">
           <label>Security Check <span class="req">*</span></label>
-          <div class="h-captcha" data-sitekey="10000000-ffff-ffff-ffff-000000000001" data-theme="dark"></div>
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAADhMHBLeSaWmePuc" data-theme="dark"></div>
           <span class="captcha-error" id="captchaError">Please complete the security check before sending.</span>
         </div>
 
@@ -728,7 +730,7 @@
       s.addEventListener('change', function () { s.classList.add('filled'); });
     });
 
-    /* Form submission — hCaptcha gate + Web3Forms delivery */
+    /* Form submission — Turnstile gate + Web3Forms delivery */
     (function () {
       const form = document.getElementById('contactForm');
       const err = document.getElementById('captchaError');
@@ -740,14 +742,43 @@
         status.className = 'form-status show ' + (ok ? 'ok' : 'bad');
       }
 
+      // Phone: digits only, max 10
+      const phoneNumber = document.getElementById('phone_number');
+      const phoneCode = document.getElementById('phone_code');
+      const phoneHidden = document.getElementById('phone');
+      const phoneErr = document.getElementById('phoneError');
+      phoneNumber.addEventListener('input', function () {
+        this.value = this.value.replace(/\D/g, '').slice(0, 10);
+        phoneErr.classList.remove('show');
+      });
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         err.classList.remove('show');
+        phoneErr.classList.remove('show');
         status.className = 'form-status';
 
-        // require the image captcha
-        const token = (window.hcaptcha && document.querySelector('[name="h-captcha-response"]'))
-          ? document.querySelector('[name="h-captcha-response"]').value : '';
+        // country code required
+        const code = phoneCode.value.trim();
+        if (!code) {
+          phoneErr.textContent = 'Please enter your country code (e.g. +91).';
+          phoneErr.classList.add('show');
+          phoneCode.focus();
+          return;
+        }
+        // phone must be exactly 10 digits (excluding country code)
+        const digits = phoneNumber.value.replace(/\D/g, '');
+        if (digits.length !== 10) {
+          phoneErr.textContent = 'Please enter a valid 10-digit phone number.';
+          phoneErr.classList.add('show');
+          phoneNumber.focus();
+          return;
+        }
+        phoneHidden.value = code + ' ' + digits;
+
+        // require the Turnstile human-check (client-side gate)
+        const tokenField = document.querySelector('[name="cf-turnstile-response"]');
+        const token = tokenField ? tokenField.value : '';
         if (!token) {
           err.classList.add('show');
           return;
@@ -758,13 +789,16 @@
         btn.textContent = 'Sending…';
 
         const data = new FormData(form);
+        // Web3Forms free tier doesn't verify Turnstile — drop the token so it
+        // doesn't reject as a "Pro feature". Spam is filtered via the honeypot.
+        data.delete('cf-turnstile-response');
         fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
           .then(function (r) { return r.json(); })
           .then(function (res) {
             if (res.success) {
               showStatus(true, 'Thank you — your message has been sent. Our team will reach out within one business day.');
               form.reset();
-              if (window.hcaptcha) { try { window.hcaptcha.reset(); } catch (e) {} }
+              if (window.turnstile) { try { window.turnstile.reset(); } catch (e) {} }
             } else {
               showStatus(false, res.message || 'Something went wrong. Please email us directly at innovate@brightureglobal.com.');
             }
@@ -892,10 +926,10 @@
       grid-template-columns: 1.8fr 1fr 1fr 1fr;
       gap: 56px;
     }
-    .sf-brand { display: flex; flex-direction: column; gap: 20px; }
-    .sf-logo { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; text-decoration: none; }
-    .sf-logo svg { height: 36px; width: auto; overflow: visible; }
-    .sf-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.5); text-transform: lowercase; }
+    .sf-brand { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+    .sf-logo { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
+    .sf-logo svg { height: 38px; width: auto; overflow: visible; }
+    .sf-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.65); text-transform: lowercase; }
     .sf-desc { font-size: 15px; line-height: 1.72; color: rgba(255,255,255,.68); max-width: 290px; margin-top: 4px; }
     .sf-socials { display: flex; gap: 10px; margin-top: 6px; }
     .sf-social-link {

@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.94/build/spline-viewer.js"></script>
   <style>
     *,
     *::before,
@@ -346,39 +345,18 @@
       }
     }
 
-    .hero-spline spline-viewer {
+    .hero-robot-spotlight {
       position: absolute;
-      top: 50%;
-      left: 55%;
-      width: 160%;
-      height: 160%;
-      transform: translate(-50%, -50%);
-      background: transparent;
-      z-index: 2;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-    .hero-spline spline-viewer.loaded { opacity: 1; }
-
-    #robot-canvas {
-      position: absolute;
-      top: 50%;
+      top: 46%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 320px;
-      height: 380px;
-      z-index: 3;
-      display: block;
-      pointer-events: auto;
-    }
-
-    spline-viewer::part(logo),
-    spline-viewer::part(watermark) {
-      display: none !important;
-    }
-
-    div[style*="spline"] {
-      display: none !important;
+      width: 720px;
+      height: 720px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(140,90,255,.28) 0%, rgba(100,20,220,.12) 38%, transparent 70%);
+      z-index: 1;
+      pointer-events: none;
+      animation: glowPulse 4s ease-in-out infinite;
     }
 
     /* === FULLSCREEN SPLINE === */
@@ -2432,8 +2410,7 @@
     </div>
     <div class="hero-spline">
       <div class="robot-glow"></div>
-      <canvas id="robot-canvas" width="320" height="380"></canvas>
-<spline-viewer url="https://prod.spline.design/brxdeKpGd5NEsV5C/scene.splinecode" events-target="global"></spline-viewer>
+      <div class="hero-robot-spotlight"></div>
     </div>
   </section>
 
@@ -2882,45 +2859,6 @@
       }, { threshold: 0.08 });
       targets.forEach(el => io.observe(el));
     })();
-
-    // HIDE SPLINE BADGES — injects CSS directly into each viewer's shadow root
-    (function () {
-      // Make every element in the shadow root invisible EXCEPT the canvas.
-      // visibility:hidden on a parent can be overridden by visibility:visible
-      // on a child, so the canvas renders normally while every overlay
-      // (watermark, orbit dot, badges, SVGs) disappears completely.
-      var HIDE_CSS =
-        '*{visibility:hidden!important;pointer-events:none!important}' +
-        'canvas{visibility:visible!important}';
-
-      function patch(viewer) {
-        var root = viewer.shadowRoot;
-        if (!root || root.querySelector('#_spline_hide')) return;
-        var s = document.createElement('style');
-        s.id = '_spline_hide';
-        s.textContent = HIDE_CSS;
-        root.appendChild(s);
-        root.querySelectorAll('a').forEach(function (el) {
-          el.style.cssText += ';display:none!important;opacity:0!important';
-        });
-      }
-
-      function run() { document.querySelectorAll('spline-viewer').forEach(patch); }
-
-      run();
-      [200, 600, 1200, 2500, 5000].forEach(function (t) { setTimeout(run, t); });
-      new MutationObserver(run).observe(document.body, { childList: true, subtree: true });
-    })();
-
-    // SPLINE CURSOR RELAY
-    // ROBOT — fade in spline viewer once loaded
-    (function () {
-      var sv = document.querySelector('.hero-spline spline-viewer');
-      if (!sv) return;
-      sv.addEventListener('load', function() { sv.classList.add('loaded'); });
-      setTimeout(function() { sv.classList.add('loaded'); }, 6000);
-    })();
-
 
     // ROBOT PANEL — SCROLL & DRAG CONTROLS
     (function () {
@@ -3535,10 +3473,10 @@
       grid-template-columns: 1.8fr 1fr 1fr 1fr;
       gap: 56px;
     }
-    .sf-brand { display: flex; flex-direction: column; gap: 20px; }
-    .sf-logo { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; text-decoration: none; }
-    .sf-logo svg { height: 36px; width: auto; overflow: visible; }
-    .sf-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.5); text-transform: lowercase; }
+    .sf-brand { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+    .sf-logo { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
+    .sf-logo svg { height: 38px; width: auto; overflow: visible; }
+    .sf-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.65); text-transform: lowercase; }
     .sf-desc { font-size: 15px; line-height: 1.72; color: rgba(255,255,255,.68); max-width: 290px; margin-top: 4px; }
     .sf-socials { display: flex; gap: 10px; margin-top: 6px; }
     .sf-social-link {
@@ -3641,148 +3579,6 @@
     </div>
   </footer>
 
-  <!-- 3D Robot Mascot -->
-  <script src="assets/three.min.js"></script>
-  <script>
-    (function () {
-      'use strict';
-      var canvas = document.getElementById('robot-canvas');
-      if (!canvas || typeof THREE === 'undefined') return;
-
-        var W = 320, H = 380;
-        var scene = new THREE.Scene();
-        var camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 50);
-        camera.position.set(0, 0.5, 5.5);
-        camera.lookAt(0, 0.4, 0);
-
-        var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-        renderer.setSize(W, H);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.shadowMap.enabled = false;
-        renderer.setClearColor(0x000000, 0);
-
-        // Lights
-        scene.add(new THREE.AmbientLight(0x111111, 1));
-        var mainLight = new THREE.PointLight(0xC0A0FF, 2.5, 20);
-        mainLight.position.set(2, 4, 3);
-        scene.add(mainLight);
-        var rimLight = new THREE.PointLight(0x3A0D7C, 1.8, 15);
-        rimLight.position.set(-2, 0.5, -3);
-        scene.add(rimLight);
-
-        // Materials
-        var bodyMat = new THREE.MeshStandardMaterial({ color: 0x242433, metalness: 0.85, roughness: 0.25 });
-        var neckMat = new THREE.MeshStandardMaterial({ color: 0x1e1e2e, metalness: 0.85, roughness: 0.25 });
-        var headMat = new THREE.MeshStandardMaterial({ color: 0x7B2FBE, metalness: 0.55, roughness: 0.38 });
-        var eyeWhiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x9090ff, emissiveIntensity: 0.3, roughness: 0.1 });
-        var eyePupilMat = new THREE.MeshStandardMaterial({ color: 0x0a0a1a, emissive: 0x220033, emissiveIntensity: 0.3 });
-
-        // Geometries
-        var bodyGeo = new THREE.BoxGeometry(0.9, 0.85, 0.75);
-        var neckGeo = new THREE.CylinderGeometry(0.1, 0.12, 0.22, 8);
-        var headGeo = new THREE.BoxGeometry(1.0, 0.78, 0.82);
-        var eyeGeo = new THREE.SphereGeometry(0.12, 12, 8);
-        var pupilGeo = new THREE.SphereGeometry(0.055, 8, 6);
-
-        // Robot group
-        var robot = new THREE.Group();
-        robot.position.y = -0.3;
-        scene.add(robot);
-
-        // Body
-        robot.add(new THREE.Mesh(bodyGeo, bodyMat));
-
-        // Neck
-        var neck = new THREE.Mesh(neckGeo, neckMat);
-        neck.position.y = 0.535;
-        robot.add(neck);
-
-        // Head group (rotates to track cursor)
-        var head = new THREE.Group();
-        head.position.y = 1.035;
-        robot.add(head);
-
-        var headMesh = new THREE.Mesh(headGeo, headMat);
-        headMesh.rotation.z = 0.04;
-        head.add(headMesh);
-
-        // Eyes — shared materials so pulse animates both together
-        var leftEye = new THREE.Mesh(eyeGeo, eyeWhiteMat);
-        leftEye.position.set(-0.22, 0.05, 0.41);
-        head.add(leftEye);
-        var leftPupil = new THREE.Mesh(pupilGeo, eyePupilMat);
-        leftPupil.position.set(-0.22, 0.05, 0.50);
-        head.add(leftPupil);
-
-        var rightEye = new THREE.Mesh(eyeGeo, eyeWhiteMat);
-        rightEye.position.set(0.22, 0.05, 0.41);
-        head.add(rightEye);
-        var rightPupil = new THREE.Mesh(pupilGeo, eyePupilMat);
-        rightPupil.position.set(0.22, 0.05, 0.50);
-        head.add(rightPupil);
-
-        // Interaction state
-        var targetRotX = 0, targetRotY = 0;
-        var currentRotX = 0, currentRotY = 0;
-        var hovered = false;
-
-        canvas.addEventListener('mousemove', function (e) {
-          var rect = canvas.getBoundingClientRect();
-          var nx = (e.clientX - rect.left) / rect.width * 2 - 1;
-          var ny = -((e.clientY - rect.top) / rect.height * 2 - 1);
-          targetRotY = nx * 0.45;
-          targetRotX = ny * 0.22;
-        });
-        canvas.addEventListener('mouseenter', function () { hovered = true; });
-        canvas.addEventListener('mouseleave', function () {
-          hovered = false;
-          targetRotX = 0;
-          targetRotY = 0;
-        });
-
-        // Pause render loop when canvas is off-screen
-        var visible = true;
-        var ioObs = new IntersectionObserver(function (e) {
-          visible = e[0].isIntersecting;
-        }, { threshold: 0.1 });
-        ioObs.observe(canvas);
-
-        var rafId, t = 0;
-
-        function tick() {
-          rafId = requestAnimationFrame(tick);
-          if (!visible) return;
-          t += 0.016;
-
-          // Gentle floating bob
-          robot.position.y = -0.3 + Math.sin(t * 0.8) * 0.1;
-
-          // Lerp head toward cursor target + idle sway
-          currentRotX += (targetRotX + Math.sin(t * 0.31) * 0.035 - currentRotX) * 0.06;
-          currentRotY += (targetRotY + Math.sin(t * 0.42) * 0.09  - currentRotY) * 0.06;
-          head.rotation.x = currentRotX;
-          head.rotation.y = currentRotY;
-
-          // Eye brightness: pulse on hover, steady otherwise
-          eyeWhiteMat.emissiveIntensity = hovered
-            ? 0.7 + Math.sin(t * 4.5) * 0.3
-            : 0.3;
-
-          renderer.render(scene, camera);
-        }
-
-        tick();
-
-        // Dispose on page unload
-        window.addEventListener('beforeunload', function () {
-          cancelAnimationFrame(rafId);
-          ioObs.disconnect();
-          [bodyGeo, neckGeo, headGeo, eyeGeo, pupilGeo].forEach(function (g) { g.dispose(); });
-          [bodyMat, neckMat, headMat, eyeWhiteMat, eyePupilMat].forEach(function (m) { m.dispose(); });
-          renderer.dispose();
-        });
-    })();
-  </script>
 
 </body>
 </html>

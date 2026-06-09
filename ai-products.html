@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500&display=swap"
     rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     *,
     *::before,
@@ -130,6 +132,8 @@
       align-items: center;
       gap: 6px;
     }
+
+    .nav-item.active .label { color: #a100ff; }
 
     .chevron {
       width: 8px;
@@ -1293,7 +1297,7 @@
 
     .kr-section {
       position: relative;
-      height: 230vh;
+      height: 170vh;
       z-index: 3;
       background: #000;
     }
@@ -1320,25 +1324,25 @@
 
     .kr-aurora-w1 {
       background: radial-gradient(ellipse 900px 700px at 50% 20%, rgba(59, 130, 246, .45) 0%, transparent 55%);
-      animation: aurora1 8s ease-in-out infinite alternate;
+      animation: none;
       opacity: .7;
     }
 
     .kr-aurora-w2 {
       background: radial-gradient(ellipse 700px 500px at 80% 30%, rgba(139, 92, 246, .55) 0%, transparent 55%);
-      animation: aurora2 6s ease-in-out infinite alternate-reverse;
+      animation: none;
       opacity: .6;
     }
 
     .kr-aurora-w3 {
       background: radial-gradient(ellipse 750px 600px at 20% 65%, rgba(236, 72, 153, .4) 0%, transparent 55%);
-      animation: aurora3 10s ease-in-out infinite alternate;
+      animation: none;
       opacity: .45;
     }
 
     .kr-aurora-w4 {
       background: radial-gradient(ellipse 950px 400px at 60% 80%, rgba(34, 197, 94, .25) 0%, transparent 55%);
-      animation: aurora4 7s ease-in-out infinite alternate-reverse;
+      animation: none;
       opacity: .35;
     }
 
@@ -1351,35 +1355,32 @@
     /* Sticky container */
     .kr-sticky {
       position: sticky;
-      top: 0;
-      height: 100vh;
+      top: 96px;
+      height: calc(100vh - 96px);
       overflow: hidden;
       display: flex;
       flex-direction: column;
       z-index: 2;
     }
 
-    /* Section header: editorial, left-aligned */
-    .kr-eyebrow-wrap { position: relative; z-index: 10; padding: 72px max(64px,5.5vw) 0; flex-shrink: 0; text-align: left; }
-    .kr-eyebrow-tag { font-size: 10.5px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: #a100ff; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
-    .kr-eyebrow-tag::before { content: ''; display: inline-block; width: 28px; height: 1px; background: #a100ff; }
-    .kr-eyebrow { font-size: clamp(22px, 2.2vw, 34px); font-weight: 800; letter-spacing: -.03em; color: #fff; display: block; line-height: 1.1; }
-    .kr-eyebrow::before, .kr-eyebrow::after { display: none; }
+    /* Section header */
+    .kr-eyebrow-wrap { position: relative; z-index: 10; padding: 52px max(64px,5.5vw) 24px; flex-shrink: 0; text-align: left; }
+    .kr-eyebrow-title { font-size: clamp(26px, 2.8vw, 42px); font-weight: 800; letter-spacing: -.03em; color: #fff; line-height: 1.1; }
 
-    /* Arena */
-    .kr-arena { position: relative; flex: 1; overflow: hidden; }
+    /* Arena: stacked list */
+    .kr-arena { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 max(64px,5.5vw); overflow: hidden; }
 
-    /* Items: full-width editorial row, vertically centred, driven by JS */
-    .kr-item { position: absolute; left: max(64px,5.5vw); right: max(64px,5.5vw); top: 50%; transform: translateY(-50%); display: grid; grid-template-columns: 72px 1fr 1.6fr; align-items: center; gap: 0 52px; padding: 36px 0; border-top: 1px solid rgba(255,255,255,.1); border-bottom: 1px solid rgba(255,255,255,.1); will-change: opacity, transform; text-align: left; }
-    .kr-item-num { display: block; font-size: clamp(42px,5.5vw,68px); font-weight: 900; color: rgba(255,255,255,.07); letter-spacing: -.05em; line-height: 1; }
-    .kr-item-title { font-size: clamp(20px,1.9vw,28px); font-weight: 700; color: #fff; letter-spacing: -.025em; line-height: 1.2; margin-bottom: 0; white-space: normal; }
-    .kr-item-bar { display: none; }
-    .kr-item-desc { font-size: clamp(14px,1.15vw,16px); color: rgba(255,255,255,.65); line-height: 1.72; font-weight: 400; white-space: normal; }
+    /* Items: static stacked rows, opacity-driven by JS */
+    .kr-item { display: grid; grid-template-columns: 64px 1fr 1.5fr; align-items: center; gap: 0 48px; padding: 26px 0; border-bottom: 1px solid rgba(255,255,255,.08); opacity: 0.22; will-change: opacity, transform; transition: opacity .25s, transform .25s; text-align: left; }
+    .kr-item:first-child { border-top: 1px solid rgba(255,255,255,.08); }
+    .kr-item-num { display: block; font-size: clamp(32px,4vw,52px); font-weight: 900; color: rgba(255,255,255,.07); letter-spacing: -.05em; line-height: 1; }
+    .kr-item-title { font-size: clamp(18px,1.7vw,26px); font-weight: 700; color: #fff; letter-spacing: -.025em; line-height: 1.25; }
+    .kr-item-desc { font-size: clamp(15px,1.3vw,18px); color: #fff; line-height: 1.7; font-weight: 400; }
 
     /* ── INDUSTRIES SERVED ── */
     .is-section {
       background: #000;
-      padding: 72px 52px 60px;
+      padding: 72px 52px 120px;
     }
 
     .is-header {
@@ -1416,7 +1417,7 @@
     }
 
     .is-sub {
-      font-size: 16px;
+      font-size: 19px;
       color: #fff;
       margin-top: 16px;
       line-height: 1.65;
@@ -1428,7 +1429,10 @@
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 0;
-      border: 1px solid rgba(255, 255, 255, .07);
+      border-left: 1px solid #fff;
+      border-right: 1px solid #fff;
+      border-bottom: 1px solid #fff;
+      border-top: 1px solid rgba(255,255,255,.07);
     }
 
     .is-card {
@@ -1496,7 +1500,7 @@
     }
 
     .is-name {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       color: #fff;
       margin-bottom: 10px;
@@ -1505,7 +1509,7 @@
     }
 
     .is-desc {
-      font-size: 13px;
+      font-size: 15px;
       color: #fff;
       line-height: 1.62;
     }
@@ -1641,6 +1645,20 @@
       .spec-tab { padding: 18px 22px; font-size: 16px; }
     }
 
+    /* ── TECHNICAL CAPABILITIES ── */
+    .techcap-section { background: #000; padding: 0 52px 80px; }
+    .techcap-inner { max-width: 1300px; margin: 0 auto; }
+    .techcap-header { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+    .techcap-title { font-size: clamp(28px,2.8vw,40px); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #fff; }
+    .techcap-sub { font-size: clamp(14px,1.2vw,17px); font-weight: 400; color: #fff; line-height: 1.5; letter-spacing: -.005em; }
+    .techcap-body { border: 1px solid #fff; border-top: 3px solid #a100ff; background: #060a14; padding: 40px 52px; display: flex; flex-direction: column; gap: 20px; }
+    .techcap-item { display: flex; gap: 16px; align-items: flex-start; }
+    .techcap-arrow { color: #a100ff; font-size: 15px; font-weight: 700; flex-shrink: 0; margin-top: 1px; line-height: 1.55; }
+    .techcap-text { font-size: 16px; color: #fff; line-height: 1.55; letter-spacing: -.01em; font-weight: 500; }
+    @media (max-width: 768px) {
+      .techcap-body { padding: 28px 28px; }
+    }
+
     /* ── HOW TO CHOOSE ── */
     .htc-section { background: #000; padding: 0 52px 80px; }
     .htc-inner { max-width: 1300px; margin: 0 auto; }
@@ -1653,6 +1671,13 @@
     .htc-card-tier { font-size: 19px; font-weight: 700; color: #fff; margin-bottom: 12px; letter-spacing: -.02em; }
     .htc-card-arrow { color: #a100ff; margin-right: 9px; font-size: 15px; font-weight: 700; }
     .htc-card-desc { font-size: 15px; color: rgba(255,255,255,.6); line-height: 1.55; letter-spacing: -.005em; }
+
+    /* ── LAYERED TEXT ── */
+    .layered-section { background: #000; padding: 60px 0 220px; overflow: hidden; }
+    .layered-inner { max-width: 1300px; margin: 0 auto; cursor: pointer; user-select: none; }
+    .layered-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; }
+    .layered-item { overflow: hidden; position: relative; height: 80px; }
+    .layered-item p { font-size: clamp(52px,6vw,80px); font-weight: 900; letter-spacing: -2px; font-family: var(--font); color: #fff; height: 80px; line-height: 75px; padding: 0 15px; white-space: nowrap; margin: 0; -webkit-font-smoothing: antialiased; }
 
     /* ── BENEFITS ── */
     .benefits-section {
@@ -1811,11 +1836,19 @@
 
     /* ── CTA ── */
     .cta-section {
-      background: #0a0a0c;
+      position: relative;
+      background-image: url('https://images.pexels.com/photos/29067690/pexels-photo-29067690.jpeg?auto=compress&cs=tinysrgb&w=1920');
+      background-size: cover;
+      background-position: center;
       border-top: 1px solid rgba(255, 255, 255, .06);
       padding: 120px 52px;
       text-align: center;
     }
+    .cta-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(5,0,15,.72);
+    }
+    .cta-inner { position: relative; z-index: 1; }
 
     .cta-inner {
       max-width: 680px;
@@ -1833,7 +1866,7 @@
 
     .cta-desc {
       font-size: 17px;
-      color: rgba(255, 255, 255, .48);
+      color: #fff;
       line-height: 1.7;
       margin-bottom: 44px;
     }
@@ -1899,7 +1932,7 @@
       <li><a href="who-we-are.html" data-label="WHO WE ARE" class="nav-item"><span class="label">Who We Are</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-buildings"></i></span></span></a></li>
       <li><a href="how-we-do.html" data-label="HOW WE DO" class="nav-item"><span class="label">How We Do</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-gear"></i></span></span></a></li>
       <li class="has-dropdown">
-        <button type="button" data-label="WHAT WE OFFER" class="nav-item"><span class="label">What We Offer <span
+        <button type="button" data-label="WHAT WE OFFER" class="nav-item active"><span class="label">What We Offer <span
               class="chevron"></span></span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-briefcase"></i></span></span></button>
         <ul class="dropdown">
           <li><a href="ai-labs.html"><span class="d-arrow">&#62;</span> AI Labs</a></li>
@@ -2326,7 +2359,7 @@
           <li>Reduce risks in high-traffic environments</li>
           <li>Strengthen compliance with industrial safety standards</li>
         </ul>
-        <a href="#" class="intro-cta">
+        <a href="#ph-section" class="intro-cta" onclick="document.getElementById('ph-section').scrollIntoView({behavior:'smooth'});return false;">
           Explore the system
           <span class="intro-cta-arrow">
             <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2512,32 +2545,31 @@
         <div class="kr-aurora-overlay"></div>
       </div>
       <div class="kr-eyebrow-wrap">
-        <div class="kr-eyebrow-tag">Key Benefits</div>
-        <div class="kr-eyebrow">AI Forklift Safety System</div>
+        <div class="kr-eyebrow-title">Key Benefits of AI Forklift Safety System</div>
       </div>
       <div class="kr-arena" id="kr-arena">
         <div class="kr-item" id="kr-i0" style="--kc:#a100ff">
           <div class="kr-item-num">01</div>
           <h3 class="kr-item-title">Improve Workplace Safety</h3>
-          <div class="kr-item-bar"></div>
+
           <p class="kr-item-desc">AI-powered pedestrian detection helps prevent collisions and workplace accidents.</p>
         </div>
         <div class="kr-item" id="kr-i1" style="--kc:#3b82f6">
           <div class="kr-item-num">02</div>
           <h3 class="kr-item-title">Enhance Operator Awareness</h3>
-          <div class="kr-item-bar"></div>
+
           <p class="kr-item-desc">Advanced vision systems reduce blind spots and improve situational awareness.</p>
         </div>
         <div class="kr-item" id="kr-i2" style="--kc:#f97316">
           <div class="kr-item-num">03</div>
           <h3 class="kr-item-title">Reduce Operational Risk</h3>
-          <div class="kr-item-bar"></div>
+
           <p class="kr-item-desc">Automated alerts and safety interventions help minimize human error.</p>
         </div>
         <div class="kr-item" id="kr-i3" style="--kc:#00c49a">
           <div class="kr-item-num">04</div>
           <h3 class="kr-item-title">Retrofit Compatible</h3>
-          <div class="kr-item-bar"></div>
+
           <p class="kr-item-desc">Systems can be installed on existing forklifts and industrial vehicles without any
             dismantle.</p>
         </div>
@@ -2872,6 +2904,39 @@
     </div>
   </section>
 
+  <!-- ── TECHNICAL CAPABILITIES ── -->
+  <section class="techcap-section">
+    <div class="techcap-inner">
+      <div class="techcap-header">
+        <div class="techcap-title">Technical Capabilities</div>
+        <p class="techcap-sub">All Edge AI Systems are designed with a scalable architecture.</p>
+      </div>
+
+      <div class="techcap-body">
+        <div class="techcap-item">
+          <span class="techcap-arrow">→</span>
+          <div class="techcap-text">AI compute performance ranging from entry-level to high-performance systems</div>
+        </div>
+        <div class="techcap-item">
+          <span class="techcap-arrow">→</span>
+          <div class="techcap-text">Multi-core processing with optimized memory configurations</div>
+        </div>
+        <div class="techcap-item">
+          <span class="techcap-arrow">→</span>
+          <div class="techcap-text">Edge AI inference for real-time decision making</div>
+        </div>
+        <div class="techcap-item">
+          <span class="techcap-arrow">→</span>
+          <div class="techcap-text">Support for Linux and Windows environments</div>
+        </div>
+        <div class="techcap-item">
+          <span class="techcap-arrow">→</span>
+          <div class="techcap-text">High-speed connectivity with WiFi and Ethernet integration</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── HOW TO CHOOSE ── -->
   <section class="htc-section">
     <div class="htc-inner">
@@ -2897,106 +2962,50 @@
     </div>
   </section>
 
-  <!-- ── BENEFITS ── -->
-  <section class="benefits-section">
-    <div class="section-header">
-      <div class="section-label">Why Brighture AI</div>
-      <h2 class="section-title">Built for the Real World</h2>
-      <p class="section-desc">Designed and validated in live warehouse deployments across three continents.</p>
-    </div>
-    <div class="benefits-grid">
-      <div class="benefit-cell" style="--bc:#a100ff; --bi-bg:rgba(161,0,255,.1); --bi-bd:rgba(161,0,255,.2)">
-        <div class="benefit-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#a100ff" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 6v6l4 2" />
-          </svg>
-        </div>
-        <div class="benefit-title">Deploys in Days, Not Months</div>
-        <p class="benefit-desc">Plug into your existing CCTV infrastructure. Our edge AI nodes integrate with 95% of
-          camera brands — zero new cabling required. Average deployment: 4 days.</p>
-      </div>
-      <div class="benefit-cell" style="--bc:#00c49a; --bi-bg:rgba(0,196,154,.1); --bi-bd:rgba(0,196,154,.2)">
-        <div class="benefit-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#00c49a" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-        </div>
-        <div class="benefit-title">Air-Gapped, On-Premise Option</div>
-        <p class="benefit-desc">All inference runs locally on our edge hardware. No footage ever leaves your facility.
-          GDPR, SOC 2, and ISO 27001 compliance built in — not bolted on.</p>
-      </div>
-      <div class="benefit-cell" style="--bc:#3b82f6; --bi-bg:rgba(59,130,246,.1); --bi-bd:rgba(59,130,246,.2)">
-        <div class="benefit-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-          </svg>
-        </div>
-        <div class="benefit-title">Learns Your Facility</div>
-        <p class="benefit-desc">Custom fine-tuning adapts detection models to your specific floor layout, vehicle types,
-          and workflows — delivering facility-specific accuracy that off-the-shelf systems cannot match.</p>
-      </div>
-      <div class="benefit-cell" style="--bc:#fbbf24; --bi-bg:rgba(251,191,36,.1); --bi-bd:rgba(251,191,36,.2)">
-        <div class="benefit-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <line x1="12" y1="1" x2="12" y2="23" />
-            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-          </svg>
-        </div>
-        <div class="benefit-title">ROI in Under 6 Months</div>
-        <p class="benefit-desc">Customers report 73% fewer recordable incidents, 28% improvement in operational
-          throughput, and insurance premium reductions averaging 18% in the first year.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── INDUSTRIES ── -->
-  <section class="industries-section">
-    <div class="section-header">
-      <div class="section-label">Industries We Serve</div>
-      <h2 class="section-title">Built for Every Warehouse</h2>
-    </div>
-    <div class="industries-row">
-      <div class="industry-card">
-        <span class="industry-icon">📦</span>
-        <div class="industry-name">3PL & Logistics</div>
-        <p class="industry-sub">High-throughput distribution centers with mixed vehicle fleets</p>
-      </div>
-      <div class="industry-card">
-        <span class="industry-icon">🏭</span>
-        <div class="industry-name">Manufacturing</div>
-        <p class="industry-sub">Factory floors with heavy machinery and concurrent operations</p>
-      </div>
-      <div class="industry-card">
-        <span class="industry-icon">🛒</span>
-        <div class="industry-name">Retail & E-Commerce</div>
-        <p class="industry-sub">Fulfillment centers with high worker density and rapid picking</p>
-      </div>
-      <div class="industry-card">
-        <span class="industry-icon">🚢</span>
-        <div class="industry-name">Ports & Terminals</div>
-        <p class="industry-sub">Container yards with extreme-load equipment and shift work</p>
-      </div>
-      <div class="industry-card">
-        <span class="industry-icon">❄️</span>
-        <div class="industry-name">Cold Chain</div>
-        <p class="industry-sub">Temperature-controlled environments with visibility challenges</p>
-      </div>
+  <!-- ── LAYERED TEXT ── -->
+  <section class="layered-section">
+    <div class="layered-inner" id="layeredTextContainer">
+      <ul class="layered-list">
+        <li class="layered-item" style="transform:translateX(-105px) skew(60deg,-30deg) scaleY(0.66667)">
+          <p>&nbsp;</p>
+          <p>Scalable.</p>
+        </li>
+        <li class="layered-item" style="transform:translateX(-70px) skew(0deg,-30deg) scaleY(1.33333)">
+          <p>Scalable.</p>
+          <p>Efficient.</p>
+        </li>
+        <li class="layered-item" style="transform:translateX(-35px) skew(60deg,-30deg) scaleY(0.66667)">
+          <p>Efficient.</p>
+          <p>Human-centered.</p>
+        </li>
+        <li class="layered-item" style="transform:translateX(0px) skew(0deg,-30deg) scaleY(1.33333)">
+          <p>Human-centered.</p>
+          <p>Accessible.</p>
+        </li>
+        <li class="layered-item" style="transform:translateX(35px) skew(60deg,-30deg) scaleY(0.66667)">
+          <p>Accessible.</p>
+          <p>Practical.</p>
+        </li>
+        <li class="layered-item" style="transform:translateX(70px) skew(0deg,-30deg) scaleY(1.33333)">
+          <p>Practical.</p>
+          <p>Everywhere.</p>
+        </li>
+        <li class="layered-item" style="transform:translateX(105px) skew(60deg,-30deg) scaleY(0.66667)">
+          <p>Everywhere.</p>
+          <p>&nbsp;</p>
+        </li>
+      </ul>
     </div>
   </section>
 
   <!-- ── CTA ── -->
   <section class="cta-section">
     <div class="cta-inner">
-      <h2 class="cta-title">Zero accidents is not a goal.<br>It's a guarantee.</h2>
+      <h2 class="cta-title">Intelligence at the edge.<br>Safety at the core.</h2>
       <p class="cta-desc">Request a live demo and see how our AI transforms your warehouse safety posture — deployed in
         days, delivering measurable impact in weeks.</p>
-      <a href="#" class="cta-btn">
-        Book a Demo
+      <a href="contact.html" class="cta-btn">
+        Contact Us
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
           <path d="M3 8h10M9 4l4 4-4 4" />
@@ -3693,10 +3702,10 @@
       var items = ['kr-i0', 'kr-i1', 'kr-i2', 'kr-i3'].map(function (id) { return document.getElementById(id); });
       if (!section || !items[0]) return;
 
-      var centers = [0.05, 0.35, 0.65, 0.95];
-      var WINDOW = 0.30;
-      var MIN_OP = 0.15;
-      var Y_SCALE = 680;
+      var centers = [0.1, 0.37, 0.63, 0.9];
+      var WINDOW = 0.32;
+      var MIN_OP = 0.22;
+      var Y_SCALE = 14;
 
       /* Cache section metrics — avoid getBoundingClientRect on every scroll tick */
       var sectionTop = 0, sectionScrollable = 1;
@@ -3719,11 +3728,11 @@
             if (!item) return;
             var dist = p - centers[i];
             var absDist = Math.abs(dist);
-            var opacity = absDist >= WINDOW ? 0
+            var opacity = absDist >= WINDOW ? MIN_OP
               : MIN_OP + (1 - MIN_OP) * (1 - absDist / WINDOW);
             var vy = dist * -Y_SCALE;
             item.style.opacity = opacity.toFixed(3);
-            item.style.transform = 'translateY(calc(-50% + ' + vy.toFixed(1) + 'px))';
+            item.style.transform = 'translateY(' + vy.toFixed(1) + 'px)';
           });
         });
       }
@@ -3829,6 +3838,17 @@
         requestAnimationFrame(tick);
       })();
     })();
+
+    /* ── Layered text hover animation ── */
+    (function () {
+      var container = document.getElementById('layeredTextContainer');
+      if (!container || typeof gsap === 'undefined') return;
+      var paragraphs = container.querySelectorAll('p');
+      var tl = gsap.timeline({ paused: true });
+      tl.to(paragraphs, { y: -80, duration: 0.8, ease: 'power2.out', stagger: 0.08 });
+      container.addEventListener('mouseenter', function () { tl.play(); });
+      container.addEventListener('mouseleave', function () { tl.reverse(); });
+    })();
   </script>
 
   <!-- ── SITE FOOTER ── -->
@@ -3846,10 +3866,10 @@
       grid-template-columns: 1.8fr 1fr 1fr 1fr;
       gap: 56px;
     }
-    .sf-brand { display: flex; flex-direction: column; gap: 20px; }
-    .sf-logo { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; text-decoration: none; }
-    .sf-logo svg { height: 36px; width: auto; overflow: visible; }
-    .sf-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.5); text-transform: lowercase; }
+    .sf-brand { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+    .sf-logo { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
+    .sf-logo svg { height: 38px; width: auto; overflow: visible; }
+    .sf-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.65); text-transform: lowercase; }
     .sf-desc { font-size: 15px; line-height: 1.72; color: rgba(255,255,255,.68); max-width: 290px; margin-top: 4px; }
     .sf-socials { display: flex; gap: 10px; margin-top: 6px; }
     .sf-social-link {

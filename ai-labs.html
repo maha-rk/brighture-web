@@ -26,6 +26,7 @@
     .nav-links { display: flex; align-items: center; list-style: none; gap: 4px; }
     .nav-item { position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 8px 14px; height: 92px; text-decoration: none; background: none; border: none; font-family: var(--font); }
     .nav-item .label { font-size: 15.5px; font-weight: 500; color: rgba(255,255,255,0.88); letter-spacing: 0.03em; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+    .nav-item.active .label { color: #a100ff; }
     .chevron { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); transition: transform .22s ease; margin-top: -3px; display: inline-block; flex-shrink: 0; }
     .has-dropdown:hover .chevron { transform: rotate(225deg); margin-top: 3px; }
     .has-dropdown { position: relative; height: 92px; display: flex; align-items: center; }
@@ -564,10 +565,10 @@
     .why-block-inner {
       background: rgba(40,0,100,.72);
       border: 1px solid rgba(161,0,255,.4);
-      border-radius: 14px; padding: 15px 18px;
-      width: 210px;
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 13px; font-weight: 500;
+      border-radius: 14px; padding: 20px 24px;
+      width: 270px;
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 14px; font-weight: 500;
       color: rgba(255,255,255,.92); line-height: 1.6;
       box-shadow: 0 6px 24px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);
       transition: border-color .28s, background .28s, transform .28s cubic-bezier(.4,0,.2,1);
@@ -592,11 +593,11 @@
     .why-block.revealed { opacity: 1; }
 
     /* Star-shape — 5 blocks at pentagon points around the heading */
-    .wb-1 { top:calc(50% - 258px); left:calc(50% - 105px); animation: fA 6.8s ease-in-out infinite; }
-    .wb-2 { top:calc(50% - 122px); left:calc(50% + 258px); animation: fB 7.3s ease-in-out .6s infinite; }
-    .wb-3 { top:calc(50% + 198px); left:calc(50% + 170px); animation: fD 7.9s ease-in-out .3s infinite; }
-    .wb-4 { top:calc(50% + 198px); left:calc(50% - 380px); animation: fC 6.3s ease-in-out 1s infinite; }
-    .wb-5 { top:calc(50% - 122px); left:calc(50% - 468px); animation: fE 6.6s ease-in-out .8s infinite; }
+    .wb-1 { top:calc(50% - 340px); left:calc(50% - 135px); animation: fA 6.8s ease-in-out infinite; }
+    .wb-2 { top:calc(50% - 180px); left:calc(50% + 300px); animation: fB 7.3s ease-in-out .6s infinite; }
+    .wb-3 { top:calc(50% + 220px); left:calc(50% + 185px); animation: fD 7.9s ease-in-out .3s infinite; }
+    .wb-4 { top:calc(50% + 220px); left:calc(50% - 390px); animation: fC 6.3s ease-in-out 1s infinite; }
+    .wb-5 { top:calc(50% - 180px); left:calc(50% - 555px); animation: fE 6.6s ease-in-out .8s infinite; }
 
     /* Ghost deco blocks — scattered ALL AROUND the section */
     .why-deco {
@@ -680,7 +681,7 @@
     <li><a href="who-we-are.html" data-label="WHO WE ARE" class="nav-item"><span class="label">Who We Are</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-buildings"></i></span></span></a></li>
     <li><a href="how-we-do.html" data-label="HOW WE DO" class="nav-item"><span class="label">How We Do</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-gear"></i></span></span></a></li>
     <li class="has-dropdown">
-      <button type="button" data-label="WHAT WE OFFER" class="nav-item"><span class="label">What We Offer <span class="chevron"></span></span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-briefcase"></i></span></span></button>
+      <button type="button" data-label="WHAT WE OFFER" class="nav-item active"><span class="label">What We Offer <span class="chevron"></span></span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-briefcase"></i></span></span></button>
       <ul class="dropdown">
         <li><a href="ai-labs.html" class="active"><span class="d-arrow">&#62;</span> AI Labs</a></li>
         <li><a href="ai-trainings.html"><span class="d-arrow">&#62;</span> AI Trainings</a></li>
@@ -1307,10 +1308,10 @@
       grid-template-columns: 1.8fr 1fr 1fr 1fr;
       gap: 56px;
     }
-    .sf-brand { display: flex; flex-direction: column; gap: 20px; }
-    .sf-logo { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; text-decoration: none; }
-    .sf-logo svg { height: 36px; width: auto; overflow: visible; }
-    .sf-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.5); text-transform: lowercase; }
+    .sf-brand { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+    .sf-logo { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
+    .sf-logo svg { height: 38px; width: auto; overflow: visible; }
+    .sf-tagline { font-size: 12px; font-weight: 300; letter-spacing: .2em; color: rgba(255,255,255,.65); text-transform: lowercase; }
     .sf-desc { font-size: 15px; line-height: 1.72; color: rgba(255,255,255,.68); max-width: 290px; margin-top: 4px; }
     .sf-socials { display: flex; gap: 10px; margin-top: 6px; }
     .sf-social-link {
