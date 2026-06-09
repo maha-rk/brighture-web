@@ -385,9 +385,7 @@
     /* sticky keeps the robot panel pinned at the top while the marquee
        section scrolls up over it — the arm stays perfectly static */
     .robot-panel {
-      position: sticky;
-      top: 0;
-      z-index: 11;
+      position: relative;
       height: 100vh;
       overflow: hidden;
     }
@@ -2015,7 +2013,6 @@
     /* === HORIZONTAL SLIDE SCENE (marquee → global presence) === */
     .hslide-scene {
       position: relative;
-      z-index: 20;
     }
 
     .hslide-sticky {
