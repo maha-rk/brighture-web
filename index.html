@@ -2015,10 +2015,6 @@
       position: relative;
     }
 
-    .hslide-sticky {
-      border-top: 3px solid #0a0a0c;
-      box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.35);
-    }
 
     .hslide-track {
       display: block;
@@ -2036,6 +2032,18 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      position: relative;
+    }
+
+    .hslide-marquee::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent, #000);
+      pointer-events: none;
     }
 
     /* Panel B: global presence */
@@ -2629,7 +2637,7 @@
               </div>
             </div>
             <div class="marquee-heading" id="marquee-heading">
-              <h2 class="marquee-title">Shaping the <em>innovators</em> of tomorrow.</h2>
+              <h2 class="marquee-title">Shaping the <em>innovators</em> of tomorrow...</h2>
             </div>
             <div class="marquee-row">
               <div class="marquee-track marquee-track-left">
@@ -2653,7 +2661,7 @@
         <!-- PANEL B: Global Presence -->
         <div class="hslide-panel hslide-global">
           <div class="glob-header">
-            <h2 class="glob-headline">Where intelligence meets the world.</h2>
+            <h2 class="glob-headline">...for every corner of the world.</h2>
           </div>
           <ul class="exc-list" id="exc-list" data-active="0">
             <li class="exc-item" data-active="true" data-idx="0">
