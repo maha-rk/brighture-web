@@ -1390,9 +1390,7 @@
     .hgal-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(4, 6, 18, 0.94);
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
+      background: rgba(4, 6, 18, 0.96);
       opacity: 0;
       transition: opacity 0.35s ease;
     }
@@ -1529,7 +1527,7 @@
       object-fit: cover;
       filter: brightness(0.9) saturate(1.2) contrast(1.04);
       transition: filter 0.5s ease, transform 0.5s ease;
-      will-change: filter, transform;
+      will-change: transform;
       pointer-events: none;
     }
 
@@ -1700,9 +1698,7 @@
     .card-detail-scrim {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.72);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: rgba(0, 0, 0, 0.82);
       opacity: 0;
       transition: opacity 0.3s ease;
     }
@@ -3091,17 +3087,18 @@
       var activeTrack = -1, curX = 0, snapX = [], snapIdx = 0;
       var drag = { on: false, startCX: 0, startX: 0, vel: 0, lastCX: 0, lastT: 0 };
       var wheelTimer = null;
+      var cachedMinX = 0;
+      var rafPending = false, pendingDragX = null;
 
-      function getMinX() {
+      function refreshMinX() {
         var totalW = 0;
         Array.from(track.children).forEach(function (ch) {
           totalW = Math.max(totalW, ch.offsetLeft + ch.offsetWidth);
         });
-        totalW += 100;
-        return Math.min(0, track.parentElement.offsetWidth - totalW);
+        cachedMinX = Math.min(0, (track.parentElement ? track.parentElement.offsetWidth : window.innerWidth) - totalW - 100);
       }
 
-      function clamp(x) { return Math.max(getMinX(), Math.min(0, x)); }
+      function clamp(x) { return Math.max(cachedMinX, Math.min(0, x)); }
 
       function moveTo(x, type) {
         curX = x;
@@ -3127,6 +3124,7 @@
       }
 
       function calcSnaps() {
+        refreshMinX();
         snapX = [];
         var wW = track.parentElement.offsetWidth;
         track.querySelectorAll('.hgal-card').forEach(function (c) {
@@ -3267,8 +3265,16 @@
         var now = Date.now(), dt = Math.max(1, now - drag.lastT);
         drag.vel = (e.clientX - drag.lastCX) / dt;
         drag.lastCX = e.clientX; drag.lastT = now;
-        moveTo(clamp(drag.startX + e.clientX - drag.startCX), null);
-        refreshDotHint();
+        pendingDragX = clamp(drag.startX + e.clientX - drag.startCX);
+        if (!rafPending) {
+          rafPending = true;
+          requestAnimationFrame(function () {
+            if (pendingDragX !== null) moveTo(pendingDragX, null);
+            refreshDotHint();
+            rafPending = false;
+            pendingDragX = null;
+          });
+        }
       });
 
       window.addEventListener('pointerup', function (e) {
