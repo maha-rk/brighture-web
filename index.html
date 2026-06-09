@@ -1613,6 +1613,7 @@
       line-height: 1.45;
       padding: 20px;
       font-family: var(--font);
+      text-decoration: none;
     }
 
     .hgal-cta-circle:hover {
@@ -3209,9 +3210,11 @@
           track.appendChild(card);
         });
 
+        var ctaLabel = ti === 0 ? 'Explore<br>AI Labs' : 'Explore<br>AI Trainings';
+        var ctaHref  = ti === 0 ? 'ai-labs.html' : 'ai-trainings.html';
         var cta = document.createElement('div');
         cta.className = 'hgal-cta-panel';
-        cta.innerHTML = '<div class="hgal-cta-circle">Explore<br>Brighture</div>';
+        cta.innerHTML = '<a class="hgal-cta-circle" href="' + ctaHref + '">' + ctaLabel + '</a>';
         track.appendChild(cta);
       }
 
