@@ -16,12 +16,12 @@
 
     /* NAV */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; height: 96px;
+      position: fixed; top: 0; left: 0; right: 0; height: 68px;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 52px; z-index: 1000;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(18px) saturate(160%);
-      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      padding: 0 48px; z-index: 1000;
+      background: rgba(6,6,12,0.68);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       border-bottom: 1px solid rgba(255,255,255,0.07);
     }
     .nav-logo { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
@@ -33,7 +33,7 @@
     .nav-links { display: flex; align-items: center; list-style: none; gap: 4px; }
     .nav-item {
       position: relative; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; padding: 8px 16px; height: 96px; text-decoration: none;
+      cursor: pointer; padding: 8px 16px; height: 68px; text-decoration: none;
     }
     .nav-item .label {
       font-size: 16.8px; font-weight: 400; color: rgba(255,255,255,0.9);
@@ -48,7 +48,7 @@
       margin-top: -3px; display: inline-block; flex-shrink: 0;
     }
     .has-dropdown:hover .chevron { transform: rotate(225deg); margin-top: 3px; }
-    .has-dropdown { position: relative; height: 96px; display: flex; align-items: center; }
+    .has-dropdown { position: relative; height: 68px; display: flex; align-items: center; }
     .has-dropdown::after { content: ''; position: absolute; top: 96px; left: 0; right: 0; height: 12px; }
     .dropdown {
       position: absolute; top: 96px; left: 0;
@@ -400,7 +400,7 @@
       <li><a href="who-we-are.html" data-label="WHO WE ARE" class="nav-item active"><span class="label">Who We Are</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-buildings"></i></span></span></a></li>
       <li><a href="how-we-do.html" data-label="HOW WE DO" class="nav-item"><span class="label">How We Do</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-gear"></i></span></span></a></li>
       <li class="has-dropdown">
-        <button type="button" data-label="WHAT WE OFFER" class="nav-item" style="background:none;border:none;height:96px;">
+        <button type="button" data-label="WHAT WE OFFER" class="nav-item" style="background:none;border:none;height: 68px;">
           <span class="label">What We Offer <span class="chevron"></span></span>
         <span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-briefcase"></i></span></span></button>
         <ul class="dropdown">
