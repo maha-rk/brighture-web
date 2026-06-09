@@ -509,7 +509,7 @@
       content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
       background: radial-gradient(600px circle at var(--wmx,50%) var(--wmy,50%), rgba(161,0,255,.10) 0%, transparent 60%);
     }
-    .why-orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
+    .why-orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; will-change: transform; }
     .why-orb-1 { width: 700px; height: 700px; top: -150px; left: -130px;
       background: radial-gradient(circle, rgba(110,0,255,.18) 0%, transparent 55%);
       animation: orbDrift 20s ease-in-out infinite; }
@@ -545,8 +545,8 @@
       animation: headingGlow 4s ease-in-out infinite;
     }
     @keyframes headingGlow {
-      0%,100%{text-shadow:0 0 80px rgba(161,0,255,.28),0 0 28px rgba(161,0,255,.12)}
-      50%{text-shadow:0 0 180px rgba(161,0,255,.68),0 0 70px rgba(161,0,255,.32),0 0 130px rgba(210,120,255,.22)}
+      0%,100%{ filter: drop-shadow(0 0 18px rgba(161,0,255,.30)); }
+      50%    { filter: drop-shadow(0 0 40px rgba(161,0,255,.65)); }
     }
 
     /* Float keyframes — varied axes for organic feel */
@@ -1204,13 +1204,22 @@
     var whyBlocks  = document.querySelectorAll('.why-block');
     if (!whySection) return;
 
-    /* Mouse-tracking spotlight */
+    /* Mouse-tracking spotlight — rAF throttled, cached rect */
+    var whyRect = whySection.getBoundingClientRect();
+    window.addEventListener('resize', function() { whyRect = whySection.getBoundingClientRect(); }, { passive: true });
+    window.addEventListener('scroll', function() { whyRect = whySection.getBoundingClientRect(); }, { passive: true });
+    var whyRafPending = false, whyMX = 0, whyMY = 0;
     whySection.addEventListener('mousemove', function (e) {
-      var r = whySection.getBoundingClientRect();
-      var x = ((e.clientX - r.left) / r.width  * 100).toFixed(2);
-      var y = ((e.clientY - r.top)  / r.height * 100).toFixed(2);
-      whySection.style.setProperty('--wmx', x + '%');
-      whySection.style.setProperty('--wmy', y + '%');
+      whyMX = e.clientX; whyMY = e.clientY;
+      if (whyRafPending) return;
+      whyRafPending = true;
+      requestAnimationFrame(function() {
+        var x = ((whyMX - whyRect.left) / whyRect.width  * 100).toFixed(1);
+        var y = ((whyMY - whyRect.top)  / whyRect.height * 100).toFixed(1);
+        whySection.style.setProperty('--wmx', x + '%');
+        whySection.style.setProperty('--wmy', y + '%');
+        whyRafPending = false;
+      });
     });
 
     /* Sequential block reveal */
@@ -1279,15 +1288,26 @@
         item.addEventListener('mouseleave',  function() { wheel._target = NORMAL; });
       });
 
-      (function tick() {
+      var anyHovered = false;
+      document.querySelectorAll('.nav-item').forEach(function(item) {
+        item.addEventListener('mouseenter', function() { anyHovered = true; if (!rafRunning) { rafRunning = true; requestAnimationFrame(tick); } });
+        item.addEventListener('mouseleave', function() { anyHovered = false; });
+      });
+      var rafRunning = false;
+      function tick() {
+        var stillMoving = false;
         wheels.forEach(function(w) {
           w._speed += (w._target - w._speed) * 0.09;
+          if (Math.abs(w._speed) > 0.01) { stillMoving = true; }
           w._angle += w._speed;
-          // translate(-50%,-50%) centres the wheel; then rotate around its own centre
           w.style.transform = 'translate(-50%,-50%) rotate(' + w._angle + 'deg)';
         });
-        requestAnimationFrame(tick);
-      })();
+        if (anyHovered || stillMoving) {
+          requestAnimationFrame(tick);
+        } else {
+          rafRunning = false;
+        }
+      }
     })();
   </script>
 
