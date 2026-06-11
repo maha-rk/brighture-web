@@ -13,10 +13,10 @@
   <!-- Start fetching the Spline runtime + robot scene immediately, in parallel -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
   <link rel="preconnect" href="https://prod.spline.design" crossorigin />
-  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.9.48/build/spline-viewer.js" crossorigin />
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.12.97/build/spline-viewer.js" crossorigin />
   <link rel="preload" as="fetch" href="https://prod.spline.design/aIfY7QYuRIHlJ7gA/scene.splinecode" crossorigin />
   <!-- execute the Spline web component early so <spline-viewer> is defined ASAP -->
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.9.48/build/spline-viewer.js" crossorigin></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.12.97/build/spline-viewer.js" crossorigin></script>
   <style>
     *,
     *::before,
@@ -2219,7 +2219,7 @@
     }
 
     .marquee-title em {
-      font-style: normal;
+      font-style: italic;
       color: rgba(0, 0, 0, 0.35);
     }
 
@@ -2684,12 +2684,18 @@
       viewer.setAttribute('events-target', 'global');
       mount.appendChild(viewer);
 
-      // only hide the poster once the live robot has ACTUALLY loaded — never on a
-      // timer — so it can never go blank if the 3D scene is slow or fails.
+      // Reveal the live 3D (fade the viewer in). The poster stays BEHIND it as a
+      // pixel-matched backdrop, so it never goes blank.
+      function showRobot() { viewer.classList.add('loaded'); }
+      // Clean swap if the scene fires 'load' — fade the poster out entirely.
       viewer.addEventListener('load', function () {
-        viewer.classList.add('loaded');
+        showRobot();
         if (poster) poster.style.opacity = '0';
       });
+      // Fallback: this scene's format is newer than the viewer lib, so it doesn't
+      // reliably fire 'load' — but it still renders. Reveal the 3D on a short timer
+      // so it always appears; the poster underneath remains as a safe backdrop.
+      setTimeout(showRobot, 1500);
 
       // hide the "Built with Spline" watermark inside the shadow DOM
       var HIDE = 'a,#logo,.spline-watermark{display:none!important;opacity:0!important;pointer-events:none!important}';
@@ -3871,7 +3877,7 @@
         <p class="sf-col-label">Get in Touch</p>
         <ul>
           <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="mailto:innovate@brightureglobal.com">innovate@brightureglobal.com</a></li>
+          <li><a href="mailto:connect@brightureglobal.com">connect@brightureglobal.com</a></li>
           <li><a href="contact.html">Partner With Us</a></li>
         </ul>
       </div>
