@@ -10,6 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Start fetching the Spline runtime + robot scene immediately, in parallel -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://prod.spline.design" crossorigin />
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.9.48/build/spline-viewer.js" crossorigin />
+  <link rel="preload" as="fetch" href="https://prod.spline.design/aIfY7QYuRIHlJ7gA/scene.splinecode" crossorigin />
   <style>
     *,
     *::before,
@@ -256,7 +261,7 @@
       position: relative;
       z-index: 10;
       text-align: center;
-      padding: 36px 40px 0;
+      padding: 22px 40px 0;
       width: 100%;
       max-width: 900px;
       margin: 0 auto;
@@ -289,13 +294,59 @@
       font-weight: 300;
       line-height: 1.8;
       max-width: 820px;
-      margin: 28px auto 0;
+      margin: 18px auto 0;
       color: rgba(255, 255, 255, 0.92);
       letter-spacing: 0.01em;
       text-align: center;
       text-shadow: 0 0 18px rgba(255, 255, 255, 0.35), 0 0 40px rgba(180, 200, 255, 0.18);
       white-space: nowrap;
     }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 26px auto 0;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 15.5px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      position: relative;
+      z-index: 10;
+      transition: color 0.35s ease, letter-spacing 0.35s ease, text-shadow 0.35s ease;
+    }
+    .hero-cta-text {
+      position: relative;
+    }
+    .hero-cta-text::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.28);
+      transition: background 0.35s ease, box-shadow 0.35s ease;
+    }
+    .hero-cta:hover {
+      color: #fff;
+      letter-spacing: 0.17em;
+      text-shadow: 0 0 22px rgba(161, 0, 255, 0.4);
+    }
+    .hero-cta:hover .hero-cta-text::after {
+      background: #a100ff;
+      box-shadow: 0 0 16px rgba(161, 0, 255, 0.7);
+    }
+    .hero-cta-arrow {
+      font-size: 16px;
+      color: #a100ff;
+      transition: transform 0.35s ease;
+    }
+    .hero-cta:hover .hero-cta-arrow { transform: translateX(6px); }
 
     #bg-canvas {
       position: absolute;
@@ -313,7 +364,7 @@
       flex: 1;
       z-index: 5;
       overflow: visible;
-      margin-top: -100px;
+      margin-top: 0;
     }
 
     .robot-glow {
@@ -357,6 +408,54 @@
       z-index: 1;
       pointer-events: none;
       animation: glowPulse 4s ease-in-out infinite;
+    }
+
+    .hero-robot-3d {
+      position: absolute;
+      /* anchor the box to the bottom so the robot's base always clears the
+         viewport edge regardless of window height (centering caused the base
+         to drop off-screen on shorter windows) */
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      /* square box: the Spline scene only frames the FULL robot (incl. the
+         bottom platform slab) at a ~1:1 aspect — a landscape box crops the base */
+      width: min(500px, 86vw);
+      aspect-ratio: 1 / 1;
+      height: auto;
+      z-index: 2;
+    }
+    .hero-robot-3d spline-viewer {
+      position: absolute;
+      /* Spline frames the robot small inside its canvas, so we render the
+         viewer at a much larger size (centered over the poster) to make the
+         live robot match the poster's scale — no CSS scale() (keeps it crisp) */
+      top: 50%;
+      left: 52%;
+      width: 210%;
+      height: 210%;
+      transform: translate(-50%, -50%);
+      display: block;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .hero-robot-3d spline-viewer.loaded { opacity: 1; }
+    /* Instant poster — shows immediately; live robot fades in over it */
+    .hero-robot-poster {
+      position: absolute;
+      /* poster is a transparent cutout of the live Spline robot, captured at
+         the exact viewer-box dimensions — so it uses the IDENTICAL box as the
+         live viewer below and overlays it pixel-for-pixel at any width */
+      top: 50%;
+      left: 52%;
+      width: 210%;
+      height: 210%;
+      transform: translate(-50%, -50%);
+      object-fit: fill;
+      z-index: 1;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
     }
 
     /* === FULLSCREEN SPLINE === */
@@ -2407,10 +2506,16 @@
       </h1>
       <p class="hero-desc">Pioneering the infrastructure of AI education.<br>We build the labs, systems, and platforms
         that prepare the world for the AI future.</p>
+      <a href="#offerings" class="hero-cta" onclick="document.getElementById('offerings').scrollIntoView({behavior:'smooth'});return false;">
+        <span class="hero-cta-text">Start Exploring</span> <span class="hero-cta-arrow">&#8594;</span>
+      </a>
     </div>
     <div class="hero-spline">
       <div class="robot-glow"></div>
       <div class="hero-robot-spotlight"></div>
+      <div class="hero-robot-3d" id="heroRobot">
+        <img class="hero-robot-poster" id="heroRobotPoster" src="assets/robot-hero.png?v=4" alt="Brighture AI" />
+      </div>
     </div>
   </section>
 
@@ -2462,7 +2567,7 @@
     </div>
   </section>
 
-  <section class="offerings-section">
+  <section class="offerings-section" id="offerings">
     <video class="offerings-bg-video" autoplay muted loop playsinline
       src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260419_064822_f120e48a-d545-45dd-a02d-facb07829888.mp4">
     </video>
@@ -3579,6 +3684,61 @@
     </div>
   </footer>
 
+  <!-- Hero robot: live Spline if WebGL is supported, static image fallback otherwise -->
+  <script>
+    (function () {
+      var mount = document.getElementById('heroRobot');
+      if (!mount) return;
+
+      function webglSupported() {
+        try {
+          var c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext &&
+            (c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch (e) { return false; }
+      }
+
+      var poster = document.getElementById('heroRobotPoster');
+
+      if (webglSupported()) {
+        // Poster (a square cutout of the robot) shows INSTANTLY in the same
+        // square box as the viewer, so it's the same size as the live robot.
+        // Load the Spline web component (jsDelivr = faster than unpkg), then mount the robot
+        var mod = document.createElement('script');
+        mod.type = 'module';
+        mod.src = 'https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.9.48/build/spline-viewer.js';
+        document.head.appendChild(mod);
+
+        var viewer = document.createElement('spline-viewer');
+        viewer.setAttribute('url', 'https://prod.spline.design/aIfY7QYuRIHlJ7gA/scene.splinecode');
+        viewer.setAttribute('events-target', 'global');
+        mount.appendChild(viewer);
+
+        // Fade the live robot in over the poster, then fade the poster out
+        function reveal() {
+          viewer.classList.add('loaded');
+          if (poster) poster.style.opacity = '0';
+        }
+        viewer.addEventListener('load', reveal);
+        setTimeout(reveal, 1000);
+
+        // Hide the "Built with Spline" watermark inside the shadow DOM
+        var HIDE = 'a,#logo,.spline-watermark{display:none!important;opacity:0!important;pointer-events:none!important}';
+        function patch() {
+          document.querySelectorAll('spline-viewer').forEach(function (v) {
+            var root = v.shadowRoot;
+            if (!root || root.querySelector('#_sp_hide')) return;
+            var st = document.createElement('style');
+            st.id = '_sp_hide';
+            st.textContent = HIDE;
+            root.appendChild(st);
+          });
+        }
+        [400, 1000, 2000, 4000, 7000].forEach(function (t) { setTimeout(patch, t); });
+      }
+      // No WebGL: the poster image stays as the permanent fallback — nothing to do.
+    })();
+  </script>
 
 </body>
 </html>
