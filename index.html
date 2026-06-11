@@ -15,6 +15,8 @@
   <link rel="preconnect" href="https://prod.spline.design" crossorigin />
   <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.9.48/build/spline-viewer.js" crossorigin />
   <link rel="preload" as="fetch" href="https://prod.spline.design/aIfY7QYuRIHlJ7gA/scene.splinecode" crossorigin />
+  <!-- execute the Spline web component early so <spline-viewer> is defined ASAP -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.9.48/build/spline-viewer.js" crossorigin></script>
   <style>
     *,
     *::before,
@@ -274,12 +276,14 @@
     .hero-title {
       font-size: clamp(36px, 4.8vw, 68px);
       font-weight: 700;
-      line-height: 1.14;
+      line-height: 1.3;
       letter-spacing: -0.03em;
       color: #fff;
-      margin-bottom: 18px;
+      margin-bottom: 8px;
       white-space: nowrap;
       overflow: visible;
+      /* extra room so background-clip:text doesn't clip descenders (g, y) */
+      padding-bottom: 0.08em;
     }
 
     .hero-title em {
@@ -588,7 +592,7 @@
 
     .scroll-prefix {
       position: sticky;
-      top: calc(50vh - 54px);
+      top: calc(50vh - 62px);
       align-self: flex-start;
       flex-shrink: 0;
       font-family: var(--font);
@@ -596,9 +600,9 @@
       font-weight: 800;
       color: #fff;
       white-space: nowrap;
-      line-height: 1.12;
+      line-height: 1.3;
       letter-spacing: -0.04em;
-      height: 108px;
+      height: 124px;
       display: flex;
       align-items: center;
     }
@@ -615,7 +619,7 @@
       font-family: var(--font);
       font-size: 96px;
       font-weight: 800;
-      line-height: 1.12;
+      line-height: 1.3;
       display: flex;
       align-items: center;
       letter-spacing: -0.04em;
@@ -624,7 +628,7 @@
       will-change: opacity;
       transition: opacity 0.15s ease;
       white-space: nowrap;
-      height: 108px;
+      height: 124px;
     }
 
     .scroll-word--gold {
@@ -2452,6 +2456,143 @@
       width: auto;
       display: block;
     }
+
+    /* ============================================================
+       MOBILE / TABLET RESPONSIVE
+       ============================================================ */
+    .nav-burger { display: none; }
+
+    @media (max-width: 860px) {
+      nav { padding: 0 18px; height: 68px; }
+      .nav-logo svg { height: 38px; }
+      .nav-tagline { font-size: 8.5px; }
+
+      /* hamburger button */
+      .nav-burger {
+        display: flex; flex-direction: column; justify-content: center;
+        gap: 5px; width: 44px; height: 44px; padding: 0;
+        background: none; border: none; cursor: pointer; z-index: 1300;
+      }
+      .nav-burger span {
+        display: block; width: 26px; height: 2px; border-radius: 2px;
+        background: #fff; transition: transform .3s ease, opacity .3s ease;
+      }
+      nav.nav-open .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      nav.nav-open .nav-burger span:nth-child(2) { opacity: 0; }
+      nav.nav-open .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      /* slide-in menu */
+      .nav-links {
+        position: fixed; top: 68px; left: 0; right: 0;
+        max-height: calc(100vh - 68px); overflow-y: auto;
+        flex-direction: column; align-items: stretch; justify-content: flex-start;
+        gap: 0; padding: 8px 0 24px;
+        background: rgba(8, 8, 14, 0.98);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transform: translateX(100%); transition: transform .35s ease;
+      }
+      nav.nav-open .nav-links { transform: translateX(0); }
+      .nav-links li { width: 100%; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+      .nav-item {
+        height: auto !important; padding: 17px 26px !important;
+        justify-content: flex-start; width: 100%;
+      }
+      .nav-item .arc-wrap { display: none !important; }
+      .nav-item .label {
+        font-size: 17px !important; opacity: 1 !important; transform: none !important;
+        color: #fff;
+      }
+      /* dropdown items shown inline, always expanded */
+      .has-dropdown { display: block !important; height: auto !important; position: static !important; }
+      .has-dropdown::after { display: none; }
+      .has-dropdown .dropdown {
+        position: static !important; opacity: 1 !important; visibility: visible !important;
+        transform: none !important; box-shadow: none !important; background: none !important;
+        display: block !important; min-width: 0; padding: 0 0 6px !important; margin: 0;
+        pointer-events: auto !important;
+      }
+      .has-dropdown .dropdown a { padding: 13px 42px !important; font-size: 15px; }
+      .chevron { display: none; }
+
+      /* hero */
+      .hero { height: auto; min-height: 100svh; padding-top: 68px; }
+      .hero-text { padding: 26px 20px 0; }
+      .hero-title { white-space: normal; line-height: 1.12; padding-bottom: 0.12em; }
+      .hero-desc { white-space: normal; font-size: 15px; line-height: 1.7; }
+      .hero-spline { margin-top: 0; min-height: 52vh; }
+      .hero-robot-3d { width: min(340px, 78vw); bottom: 36px; }
+      .hero-robot-3d spline-viewer, .hero-robot-poster { width: 210%; height: 210%; }
+      .robot-glow { width: 280px; }
+      .hero-robot-spotlight { width: 460px; height: 460px; }
+      .hero-cta { margin-top: 22px; }
+
+      /* big scroll-words section: centred, punchy scroll-highlight. Generous
+         top/bottom room so words can reach the screen centre; the active word
+         scales up + glows so it clearly stands out. */
+      .scroll-words-inner { flex-direction: column; align-items: center; text-align: center; padding: 42vh 16px; gap: 0; }
+      .scroll-prefix {
+        position: static; top: auto; height: auto; align-self: center;
+        font-size: clamp(26px, 7vw, 42px); line-height: 1.1; margin-bottom: 20px; opacity: 0.92;
+      }
+      .scroll-word {
+        font-size: clamp(23px, 6.4vw, 38px); height: auto; line-height: 1.15;
+        white-space: nowrap; padding: 16px 0; transform-origin: center;
+        justify-content: center; text-align: center;
+        transition: opacity .25s ease, transform .3s cubic-bezier(.16,1,.3,1), text-shadow .25s ease;
+      }
+      .scroll-prefix { justify-content: center; }
+      .scroll-word.sw-active { transform: scale(1.12); text-shadow: 0 0 30px rgba(255,255,255,.4); }
+      .scroll-word--gold { color: #f5c842; }
+      .scroll-word--gold.sw-active { text-shadow: 0 0 30px rgba(245,200,66,.5); }
+
+      /* stats: 2 columns */
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+
+      /* generic: stack common grids, kill horizontal overflow */
+      .offerings-grid { grid-template-columns: 1fr !important; }
+      img, svg, video, canvas, spline-viewer { max-width: 100%; }
+
+      /* contain wide / 3D / scroll sections so nothing overflows sideways */
+      .csa-section, .csa-perspective-wrap, .innov-section,
+      .marquee-track-wrap, .student-marquee-section,
+      .hgal-track-wrap, .spline-fullscreen-section, .lbp-section { overflow-x: hidden; }
+      /* csa "screen": keep the 3D tilt + text-fill, but size it for mobile so
+         the text fits instead of being chopped by the fixed 620px height */
+      .csa-section { padding: 64px 16px 36px !important; }
+      .csa-perspective-wrap { perspective: 760px; max-width: 100%; }
+      .csa-card { max-width: 100% !important; height: auto !important; min-height: 0 !important;
+        border-width: 5px !important; outline-width: 2px !important; border-radius: 18px; }
+      .csa-card-inner { padding: 32px 24px !important; border-radius: 13px; align-items: center !important; }
+      .magic-word { font-size: clamp(18px, 5.2vw, 28px) !important; margin-top: 7px !important; }
+      .magic-text-wrap { gap: 0 7px !important; line-height: 1.35 !important; }
+      .innov-hero-content, .innov-heading, .magic-text-wrap { max-width: 100% !important; }
+      .innov-heading { font-size: clamp(28px, 8vw, 48px) !important; line-height: 1.15; }
+      /* horizontal galleries: let them scroll inside, not push the page */
+      .hgal-track, .hslide-track, .marquee-track { max-width: none; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: clamp(30px, 9.2vw, 44px); }
+      .stats-grid { grid-template-columns: 1fr; }
+      .scroll-words-inner { padding: 44px 16px; }
+    }
+
+    /* ---- mobile: tame the desktop scroll-pinned sections so they don't
+       leave empty voids or squished side-by-side panels ---- */
+    @media (max-width: 860px) {
+      /* innov: 280vh pinned scroll -> a normal-height section */
+      .innov-section { height: auto !important; }
+      .innov-sticky { position: relative !important; height: 60vh !important; padding-top: 0 !important; justify-content: center !important; }
+
+      /* robot-panel: remove the empty Spline backdrop, stack the two cards */
+      .robot-panel { height: auto !important; overflow: visible !important; }
+      .spline-fullscreen-section { display: none !important; }
+      .lbp-section { position: relative !important; pointer-events: auto !important; }
+      .lbp-cards-row { position: relative !important; inset: auto !important; display: flex; flex-direction: column; pointer-events: auto !important; }
+      .lbp-thumb { position: relative !important; top: auto !important; left: auto !important; right: auto !important; width: 100% !important; height: 300px !important; }
+      .lbp-thumb-label { font-size: clamp(26px, 7vw, 40px) !important; }
+    }
   </style>
 </head>
 
@@ -2472,6 +2613,9 @@
       </svg>
       <span class="nav-tagline">intelligence simplified.</span>
     </div>
+    <button type="button" class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <ul class="nav-links">
       <li><a href="who-we-are.html" class="nav-item" data-label="WHO WE ARE"><span class="label">Who We Are</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-buildings"></i></span></span></a></li>
       <li><a href="how-we-do.html" class="nav-item" data-label="HOW WE DO"><span class="label">How We Do</span><span
@@ -2518,6 +2662,47 @@
       </div>
     </div>
   </section>
+
+  <!-- Mount the live robot IMMEDIATELY (runs as the parser reaches it, not at
+       page bottom) so the Spline scene starts loading ASAP. The component is
+       already defined by the module script in <head>. Poster fallback stays. -->
+  <script>
+    (function () {
+      var mount = document.getElementById('heroRobot');
+      var poster = document.getElementById('heroRobotPoster');
+      if (!mount) return;
+      function webglSupported() {
+        try {
+          var c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch (e) { return false; }
+      }
+      if (!webglSupported()) return; // no WebGL: poster stays as permanent fallback
+
+      var viewer = document.createElement('spline-viewer');
+      viewer.setAttribute('url', 'https://prod.spline.design/aIfY7QYuRIHlJ7gA/scene.splinecode');
+      viewer.setAttribute('events-target', 'global');
+      mount.appendChild(viewer);
+
+      // only hide the poster once the live robot has ACTUALLY loaded — never on a
+      // timer — so it can never go blank if the 3D scene is slow or fails.
+      viewer.addEventListener('load', function () {
+        viewer.classList.add('loaded');
+        if (poster) poster.style.opacity = '0';
+      });
+
+      // hide the "Built with Spline" watermark inside the shadow DOM
+      var HIDE = 'a,#logo,.spline-watermark{display:none!important;opacity:0!important;pointer-events:none!important}';
+      function patch() {
+        document.querySelectorAll('spline-viewer').forEach(function (v) {
+          var root = v.shadowRoot;
+          if (!root || root.querySelector('#_sp_hide')) return;
+          var st = document.createElement('style'); st.id = '_sp_hide'; st.textContent = HIDE; root.appendChild(st);
+        });
+      }
+      [300, 800, 1600, 3000, 6000].forEach(function (t) { setTimeout(patch, t); });
+    })();
+  </script>
 
   <section class="stats-section">
     <div class="stats-grid">
@@ -2906,6 +3091,20 @@
       })();
     })();
 
+    // MOBILE NAV TOGGLE
+    (function () {
+      var burger = document.getElementById('navBurger');
+      var navEl = document.querySelector('nav');
+      if (!burger || !navEl) return;
+      function close() { navEl.classList.remove('nav-open'); burger.setAttribute('aria-expanded', 'false'); }
+      burger.addEventListener('click', function () {
+        var open = navEl.classList.toggle('nav-open');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      // close menu when a link is tapped
+      navEl.querySelectorAll('.nav-links a').forEach(function (a) { a.addEventListener('click', close); });
+    })();
+
     // CURSOR
     (function () {
       const cursor = document.getElementById('custom-cursor'), path = cursor.querySelector('svg path'), TT = ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'SPAN', 'A', 'LI', 'BUTTON', 'LABEL'];
@@ -2927,7 +3126,7 @@
       const words = Array.from(document.querySelectorAll('.scroll-word'));
       if (!words.length) return;
 
-      const LH = 108;
+      const LH = 124;
 
       function setup() {
         list.style.paddingTop = '0px';
@@ -2939,12 +3138,13 @@
         let best = Infinity, ci = 0;
         words.forEach((w, i) => {
           const r = w.getBoundingClientRect();
-          const d = Math.abs(r.top + LH / 2 - targetY);
+          const d = Math.abs(r.top + r.height / 2 - targetY);
           if (d < best) { best = d; ci = i; }
         });
         words.forEach((w, i) => {
           const d = Math.abs(i - ci);
           w.style.opacity = d === 0 ? '1' : d === 1 ? '0.35' : d === 2 ? '0.15' : '0.07';
+          w.classList.toggle('sw-active', i === ci);
         });
 
         prefix.style.opacity = '1';
@@ -3683,62 +3883,6 @@
       <span class="sf-bottom-tag">intelligence simplified.</span>
     </div>
   </footer>
-
-  <!-- Hero robot: live Spline if WebGL is supported, static image fallback otherwise -->
-  <script>
-    (function () {
-      var mount = document.getElementById('heroRobot');
-      if (!mount) return;
-
-      function webglSupported() {
-        try {
-          var c = document.createElement('canvas');
-          return !!(window.WebGLRenderingContext &&
-            (c.getContext('webgl') || c.getContext('experimental-webgl')));
-        } catch (e) { return false; }
-      }
-
-      var poster = document.getElementById('heroRobotPoster');
-
-      if (webglSupported()) {
-        // Poster (a square cutout of the robot) shows INSTANTLY in the same
-        // square box as the viewer, so it's the same size as the live robot.
-        // Load the Spline web component (jsDelivr = faster than unpkg), then mount the robot
-        var mod = document.createElement('script');
-        mod.type = 'module';
-        mod.src = 'https://cdn.jsdelivr.net/npm/@splinetool/viewer@1.9.48/build/spline-viewer.js';
-        document.head.appendChild(mod);
-
-        var viewer = document.createElement('spline-viewer');
-        viewer.setAttribute('url', 'https://prod.spline.design/aIfY7QYuRIHlJ7gA/scene.splinecode');
-        viewer.setAttribute('events-target', 'global');
-        mount.appendChild(viewer);
-
-        // Fade the live robot in over the poster, then fade the poster out
-        function reveal() {
-          viewer.classList.add('loaded');
-          if (poster) poster.style.opacity = '0';
-        }
-        viewer.addEventListener('load', reveal);
-        setTimeout(reveal, 1000);
-
-        // Hide the "Built with Spline" watermark inside the shadow DOM
-        var HIDE = 'a,#logo,.spline-watermark{display:none!important;opacity:0!important;pointer-events:none!important}';
-        function patch() {
-          document.querySelectorAll('spline-viewer').forEach(function (v) {
-            var root = v.shadowRoot;
-            if (!root || root.querySelector('#_sp_hide')) return;
-            var st = document.createElement('style');
-            st.id = '_sp_hide';
-            st.textContent = HIDE;
-            root.appendChild(st);
-          });
-        }
-        [400, 1000, 2000, 4000, 7000].forEach(function (t) { setTimeout(patch, t); });
-      }
-      // No WebGL: the poster image stays as the permanent fallback — nothing to do.
-    })();
-  </script>
 
 </body>
 </html>

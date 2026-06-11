@@ -441,6 +441,40 @@
     .nav-item:hover .arc-wrap svg.arc-svg { animation: spin 5s linear infinite; }
     .nav-item:hover .arc-wrap .arc-icon { opacity: 1; }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  
+    /* ===== MOBILE / TABLET RESPONSIVE (nav + base) ===== */
+    .nav-burger { display: none; }
+    @media (max-width: 860px) {
+      nav { padding: 0 18px; height: 68px; }
+      .nav-logo svg { height: 38px; }
+      .nav-tagline { font-size: 8.5px; }
+      .nav-burger { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 0; background: none; border: none; cursor: pointer; z-index: 1300; }
+      .nav-burger span { display: block; width: 26px; height: 2px; border-radius: 2px; background: #fff; transition: transform .3s ease, opacity .3s ease; }
+      nav.nav-open .nav-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      nav.nav-open .nav-burger span:nth-child(2) { opacity: 0; }
+      nav.nav-open .nav-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .nav-links { position: fixed; top: 68px; left: 0; right: 0; max-height: calc(100vh - 68px); overflow-y: auto; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; padding: 8px 0 24px; background: rgba(8,8,14,0.98); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); transform: translateX(100%); transition: transform .35s ease; }
+      nav.nav-open .nav-links { transform: translateX(0); }
+      .nav-links li { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .nav-item { height: auto !important; padding: 17px 26px !important; justify-content: flex-start; width: 100%; }
+      .nav-item .arc-wrap { display: none !important; }
+      .nav-item .label { font-size: 17px !important; opacity: 1 !important; transform: none !important; color: #fff; }
+      .has-dropdown { display: block !important; height: auto !important; position: static !important; }
+      .has-dropdown::after { display: none; }
+      .has-dropdown .dropdown { position: static !important; opacity: 1 !important; visibility: visible !important; transform: none !important; box-shadow: none !important; background: none !important; display: block !important; min-width: 0; padding: 0 0 6px !important; margin: 0; pointer-events: auto !important; }
+      .has-dropdown .dropdown a { padding: 13px 42px !important; font-size: 15px; }
+      .chevron { display: none; }
+      html { overflow-x: hidden; }
+      html, body { height: auto !important; min-height: 0 !important; }
+      img, svg, video, canvas, iframe { max-width: 100%; height: auto; }
+    }
+      /* HEROFIX-MOBILE */
+    @media (max-width: 860px) {
+      .hwd-hero { grid-template-columns: 1fr !important; height: auto !important; margin-top: 68px !important; }
+      .hwd-hero-image { height: 240px !important; }
+      .hwd-hero-right { padding: 32px 22px 46px !important; }
+      .hwd-hero-title { font-size: clamp(30px, 8vw, 46px) !important; line-height: 1.1 !important; }
+    }
   </style>
 </head>
 <body>
@@ -459,6 +493,9 @@
       </svg>
       <span class="nav-tagline">intelligence simplified.</span>
     </a>
+    <button type="button" class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <ul class="nav-links">
       <li><a href="who-we-are.html" data-label="WHO WE ARE" class="nav-item"><span class="label">Who We Are</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-buildings"></i></span></span></a></li>
       <li><a href="how-we-do.html" data-label="HOW WE DO" class="nav-item active"><span class="label">How We Do</span><span class="arc-wrap"><svg class="arc-svg" viewBox="0 0 80 80"></svg><span class="arc-icon"><i class="ph ph-gear"></i></span></span></a></li>
@@ -1120,5 +1157,18 @@
       <span class="sf-bottom-tag">intelligence simplified.</span>
     </div>
   </footer>
+  <script>
+    (function () {
+      var burger = document.getElementById('navBurger');
+      var navEl = document.querySelector('nav');
+      if (!burger || !navEl) return;
+      function close() { navEl.classList.remove('nav-open'); burger.setAttribute('aria-expanded', 'false'); }
+      burger.addEventListener('click', function () {
+        var open = navEl.classList.toggle('nav-open');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      navEl.querySelectorAll('.nav-links a').forEach(function (a) { a.addEventListener('click', close); });
+    })();
+  </script>
 </body>
 </html>
