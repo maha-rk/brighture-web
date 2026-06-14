@@ -475,6 +475,14 @@
       .hwd-hero-image { height: 240px !important; }
       .hwd-hero-right { padding: 32px 22px 46px !important; }
       .hwd-hero-title { font-size: clamp(30px, 8vw, 46px) !important; line-height: 1.1 !important; }
+
+      /* collapse the 300vh pinned "Four Pillars" into a normal stack */
+      .hwd-pillars { height: auto !important; margin-top: 0 !important; }
+      .hwd-pillars-inner { position: static !important; height: auto !important; overflow: visible !important; display: flex; flex-direction: column; align-items: center; padding: 80px 20px 50px; gap: 20px; }
+      .hwd-pillars-title { position: static !important; padding: 0 0 6px !important; background: none !important; font-size: clamp(28px, 7.6vw, 44px) !important; }
+      .hwd-pillars-sub { position: static !important; text-align: center; margin: 0 0 14px !important; max-width: 100% !important; }
+      .hwd-pin-card { position: static !important; transform: none !important; width: 100% !important; max-width: 440px; height: 260px !important; top: auto !important; left: auto !important; right: auto !important; }
+      .hwd-p1, .hwd-p2, .hwd-p3, .hwd-p4 { transform: none !important; }
     }
   </style>
 </head>
@@ -1153,7 +1161,7 @@
     </div>
 
     <div class="sf-bottom">
-      <p class="sf-copy">&copy; 2025 Brighture. All rights reserved. &nbsp;<a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
+      <p class="sf-copy">&copy; 2026 Brighture. All rights reserved. &nbsp;<a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
       <span class="sf-bottom-tag">intelligence simplified.</span>
     </div>
   </footer>

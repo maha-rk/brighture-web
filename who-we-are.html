@@ -411,6 +411,17 @@
       .who-hero-image { height: 240px !important; }
       .who-hero-right { padding: 32px 22px 46px !important; }
       .who-hero-title { font-size: clamp(32px, 8.5vw, 50px) !important; line-height: 1.08 !important; }
+
+      /* collapse the 440vh pinned "What We Believe In" into a normal stack */
+      .who-pins { height: auto !important; }
+      .who-pins-inner { position: static !important; height: auto !important; overflow: visible !important; display: flex; flex-direction: column; align-items: center; padding: 72px 20px; gap: 22px; }
+      .who-pins-title { position: static !important; transform: none !important; white-space: normal !important; text-align: center; font-size: clamp(32px, 8.6vw, 50px) !important; margin-bottom: 8px; }
+      .who-pin-card { position: static !important; transform: none !important; width: 100% !important; max-width: 440px; height: 300px !important; left: auto !important; right: auto !important; top: auto !important; }
+      .card-mission, .card-vision, .card-sustain { width: 100% !important; height: 300px !important; left: auto !important; right: auto !important; top: auto !important; }
+
+      /* values 5-col grid -> single column */
+      .values-grid { grid-template-columns: 1fr !important; }
+      .values-section { padding: 80px 22px 96px !important; }
     }
   </style>
 </head>
@@ -1141,7 +1152,7 @@
     </div>
 
     <div class="sf-bottom">
-      <p class="sf-copy">&copy; 2025 Brighture. All rights reserved. &nbsp;<a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
+      <p class="sf-copy">&copy; 2026 Brighture. All rights reserved. &nbsp;<a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
       <span class="sf-bottom-tag">intelligence simplified.</span>
     </div>
   </footer>

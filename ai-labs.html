@@ -701,6 +701,11 @@
       .prog-table { grid-template-columns: 1fr !important; }
       .prog-overview-grid { grid-template-columns: repeat(2, 1fr) !important; }
       .prog-name { font-size: clamp(34px, 9vw, 58px) !important; }
+      /* split program pages -> stack content over image, drop 100vh */
+      .prog-split-page, .prog-split-page.reverse { flex-direction: column !important; min-height: 0 !important; }
+      .prog-split-half { width: 100% !important; }
+      .prog-split-img-wrap { width: 100% !important; min-height: 0 !important; height: 230px !important; }
+      .prog-split-content, .prog-split-right .prog-split-content { padding: 40px 22px 44px !important; }
     }
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -1442,7 +1447,7 @@
       </div>
     </div>
     <div class="sf-bottom">
-      <p class="sf-copy">&copy; 2025 Brighture. All rights reserved. &nbsp;<a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
+      <p class="sf-copy">&copy; 2026 Brighture. All rights reserved. &nbsp;<a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></p>
       <span class="sf-bottom-tag">intelligence simplified.</span>
     </div>
   </footer>
