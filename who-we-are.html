@@ -342,6 +342,11 @@
       .gaps-right { text-align: left; }
       .gaps-right .gap-underline { margin-left: 0; }
       .gaps-image { order: -1; aspect-ratio: 16 / 10; }
+      /* allow the label to wrap — white-space:nowrap + letter-spacing overflows
+         the 390px viewport; hide the decorative rule so the layout stays clean */
+      .gaps-label { flex-wrap: wrap; gap: 8px; }
+      .gaps-label span { white-space: normal; font-size: 16px; letter-spacing: .08em; }
+      .gaps-rule { display: none; }
     }
 
     /* ── GLOBAL INNOVATION LAB FRAMEWORK ── */
