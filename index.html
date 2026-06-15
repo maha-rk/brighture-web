@@ -3708,12 +3708,18 @@
           content.style.opacity = opacity.toFixed(4);
         }
 
-        if (progress >= 0.99 && !hasSnapped && spline && !isMobile) {
+        if (progress >= 0.99 && !hasSnapped && spline) {
           hasSnapped = true;
-          section.style.visibility = 'hidden';
           var splineTop = spline.getBoundingClientRect().top + window.pageYOffset;
-          window.scrollTo({ top: splineTop, behavior: 'instant' });
-          engageLock();
+          if (isMobile) {
+            // Smooth scroll on mobile — no instant jump, no visibility:hidden flash.
+            // The snap still fires so the dead 100vh below the sticky is never reached.
+            window.scrollTo({ top: splineTop, behavior: 'smooth' });
+          } else {
+            section.style.visibility = 'hidden';
+            window.scrollTo({ top: splineTop, behavior: 'instant' });
+            engageLock();
+          }
         }
       }
 
