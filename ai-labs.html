@@ -687,11 +687,14 @@
     }
       /* HEROFIX-MOBILE */
     @media (max-width: 860px) {
-      .hero { flex-direction: column !important; height: auto !important; min-height: 0 !important; padding-top: 68px; }
+      .hero { flex-direction: column !important; height: auto !important; min-height: 0 !important; padding: 68px 0 0 !important; }
       .hero-img-wrap { flex: none !important; width: 100% !important; height: 240px !important; transform: none !important; opacity: 1 !important; }
-      .hero-text { flex: none !important; padding: 30px 22px 46px !important; }
+      .hero-text { flex: none !important; padding: 30px 22px 40px !important; }
       .hero-title { font-size: clamp(34px, 9vw, 56px) !important; line-height: 1.07 !important; white-space: normal !important; }
       .hero-desc, .hero-list { font-size: 15px !important; }
+      /* prog-ov-cards start opacity:0 and reveal on scroll — skip the entrance
+         animation on mobile so the section isn't blank on initial load */
+      .prog-ov-card { opacity: 1 !important; transform: none !important; }
     }
   
     /* GRIDFIX-MOBILE */
