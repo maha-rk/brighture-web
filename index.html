@@ -2523,9 +2523,16 @@
       .hero-text { padding: 26px 20px 0; }
       .hero-title { white-space: normal; line-height: 1.12; padding-bottom: 0.12em; }
       .hero-desc { white-space: normal; font-size: 15px; line-height: 1.7; }
-      .hero-spline { margin-top: 0; flex: none; min-height: 0; height: 320px; }
-      .hero-robot-3d { width: min(300px, 74vw); bottom: -20px; }
-      .hero-robot-3d spline-viewer, .hero-robot-poster { width: 210%; height: 210%; }
+      .hero-spline { margin-top: 0; flex: none; min-height: 0; height: 300px; }
+      /* Render the robot box at the SAME size as desktop (500px → viewer 210% =
+         1050px canvas) so Spline frames the live robot IDENTICALLY to the poster
+         capture, then scale the whole box down to fit the phone. The poster and
+         live viewer are both children, so they scale together and overlap exactly
+         — no size jump when the live 3D swaps in. (transform-origin bottom keeps
+         the base anchored; the global max-width:100% must be lifted or it clamps
+         the 210% children and squishes the square framing.) */
+      .hero-robot-3d { width: 500px; bottom: 12px; left: 50%; transform: translateX(-50%) scale(0.6); transform-origin: bottom center; }
+      .hero-robot-3d spline-viewer, .hero-robot-poster { max-width: none; }
       .robot-glow { width: 280px; }
       .hero-robot-spotlight { width: 460px; height: 460px; }
       .hero-cta { margin-top: 22px; }
