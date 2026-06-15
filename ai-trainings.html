@@ -299,7 +299,19 @@
     @media (max-width: 860px) {
       .prog-body-row { grid-template-columns: 1fr !important; }
       .prog-vsep { display: none !important; }
+      /* reset the 6-col span rules — without this the cells try to occupy
+         columns 3-7 that don't exist in the 1-col grid and overlap each other */
       .prog-table { grid-template-columns: 1fr !important; }
+      .prog-table-cell,
+      .prog-table-cell:nth-child(1),
+      .prog-table-cell:nth-child(2),
+      .prog-table-cell:nth-child(3),
+      .prog-table-cell:nth-child(4),
+      .prog-table-cell:nth-child(5) {
+        grid-column: 1 / -1 !important;
+        border-right: none !important;
+        padding: 16px 0 !important;
+      }
       .prog-overview-grid { grid-template-columns: repeat(2, 1fr) !important; }
       .lm-img-grid-top, .lm-img-grid-bottom, .lm-checks, .ta-partners { grid-template-columns: 1fr !important; }
       /* ta-partner: min-width:auto lets the card grow past its 1fr cell to fit
