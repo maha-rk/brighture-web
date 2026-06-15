@@ -3712,9 +3712,11 @@
           hasSnapped = true;
           var splineTop = spline.getBoundingClientRect().top + window.pageYOffset;
           if (isMobile) {
-            // Smooth scroll on mobile — no instant jump, no visibility:hidden flash.
-            // The snap still fires so the dead 100vh below the sticky is never reached.
-            window.scrollTo({ top: splineTop, behavior: 'smooth' });
+            // Instant snap on mobile too — smooth is async and lets iOS momentum
+            // scroll drift into the dead 100vh below the sticky before it completes.
+            // No visibility:hidden (avoids a black flash) and no engageLock
+            // (overflow:hidden can't stop iOS momentum anyway).
+            window.scrollTo({ top: splineTop, behavior: 'instant' });
           } else {
             section.style.visibility = 'hidden';
             window.scrollTo({ top: splineTop, behavior: 'instant' });
