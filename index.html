@@ -2609,9 +2609,10 @@
       /* robot-panel: remove the empty Spline backdrop, stack the two cards */
       .robot-panel { height: auto !important; overflow: visible !important; }
       .spline-fullscreen-section { display: none !important; }
-      /* padding-top offsets the sticky nav so the first card label isn't hidden
-         behind it when the innov snap lands here or the user scrolls in */
-      .lbp-section { position: relative !important; pointer-events: auto !important; padding-top: 68px !important; }
+      /* padding-top gives breathing room below the sticky nav after the innov
+         snap lands here — 110px clears the 60px nav + 50px gap comfortably */
+      .lbp-section { position: relative !important; pointer-events: auto !important; padding-top: 110px !important; }
+      .lbp-thumb { height: 340px !important; }
       .lbp-cards-row { position: relative !important; inset: auto !important; display: flex; flex-direction: column; pointer-events: auto !important; }
       .lbp-thumb { position: relative !important; top: auto !important; left: auto !important; right: auto !important; width: 100% !important; height: 300px !important; }
       .lbp-thumb-label { font-size: clamp(26px, 7vw, 40px) !important; }
