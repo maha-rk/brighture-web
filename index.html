@@ -421,7 +421,10 @@
          to drop off-screen on shorter windows) */
       bottom: 120px;
       left: 50%;
-      transform: translateX(-50%);
+      /* mouse-reactive tilt (vars driven by JS); leans from the pedestal base */
+      transform: translateX(-50%) perspective(1100px) rotateX(var(--hrx, 0deg)) rotateY(var(--hry, 0deg));
+      transform-origin: center 78%;
+      transition: transform .35s ease-out;
       /* square box: the Spline scene only frames the FULL robot (incl. the
          bottom platform slab) at a ~1:1 aspect — a landscape box crops the base */
       width: min(500px, 86vw);
@@ -2516,12 +2519,12 @@
       .chevron { display: none; }
 
       /* hero */
-      .hero { height: auto; min-height: 100svh; padding-top: 68px; }
+      .hero { height: auto; min-height: auto; padding-top: 68px; padding-bottom: 24px; }
       .hero-text { padding: 26px 20px 0; }
       .hero-title { white-space: normal; line-height: 1.12; padding-bottom: 0.12em; }
       .hero-desc { white-space: normal; font-size: 15px; line-height: 1.7; }
-      .hero-spline { margin-top: 0; min-height: 52vh; }
-      .hero-robot-3d { width: min(340px, 78vw); bottom: 36px; }
+      .hero-spline { margin-top: 0; flex: none; min-height: 0; height: 320px; }
+      .hero-robot-3d { width: min(300px, 74vw); bottom: -20px; }
       .hero-robot-3d spline-viewer, .hero-robot-poster { width: 210%; height: 210%; }
       .robot-glow { width: 280px; }
       .hero-robot-spotlight { width: 460px; height: 460px; }
@@ -2684,14 +2687,17 @@
       viewer.setAttribute('events-target', 'global');
       mount.appendChild(viewer);
 
-      // Reveal the live 3D (fade the viewer in). The poster stays BEHIND it as a
-      // pixel-matched backdrop, so it never goes blank.
-      function showRobot() { viewer.classList.add('loaded'); }
-      // Clean swap if the scene fires 'load' — fade the poster out entirely.
-      viewer.addEventListener('load', function () {
-        showRobot();
+      // Reveal the live 3D (fade the viewer in) and fade the poster out so only
+      // one robot is ever visible. The poster covers the first ~1.5s (instant, so
+      // it's never blank); after that the live 3D — which renders reliably — takes
+      // over. Fading the poster avoids a doubled/"merged" robot on mobile, where
+      // the live viewer frames the scene differently than the fixed poster capture.
+      function showRobot() {
+        viewer.classList.add('loaded');
         if (poster) poster.style.opacity = '0';
-      });
+      }
+      // Clean swap if the scene fires 'load'.
+      viewer.addEventListener('load', showRobot);
       // Fallback: this scene's format is newer than the viewer lib, so it doesn't
       // reliably fire 'load' — but it still renders. Reveal the 3D on a short timer
       // so it always appears; the poster underneath remains as a safe backdrop.
@@ -3116,6 +3122,35 @@
       const cursor = document.getElementById('custom-cursor'), path = cursor.querySelector('svg path'), TT = ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'SPAN', 'A', 'LI', 'BUTTON', 'LABEL'];
       window.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; const el = document.elementFromPoint(e.clientX, e.clientY); const isT = el && (TT.includes(el.tagName) || el.closest('h1,h2,h3,p,a,button,li,span,.hero-title,.hero-desc,.nav-item,.label')); if (isT) { path.setAttribute('stroke', '#5b9fff'); cursor.style.filter = 'drop-shadow(0 0 6px rgba(91,159,255,0.9))'; } else { path.setAttribute('stroke', 'white'); cursor.style.filter = 'drop-shadow(0 0 4px rgba(255,255,255,0.5))'; } });
       document.addEventListener('mouseleave', () => cursor.style.opacity = '0'); document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
+    })();
+
+    // HERO PARALLAX — robot tilts toward the cursor + starfield depth (desktop, motion-OK only)
+    (function () {
+      var robot = document.getElementById('heroRobot');
+      var hero = document.querySelector('.hero');
+      var stars = document.getElementById('bg-canvas');
+      if (!robot || !hero) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (reduce || !fine) return;
+
+      var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+      function loop() {
+        cx += (tx - cx) * 0.09; cy += (ty - cy) * 0.09;
+        robot.style.setProperty('--hry', (cx * 22).toFixed(2) + 'deg');   // left/right lean
+        robot.style.setProperty('--hrx', (-cy * 16).toFixed(2) + 'deg');  // up/down lean
+        if (stars) stars.style.transform = 'translate(' + (cx * -28).toFixed(1) + 'px,' + (cy * -20).toFixed(1) + 'px)';
+        if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) { raf = requestAnimationFrame(loop); }
+        else { raf = null; }
+      }
+      window.addEventListener('mousemove', function (e) {
+        // only react while the hero is on screen
+        if (hero.getBoundingClientRect().bottom < 0) return;
+        tx = (e.clientX / window.innerWidth) - 0.5;
+        ty = (e.clientY / window.innerHeight) - 0.5;
+        if (!raf) raf = requestAnimationFrame(loop);
+      }, { passive: true });
+      window.addEventListener('mouseleave', function () { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(loop); });
     })();
 
     // STATS
