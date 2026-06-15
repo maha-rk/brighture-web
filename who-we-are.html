@@ -347,6 +347,12 @@
       .gaps-label { flex-wrap: wrap; gap: 8px; }
       .gaps-label span { white-space: normal; font-size: 16px; letter-spacing: .08em; }
       .gaps-rule { display: none; }
+
+      /* gaps-fill: stack vertically, hide flanking rules (don't work with
+         wrapped text), reduce the massive 88px top margin */
+      .gaps-fill { flex-direction: column; align-items: center; margin-top: 44px; gap: 0; }
+      .gaps-fill-rule { display: none; }
+      .gaps-fill-text { white-space: normal !important; text-align: center; font-size: clamp(18px, 4.8vw, 24px); }
     }
 
     /* ── GLOBAL INNOVATION LAB FRAMEWORK ── */
@@ -367,10 +373,13 @@
     .gilf-cta:hover { background: #b62fff; transform: translateY(-2px); }
     .gilf-cta:hover i { transform: translateX(4px); }
     @media (max-width: 900px) {
-      .gilf-section { padding: 80px 28px 110px; }
-      .gilf-inner { grid-template-columns: 1fr; gap: 48px; }
-      .gilf-art { order: -1; }
-      .gilf-art svg { max-width: 360px; }
+      .gilf-section { padding: 48px 24px 72px; }
+      .gilf-inner { grid-template-columns: 1fr; gap: 32px; align-items: center; }
+      .gilf-art { order: -1; display: flex; justify-content: center; }
+      .gilf-art svg { max-width: min(340px, 88vw); }
+      .gilf-text { text-align: center; }
+      .gilf-heading { font-size: clamp(28px, 7vw, 44px); }
+      .gilf-cta { align-self: center; display: inline-flex; }
     }
 
   

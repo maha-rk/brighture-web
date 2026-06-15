@@ -2581,8 +2581,9 @@
       .marquee-title { white-space: normal; font-size: clamp(24px, 7vw, 40px); text-align: center; }
       /* horizontal galleries: let them scroll inside, not push the page */
       .hgal-track, .hslide-track, .marquee-track { max-width: none; }
-      /* global presence: tighten the bottom gap below the location cards */
+      /* global presence: tighten bottom gap; allow headline to wrap at ≤360px */
       .hslide-global { padding-bottom: 36px !important; min-height: 0 !important; }
+      .glob-headline { white-space: normal !important; font-size: clamp(22px, 6.5vw, 40px) !important; line-height: 1.15 !important; }
     }
 
     @media (max-width: 480px) {
