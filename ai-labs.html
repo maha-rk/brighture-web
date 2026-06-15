@@ -710,6 +710,42 @@
       .programs-intro { padding: 40px 24px 36px !important; }
       .programs-intro-label { white-space: normal !important; text-align: center; letter-spacing: .1em !important; }
     }
+
+    /* ── pkg-section: stack text + tablet mockup on phones AND tablets ── */
+    @media (max-width: 1060px) {
+      .pkg-section { padding: 60px 24px 80px; }
+      .pkg-layout { flex-direction: column; gap: 40px; align-items: center; }
+      .pkg-left { text-align: center; max-width: 560px; }
+      /* scale the tablet mockup down to fit the viewport */
+      .tablet-outer { width: min(380px, 88vw); }
+    }
+
+    /* ── why-section: switch from absolute pentagon layout to stacked flow ── */
+    /* Extends to 1100px so all tablets (incl. iPad Pro 12.9") get the fix   */
+    @media (max-width: 1100px) {
+      .why-section {
+        min-height: 0 !important;
+        padding: 80px 24px 72px;
+        display: flex; flex-direction: column; align-items: center; gap: 20px;
+        overflow: hidden;
+      }
+      .why-heading {
+        position: static !important; transform: none !important;
+        width: 100% !important; max-width: 520px;
+        font-size: clamp(28px, 5.5vw, 48px) !important;
+        margin-bottom: 16px;
+      }
+      /* pull blocks into flow, full-width, no floating position offsets */
+      .why-block {
+        position: static !important;
+        opacity: 1 !important;
+        animation: none !important;
+        width: 100% !important; max-width: 520px;
+      }
+      .why-block.revealed { opacity: 1 !important; }
+      .why-block-inner { width: 100% !important; font-size: 16px !important; padding: 20px 22px !important; }
+      /* deco/orbs stay as background atmosphere — no layout impact */
+    }
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
