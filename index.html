@@ -2569,7 +2569,7 @@
       .hgal-track-wrap, .spline-fullscreen-section, .lbp-section { overflow-x: hidden; }
       /* csa "screen": keep the 3D tilt + text-fill, but size it for mobile so
          the text fits instead of being chopped by the fixed 620px height */
-      .csa-section { padding: 64px 28px 36px !important; }
+      .csa-section { padding: 64px 28px 56px !important; }
       .csa-perspective-wrap { perspective: 760px; max-width: 100%; }
       .csa-card { max-width: calc(100% - 8px) !important; height: auto !important; min-height: 0 !important;
         border-width: 5px !important; outline-width: 2px !important; border-radius: 18px; }
@@ -2581,6 +2581,8 @@
       .marquee-title { white-space: normal; font-size: clamp(24px, 7vw, 40px); text-align: center; }
       /* horizontal galleries: let them scroll inside, not push the page */
       .hgal-track, .hslide-track, .marquee-track { max-width: none; }
+      /* global presence: tighten the bottom gap below the location cards */
+      .hslide-global { padding-bottom: 36px !important; min-height: 0 !important; }
     }
 
     @media (max-width: 480px) {
@@ -2592,19 +2594,12 @@
     /* ---- mobile: tame the desktop scroll-pinned sections so they don't
        leave empty voids or squished side-by-side panels ---- */
     @media (max-width: 860px) {
-      /* innov: 280vh pinned scroll -> full-viewport static section on mobile */
-      .innov-section { height: 100svh !important; }
-      .innov-sticky { position: relative !important; height: 100svh !important; padding-top: 0 !important;
-        justify-content: center !important; align-items: center !important; }
-      /* video: JS sets opacity via canplay; also show it via CSS in case JS is slow */
+      /* innov: keep sticky zoom on mobile but shorter scroll (200vh) so it
+         zooms in as the user scrolls, then releases naturally — no snap */
+      .innov-section { height: 200vh !important; }
+      .innov-sticky { position: sticky !important; top: 0 !important; height: 100svh !important;
+        padding-top: 0 !important; justify-content: center !important; align-items: center !important; }
       .innov-bg-video { opacity: 1 !important; transition: opacity 0.6s ease !important; }
-      /* heading: reset any JS-driven scale/fade and add a simple fade-up on entry */
-      .innov-hero-content { opacity: 1 !important; transform: none !important;
-        animation: innov-fadein 0.9s ease both; }
-      @keyframes innov-fadein {
-        from { opacity: 0; transform: translateY(18px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
 
       /* robot-panel: remove the empty Spline backdrop, stack the two cards */
       .robot-panel { height: auto !important; overflow: visible !important; }
@@ -3664,9 +3659,7 @@
       var sticky = document.getElementById('innovSticky');
       var spline = document.querySelector('.robot-panel');
       if (!section || !content || !sticky) return;
-      // On mobile the section is a static full-height block — skip the scroll zoom
-      // so the CSS opacity/transform overrides aren't fought by inline JS styles.
-      if (window.innerWidth <= 860) return;
+      var isMobile = window.innerWidth <= 860;
 
       var hasSnapped = false;
       var lockTimer = null;
@@ -3708,10 +3701,9 @@
         content.style.transform = 'scale(' + scale.toFixed(4) + ')';
         content.style.opacity = opacity.toFixed(4);
 
-        if (progress >= 0.99 && !hasSnapped && spline) {
+        if (progress >= 0.99 && !hasSnapped && spline && !isMobile) {
           hasSnapped = true;
           section.style.visibility = 'hidden';
-          // getBoundingClientRect + pageYOffset is always document-relative (unlike offsetTop)
           var splineTop = spline.getBoundingClientRect().top + window.pageYOffset;
           window.scrollTo({ top: splineTop, behavior: 'instant' });
           engageLock();
