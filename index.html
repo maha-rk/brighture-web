@@ -2594,12 +2594,17 @@
     /* ---- mobile: tame the desktop scroll-pinned sections so they don't
        leave empty voids or squished side-by-side panels ---- */
     @media (max-width: 860px) {
-      /* innov: keep sticky zoom on mobile but shorter scroll (200vh) so it
-         zooms in as the user scrolls, then releases naturally — no snap */
-      .innov-section { height: 200vh !important; }
+      /* innov: sticky zoom — 150vh section gives 50vh of scroll travel so the
+         zoom feels snappy and the instant snap fires before momentum can drift
+         into the remaining dead zone */
+      .innov-section { height: 150vh !important; }
       .innov-sticky { position: sticky !important; top: 0 !important; height: 100svh !important;
         padding-top: 0 !important; justify-content: center !important; align-items: center !important; }
-      .innov-bg-video { opacity: 1 !important; transition: opacity 0.6s ease !important; }
+      /* remove desktop parallax shift — translateY(8%) creates a black gap at
+         the top on mobile; video must fill the full viewport edge-to-edge */
+      .innov-bg-video { transform: none !important; opacity: 1 !important; }
+      /* allow the heading to wrap — white-space:nowrap causes overflow at <500px */
+      .innov-heading { white-space: normal !important; text-align: center !important; }
 
       /* robot-panel: remove the empty Spline backdrop, stack the two cards */
       .robot-panel { height: auto !important; overflow: visible !important; }
