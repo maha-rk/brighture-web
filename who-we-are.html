@@ -422,6 +422,11 @@
       /* values 5-col grid -> single column */
       .values-grid { grid-template-columns: 1fr !important; }
       .values-section { padding: 80px 22px 96px !important; }
+
+      /* masked text: reduce padding + font so both words fit within the
+         angled background image without overflowing on narrow viewports */
+      .masked-section { padding: 0 12px 60px !important; }
+      .masked-text { font-size: clamp(36px, 10.5vw, 64px) !important; }
     }
   </style>
 </head>
