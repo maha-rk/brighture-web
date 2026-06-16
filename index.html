@@ -422,20 +422,20 @@
 
     .hero-robot-3d {
       position: absolute;
-      /* anchor the box to the bottom so the robot's base always clears the
-         viewport edge regardless of window height (centering caused the base
-         to drop off-screen on shorter windows) */
-      bottom: 120px;
       left: 50%;
-      /* mouse-reactive tilt (vars driven by JS); leans from the pedestal base */
+      /* bottom and size both scale with viewport height so the robot never
+         overlaps the hero text on short windows and always fills the hero
+         proportionally on tall ones — clamp keeps it in a sensible range */
+      bottom: clamp(40px, 10vh, 130px);
+      /* width is constrained by both max size (500px) and available vertical
+         space (100vh - ~450px for nav + text + CTA) so it auto-fits any height */
+      width: clamp(200px, calc(100vh - 450px), 500px);
+      aspect-ratio: 1 / 1;
+      height: auto;
+      /* mouse-reactive tilt */
       transform: translateX(-50%) perspective(1100px) rotateX(var(--hrx, 0deg)) rotateY(var(--hry, 0deg));
       transform-origin: center 78%;
       transition: transform .35s ease-out;
-      /* square box: the Spline scene only frames the FULL robot (incl. the
-         bottom platform slab) at a ~1:1 aspect — a landscape box crops the base */
-      width: min(500px, 86vw);
-      aspect-ratio: 1 / 1;
-      height: auto;
       z-index: 2;
     }
     .hero-robot-3d spline-viewer {
@@ -2596,11 +2596,6 @@
       .hero-title { font-size: clamp(30px, 9.2vw, 44px); }
       .stats-grid { grid-template-columns: 1fr; }
       .scroll-words-inner { padding: 44px 16px; }
-    }
-
-    /* Landscape tablets only (861–1180px wide AND short height) — not desktops */
-    @media (max-height: 860px) and (min-width: 861px) and (max-width: 1180px) {
-      .hero-robot-3d { width: min(280px, 32vw) !important; bottom: 28px !important; }
     }
 
     /* Tablet portrait (681–860px): robot slightly larger than phone, more screen room */
