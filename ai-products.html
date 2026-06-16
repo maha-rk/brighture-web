@@ -1946,6 +1946,27 @@
       .caps-grid { grid-template-columns: 1fr !important; }
       .is-grid { grid-template-columns: 1fr !important; }
       .is-card { opacity: 1 !important; transform: none !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,.08); }
+
+      /* SS2 — intro (AI Forklift Safety System): stack image above text */
+      .intro-inner { grid-template-columns: 1fr !important; min-height: 0 !important; }
+      .intro-image-panel { height: 240px; }
+      .intro-text-panel { padding: 36px 22px 48px !important; opacity: 1 !important; transform: none !important; }
+
+      /* SS3 — products section header */
+      .products-section { padding: 48px 22px 20px !important; }
+      .section-header { margin: 0 !important; padding: 36px 22px !important; opacity: 1 !important; transform: none !important; }
+      .section-title { font-size: clamp(28px, 7.5vw, 44px) !important; max-width: 100% !important; }
+
+      /* SS4 — Edge AI Systems: stack image below text, remove fixed height */
+      .eas-inner { grid-template-columns: 1fr !important; height: auto !important; }
+      .eas-text { padding: 40px 22px 32px !important; }
+      .eas-image-wrap { height: 220px; }
+
+      /* SS5 — layered diagonal text: scale down so all words stay in viewport */
+      .layered-section { padding: 40px 0 60px !important; overflow: hidden !important; }
+      .layered-inner { overflow: hidden !important; }
+      .layered-item { height: auto !important; overflow: visible !important; }
+      .layered-item p { font-size: clamp(24px, 6.5vw, 36px) !important; height: auto !important; line-height: 1.15 !important; white-space: nowrap !important; }
     }
   </style>
 </head>
