@@ -1952,21 +1952,56 @@
       .intro-image-panel { height: 240px; }
       .intro-text-panel { padding: 36px 22px 48px !important; opacity: 1 !important; transform: none !important; }
 
-      /* SS3 — products section header */
-      .products-section { padding: 48px 22px 20px !important; }
+      /* SS3 — products section header: override the row→column layout */
+      .products-section { padding: 40px 22px 16px !important; }
+      .products-section .section-header {
+        flex-direction: column !important; align-items: flex-start !important;
+        gap: 12px !important; padding: 0 !important; margin: 0 !important;
+      }
+      .products-section .section-header .section-label {
+        font-size: clamp(24px, 6.5vw, 38px) !important;
+      }
+      .products-section .section-header .section-title {
+        font-size: clamp(14px, 3.8vw, 17px) !important; text-align: left !important;
+      }
       .section-header { margin: 0 !important; padding: 36px 22px !important; opacity: 1 !important; transform: none !important; }
       .section-title { font-size: clamp(28px, 7.5vw, 44px) !important; max-width: 100% !important; }
 
-      /* SS4 — Edge AI Systems: stack image below text, remove fixed height */
+      /* SS4 — product portfolio horizontal scroll: convert to vertical stacked cards */
+      .ph-section { height: auto !important; }
+      .ph-sticky { position: static !important; height: auto !important; overflow: visible !important; }
+      .ph-track { display: block !important; transform: none !important; height: auto !important; }
+      .ph-panel {
+        width: 100% !important; min-width: 0 !important; height: auto !important;
+        display: flex !important; flex-direction: column !important;
+        grid-template-columns: 1fr !important;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+        padding-bottom: 0;
+      }
+      .ph-panel:last-child { border-bottom: none; }
+      .ph-img { width: 100% !important; height: 220px !important; flex-shrink: 0; order: -1; }
+      .ph-img img { object-fit: cover !important; }
+      .ph-content { padding: 24px 22px 36px !important; overflow: visible !important; }
+      .ph-content::before { display: none !important; }
+      .ph-name { font-size: clamp(18px, 5vw, 24px) !important; }
+      .ph-tagline { font-size: 14px !important; margin-bottom: 16px !important; }
+      .ph-sec-label { font-size: 13px !important; }
+      .ph-list li { font-size: 14px !important; }
+      .ph-slide-num { position: static !important; display: block; padding: 12px 22px 0 !important; background: none !important; border: none !important; font-size: 11px; }
+      .ph-progress-bar { display: none !important; }
+
+      /* SS5 — Edge AI Systems: stack image below text, remove fixed height */
       .eas-inner { grid-template-columns: 1fr !important; height: auto !important; }
       .eas-text { padding: 40px 22px 32px !important; }
       .eas-image-wrap { height: 220px; }
 
-      /* SS5 — layered diagonal text: scale down so all words stay in viewport */
+      /* SS6 — layered diagonal text: scale down so all words stay in viewport */
       .layered-section { padding: 40px 0 60px !important; overflow: hidden !important; }
       .layered-inner { overflow: hidden !important; }
       .layered-item { height: auto !important; overflow: visible !important; }
-      .layered-item p { font-size: clamp(24px, 6.5vw, 36px) !important; height: auto !important; line-height: 1.15 !important; white-space: nowrap !important; }
+      .layered-item p { font-size: clamp(20px, 5.5vw, 30px) !important; height: auto !important; line-height: 1.15 !important; white-space: nowrap !important; }
+      /* each item has 2 <p> tags that overlap on desktop; on mobile hide the first to avoid repetition */
+      .layered-item p:first-child { display: none !important; }
     }
   </style>
 </head>
@@ -3714,6 +3749,7 @@
       var track = document.getElementById('ph-track');
       var fill = document.getElementById('ph-progress');
       if (!section || !track) return;
+      if (window.innerWidth <= 860) return;
 
       var panels = track.querySelectorAll('.ph-panel');
       var n = panels.length;
