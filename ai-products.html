@@ -1996,13 +1996,34 @@
       .ph-progress-bar { display: none !important; }
 
       /* SS5 — Edge AI Systems: stack image below text, remove fixed height */
+      .eas-section { padding: 48px 22px !important; }
       .eas-inner { grid-template-columns: 1fr !important; height: auto !important; }
-      .eas-text { padding: 40px 22px 32px !important; }
+      .eas-text { padding: 0 0 32px !important; }
       .eas-image-wrap { height: 220px; }
 
-      /* SS6 — layered diagonal text: scale down so all words stay in viewport */
-      .layered-section { padding: 40px 0 60px !important; overflow: hidden !important; }
-      .layered-inner { overflow: hidden !important; }
+      /* Global section padding fix — all desktop sections use 52-64px horizontal
+         padding which is too tight on phones (320–430px wide). Normalise to 22px. */
+      .techcap-section { padding: 0 22px 48px !important; }
+      .techcap-body { padding: 24px 20px !important; }
+      .htc-section { padding: 0 22px 60px !important; }
+      .is-section { padding: 48px 22px 72px !important; }
+      .is-header { margin: 0 0 40px !important; }
+      .industries-section { padding: 60px 22px !important; }
+      .industries-row { margin-top: 32px !important; gap: 12px !important; }
+      .industry-card { min-width: 140px !important; padding: 24px 16px !important; }
+      .benefits-section { padding: 60px 22px !important; }
+      .cta-section { padding: 72px 22px !important; }
+      .cta-title { font-size: clamp(26px, 7vw, 40px) !important; }
+      .cta-desc { font-size: 15px !important; }
+      .spec-section { padding: 40px 22px 60px !important; }
+
+      /* SS6 — layered diagonal text: no overflow clipping on section or inner —
+         setting overflow-x:hidden + overflow-y:visible on the same element is
+         invalid (spec converts visible to auto), so both axes ended up clipping
+         the top/bottom words. The html element already has overflow-x:hidden
+         (line above) which prevents horizontal scroll. */
+      .layered-section { padding: 60px 0 80px !important; overflow: visible !important; }
+      .layered-inner { overflow: visible !important; }
       .layered-item { height: auto !important; overflow: visible !important; }
       .layered-item p { font-size: clamp(20px, 5.5vw, 30px) !important; height: auto !important; line-height: 1.15 !important; white-space: nowrap !important; }
       /* each item has 2 <p> tags that overlap on desktop; on mobile hide the first to avoid repetition */
