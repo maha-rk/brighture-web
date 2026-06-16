@@ -155,7 +155,8 @@
       "Bash(node hero_diag.mjs)",
       "Bash(node partner_cap.mjs)",
       "Bash(awk '/@media.*max-width.*860/{p=1} p{print NR\": \"$0} /^\\\\s*}$/{if\\(p\\)p=0}' /Users/mahashrirk/Documents/brighture_final/ai-products.html)",
-      "Bash(grep -v \"class=\\\\|<\\\\|^\\\\s*$\")"
+      "Bash(grep -v \"class=\\\\|<\\\\|^\\\\s*$\")",
+      "Bash(python3 -c ' *)"
     ],
     "additionalDirectories": [
       "/tmp"

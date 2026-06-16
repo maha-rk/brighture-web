@@ -238,5 +238,23 @@
     })();
   </script>
 
+  <!-- ── COOKIE CONSENT BANNER ── -->
+  <div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#0d0d12;border-top:1px solid rgba(161,0,255,.45);box-shadow:0 -4px 40px rgba(161,0,255,.12);padding:18px 28px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:Inter,Helvetica,Arial,sans-serif;">
+    <p style="margin:0;font-size:13.5px;color:rgba(255,255,255,.72);line-height:1.6;flex:1;min-width:220px;">We use third-party services (Google Fonts, Spline, Phosphor Icons) that may process your IP address. No advertising or tracking cookies are set. <a href="privacy.html" style="color:#a100ff;text-decoration:none;">Privacy Policy</a></p>
+    <div style="display:flex;gap:10px;flex-shrink:0;">
+      <button id="cookie-decline" style="background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.55);font-size:13px;font-family:inherit;padding:9px 20px;border-radius:6px;cursor:pointer;">Decline</button>
+      <button id="cookie-accept" style="background:#a100ff;border:none;color:#fff;font-size:13px;font-weight:600;font-family:inherit;padding:9px 22px;border-radius:6px;cursor:pointer;">Accept</button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var b = document.getElementById("cookie-banner");
+      if (!b || localStorage.getItem("brighture_cookie_consent")) return;
+      b.style.display = "flex";
+      document.getElementById("cookie-accept").addEventListener("click", function () { localStorage.setItem("brighture_cookie_consent", "accepted"); b.style.display = "none"; });
+      document.getElementById("cookie-decline").addEventListener("click", function () { localStorage.setItem("brighture_cookie_consent", "declined"); b.style.display = "none"; });
+    })();
+  </script>
+
 </body>
 </html>
