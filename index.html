@@ -423,8 +423,10 @@
     .hero-robot-3d {
       position: absolute;
       left: 50%;
-      bottom: 80px;
-      width: min(500px, 86vw);
+      /* ratio-based: ~55% of viewport height, also capped at 40% of viewport
+         width so it never dominates narrow windows — absolute max 520px */
+      width: min(520px, 55vh, 40vw);
+      bottom: max(60px, 9vh);
       aspect-ratio: 1 / 1;
       height: auto;
       /* mouse-reactive tilt */
