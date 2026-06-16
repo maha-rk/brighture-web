@@ -1937,7 +1937,12 @@
   
     /* GRIDFIX-MOBILE */
     @media (max-width: 860px) {
-      .kr-item { grid-template-columns: 1fr !important; gap: 6px !important; }
+      /* kr-section — disable scroll-fade on mobile; show all 4 items at full opacity */
+      .kr-section { height: auto !important; }
+      .kr-sticky { position: static !important; height: auto !important; overflow: visible !important; }
+      .kr-eyebrow-wrap { padding: 40px 22px 20px !important; }
+      .kr-arena { padding: 0 22px 48px !important; overflow: visible !important; flex: none !important; justify-content: flex-start !important; }
+      .kr-item { opacity: 1 !important; transform: none !important; grid-template-columns: 1fr !important; gap: 6px !important; }
       .spec-panel.active { grid-template-columns: 1fr !important; }
       .htc-cards { grid-template-columns: 1fr !important; }
       /* collapse paip 300vh pinned section; stack capability + industry grids */
@@ -3801,6 +3806,7 @@
       var section = document.getElementById('kr-section');
       var items = ['kr-i0', 'kr-i1', 'kr-i2', 'kr-i3'].map(function (id) { return document.getElementById(id); });
       if (!section || !items[0]) return;
+      if (window.innerWidth <= 860) return;
 
       var centers = [0.1, 0.37, 0.63, 0.9];
       var WINDOW = 0.32;
