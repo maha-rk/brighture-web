@@ -423,13 +423,14 @@
     .hero-robot-3d {
       position: absolute;
       left: 50%;
-      /* ratio-based: ~46% of viewport height, capped at 38vw and 500px */
-      width: min(500px, 46vh, 38vw);
+      /* Fixed at 500px so Spline canvas (210% of this) always matches the
+         poster capture exactly — visual size is controlled via --robot-scale */
+      width: 500px;
       bottom: max(100px, 13vh);
       aspect-ratio: 1 / 1;
       height: auto;
-      /* mouse-reactive tilt */
-      transform: translateX(-50%) perspective(1100px) rotateX(var(--hrx, 0deg)) rotateY(var(--hry, 0deg));
+      /* scale driven by JS to stay ~46vh/38vw proportional to the viewport */
+      transform: translateX(-50%) scale(var(--robot-scale, 1)) perspective(1100px) rotateX(var(--hrx, 0deg)) rotateY(var(--hry, 0deg));
       transform-origin: center 78%;
       transition: transform .35s ease-out;
       z-index: 2;
@@ -3164,6 +3165,18 @@
       const cursor = document.getElementById('custom-cursor'), path = cursor.querySelector('svg path'), TT = ['P', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'SPAN', 'A', 'LI', 'BUTTON', 'LABEL'];
       window.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; const el = document.elementFromPoint(e.clientX, e.clientY); const isT = el && (TT.includes(el.tagName) || el.closest('h1,h2,h3,p,a,button,li,span,.hero-title,.hero-desc,.nav-item,.label')); if (isT) { path.setAttribute('stroke', '#5b9fff'); cursor.style.filter = 'drop-shadow(0 0 6px rgba(91,159,255,0.9))'; } else { path.setAttribute('stroke', 'white'); cursor.style.filter = 'drop-shadow(0 0 4px rgba(255,255,255,0.5))'; } });
       document.addEventListener('mouseleave', () => cursor.style.opacity = '0'); document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
+    })();
+
+    // ROBOT SCALE — keeps visual size proportional to viewport (46vh / 38vw)
+    // width stays fixed at 500px so poster + Spline viewer always align
+    (function () {
+      function updateRobotScale() {
+        if (window.innerWidth <= 860) return; // mobile uses CSS scale() directly
+        var s = Math.min(1, window.innerHeight * 0.46 / 500, window.innerWidth * 0.38 / 500);
+        document.documentElement.style.setProperty('--robot-scale', s.toFixed(4));
+      }
+      updateRobotScale();
+      window.addEventListener('resize', updateRobotScale, { passive: true });
     })();
 
     // HERO PARALLAX — robot tilts toward the cursor + starfield depth (desktop, motion-OK only)
