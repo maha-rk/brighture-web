@@ -423,11 +423,8 @@
     .hero-robot-3d {
       position: absolute;
       left: 50%;
-      /* size and bottom both track viewport height — robot fills the lower hero
-         proportionally at every screen size; text is z-index:10 so it always
-         renders above the robot regardless of vertical overlap */
-      bottom: clamp(70px, 11vh, 140px);
-      width: clamp(240px, calc(100vh - 380px), 480px);
+      bottom: 120px;
+      width: min(500px, 86vw);
       aspect-ratio: 1 / 1;
       height: auto;
       /* mouse-reactive tilt */
