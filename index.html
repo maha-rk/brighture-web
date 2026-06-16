@@ -599,17 +599,17 @@
 
     .scroll-prefix {
       position: sticky;
-      top: calc(50vh - 62px);
+      top: calc(50vh - 0.65em);
       align-self: flex-start;
       flex-shrink: 0;
       font-family: var(--font);
-      font-size: 96px;
+      font-size: clamp(28px, 6vw, 96px);
       font-weight: 800;
       color: #fff;
       white-space: nowrap;
       line-height: 1.3;
       letter-spacing: -0.04em;
-      height: 124px;
+      height: 1.3em;
       display: flex;
       align-items: center;
     }
@@ -624,7 +624,7 @@
 
     .scroll-word {
       font-family: var(--font);
-      font-size: 96px;
+      font-size: clamp(28px, 6vw, 96px);
       font-weight: 800;
       line-height: 1.3;
       display: flex;
@@ -635,7 +635,7 @@
       will-change: opacity;
       transition: opacity 0.15s ease;
       white-space: nowrap;
-      height: 124px;
+      height: 1.3em;
     }
 
     .scroll-word--gold {
