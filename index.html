@@ -576,6 +576,7 @@
       position: relative;
       z-index: 10;
       background: #0a0a0c;
+      overflow: hidden;
     }
 
     .scroll-words-inner {
@@ -2593,6 +2594,12 @@
       .hero-title { font-size: clamp(30px, 9.2vw, 44px); }
       .stats-grid { grid-template-columns: 1fr; }
       .scroll-words-inner { padding: 44px 16px; }
+    }
+
+    /* Tablet landscape (861–1380px): scroll words clip at 96px in two-column layout */
+    @media (min-width: 861px) and (max-width: 1380px) {
+      .scroll-prefix { font-size: 64px; height: 84px; top: calc(50vh - 42px); }
+      .scroll-word { font-size: 64px; height: 84px; }
     }
 
     /* Tablet portrait (681–860px): robot slightly larger than phone, more screen room */
