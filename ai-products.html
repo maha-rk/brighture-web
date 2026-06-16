@@ -1937,12 +1937,10 @@
   
     /* GRIDFIX-MOBILE */
     @media (max-width: 860px) {
-      /* kr-section — disable scroll-fade on mobile; show all 4 items at full opacity */
-      .kr-section { height: auto !important; }
-      .kr-sticky { position: static !important; height: auto !important; overflow: visible !important; }
+      /* kr-section — preserve desktop scroll-fade on mobile; fix padding + stack grid */
       .kr-eyebrow-wrap { padding: 40px 22px 20px !important; }
-      .kr-arena { padding: 0 22px 48px !important; overflow: visible !important; flex: none !important; justify-content: flex-start !important; }
-      .kr-item { opacity: 1 !important; transform: none !important; grid-template-columns: 1fr !important; gap: 6px !important; }
+      .kr-arena { padding: 0 22px !important; }
+      .kr-item { grid-template-columns: 1fr !important; gap: 6px !important; }
       .spec-panel.active { grid-template-columns: 1fr !important; }
       .htc-cards { grid-template-columns: 1fr !important; }
       /* collapse paip 300vh pinned section; stack capability + industry grids */
@@ -2022,7 +2020,7 @@
          invalid (spec converts visible to auto), so both axes ended up clipping
          the top/bottom words. The html element already has overflow-x:hidden
          (line above) which prevents horizontal scroll. */
-      .layered-section { padding: 60px 0 80px !important; overflow: visible !important; }
+      .layered-section { padding: 36px 0 48px !important; overflow: visible !important; }
       .layered-inner { overflow: visible !important; }
       .layered-item { height: auto !important; overflow: visible !important; }
       .layered-item p { font-size: clamp(20px, 5.5vw, 30px) !important; height: auto !important; line-height: 1.15 !important; white-space: nowrap !important; }
@@ -3827,7 +3825,6 @@
       var section = document.getElementById('kr-section');
       var items = ['kr-i0', 'kr-i1', 'kr-i2', 'kr-i3'].map(function (id) { return document.getElementById(id); });
       if (!section || !items[0]) return;
-      if (window.innerWidth <= 860) return;
 
       var centers = [0.1, 0.37, 0.63, 0.9];
       var WINDOW = 0.32;
@@ -3977,14 +3974,14 @@
       container.addEventListener('mouseleave', function () { tl.reverse(); });
     })();
 
-    /* ── Layered text: scale down translateX offsets on mobile so text stays in viewport ── */
+    /* ── Layered text: on mobile keep only a tiny translateX stagger (10% of desktop),
+       strip skew + scaleY so words sit straight and don't spread off-screen ── */
     (function () {
       if (window.innerWidth > 860) return;
       document.querySelectorAll('.layered-item').forEach(function (item) {
-        item.style.transform = item.style.transform.replace(
-          /translateX\((-?[\d.]+)px\)/,
-          function (_, v) { return 'translateX(' + (parseFloat(v) * 0.2).toFixed(1) + 'px)'; }
-        );
+        var match = item.style.transform.match(/translateX\((-?[\d.]+)px\)/);
+        var offset = match ? (parseFloat(match[1]) * 0.1).toFixed(1) : '0';
+        item.style.transform = 'translateX(' + offset + 'px)';
       });
     })();
   </script>
