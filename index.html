@@ -2592,6 +2592,13 @@
       .scroll-words-inner { padding: 44px 16px; }
     }
 
+    /* Landscape tablets / short viewports: robot box overlaps the CTA button
+       because bottom:120px + 500px height exceeds the ~800px viewport height.
+       Shrink the robot and lower it so it sits fully below the text block. */
+    @media (max-height: 860px) and (min-width: 861px) {
+      .hero-robot-3d { width: min(320px, 52vw) !important; bottom: 40px !important; }
+    }
+
     /* ---- mobile: tame the desktop scroll-pinned sections so they don't
        leave empty voids or squished side-by-side panels ---- */
     @media (max-width: 860px) {
