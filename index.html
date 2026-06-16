@@ -379,7 +379,7 @@
 
     .robot-glow {
       position: absolute;
-      bottom: 2%;
+      bottom: 10%;
       left: 50%;
       transform: translateX(-50%);
       width: 500px;
@@ -423,10 +423,9 @@
     .hero-robot-3d {
       position: absolute;
       left: 50%;
-      /* ratio-based: ~55% of viewport height, also capped at 40% of viewport
-         width so it never dominates narrow windows — absolute max 520px */
-      width: min(520px, 55vh, 40vw);
-      bottom: max(60px, 9vh);
+      /* ratio-based: ~46% of viewport height, capped at 38vw and 500px */
+      width: min(500px, 46vh, 38vw);
+      bottom: max(100px, 13vh);
       aspect-ratio: 1 / 1;
       height: auto;
       /* mouse-reactive tilt */
