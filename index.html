@@ -433,7 +433,7 @@
       transition: transform .35s ease-out;
       /* square box: the Spline scene only frames the FULL robot (incl. the
          bottom platform slab) at a ~1:1 aspect — a landscape box crops the base */
-      width: min(500px, 38vw);
+      width: min(500px, 86vw);
       aspect-ratio: 1 / 1;
       height: auto;
       z-index: 2;
@@ -2598,9 +2598,9 @@
       .scroll-words-inner { padding: 44px 16px; }
     }
 
-    /* Landscape tablets / short viewports: reduce robot so it clears the text */
-    @media (max-height: 860px) and (min-width: 861px) {
-      .hero-robot-3d { width: min(260px, 30vw) !important; bottom: 28px !important; }
+    /* Landscape tablets only (861–1180px wide AND short height) — not desktops */
+    @media (max-height: 860px) and (min-width: 861px) and (max-width: 1180px) {
+      .hero-robot-3d { width: min(280px, 32vw) !important; bottom: 28px !important; }
     }
 
     /* Tablet portrait (681–860px): robot slightly larger than phone, more screen room */
