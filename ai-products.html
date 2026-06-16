@@ -3976,6 +3976,17 @@
       container.addEventListener('mouseenter', function () { tl.play(); });
       container.addEventListener('mouseleave', function () { tl.reverse(); });
     })();
+
+    /* ── Layered text: scale down translateX offsets on mobile so text stays in viewport ── */
+    (function () {
+      if (window.innerWidth > 860) return;
+      document.querySelectorAll('.layered-item').forEach(function (item) {
+        item.style.transform = item.style.transform.replace(
+          /translateX\((-?[\d.]+)px\)/,
+          function (_, v) { return 'translateX(' + (parseFloat(v) * 0.2).toFixed(1) + 'px)'; }
+        );
+      });
+    })();
   </script>
 
   <!-- ── SITE FOOTER ── -->

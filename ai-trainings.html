@@ -322,7 +322,16 @@
       .ta-partner-logo-wrap { margin-bottom: 16px !important; }
       .stats-bar { grid-template-columns: repeat(2, 1fr) !important; }
       .pb-subjects { grid-template-columns: repeat(2, 1fr) !important; }
-      .prog-name { font-size: clamp(34px, 9vw, 58px) !important; }
+      .prog-name { font-size: clamp(34px, 9vw, 58px) !important; margin-bottom: 32px !important; }
+      /* category label: remove decorative line so it aligns flush with heading + content below */
+      .prog-category { margin-bottom: 28px !important; }
+      .prog-category::before { display: none !important; }
+      /* bullet list: explicit gap between items (justify-content:space-between needs fixed height) */
+      .prog-bullets { gap: 16px !important; }
+      /* LAB FOCUS block: top margin when stacked below bullets on mobile */
+      .prog-body-right { margin-top: 32px !important; }
+      .prog-focus-label { margin-bottom: 12px !important; }
+      .prog-body-row { margin-bottom: 44px !important; }
       /* prog-level: stack image below text, fix padding */
       .prog-level { padding: 48px 22px 56px !important; }
       .prog-level-inner { flex-direction: column !important; gap: 28px !important; }
