@@ -2601,6 +2601,12 @@
       .hero-spline { height: 360px !important; }
     }
 
+    /* Large phones (431–480px): covers iPhone 17 Pro Max (450px) and similar */
+    @media (max-width: 480px) and (min-width: 431px) {
+      .hero-robot-3d { transform: translateX(-50%) scale(0.57) !important; }
+      .hero-spline { height: 300px !important; }
+    }
+
     /* Standard phones (361–430px) */
     @media (max-width: 430px) and (min-width: 361px) {
       .hero-robot-3d { transform: translateX(-50%) scale(0.52) !important; }
