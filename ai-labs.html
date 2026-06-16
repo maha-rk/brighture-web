@@ -723,6 +723,17 @@
       .programs-intro-label { white-space: normal !important; text-align: center; letter-spacing: .1em !important; }
     }
 
+    /* ── TABLET (861px – 1024px) ── */
+    @media (min-width: 861px) and (max-width: 1024px) {
+      /* prog-split-content: 140px top padding is excessive at tablet widths */
+      .prog-split-content,
+      .prog-split-right .prog-split-content { padding: 60px 40px 60px 48px !important; }
+      /* 4-col prog-overview-grid → 2-col */
+      .prog-overview-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      /* intro section padding */
+      .programs-intro { padding: 52px 36px 44px !important; }
+    }
+
     /* ── pkg-section: stack text + tablet mockup on phones AND tablets ── */
     @media (max-width: 1060px) {
       .pkg-section { padding: 60px 24px 80px; }

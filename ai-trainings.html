@@ -343,6 +343,31 @@
       .programs-intro { padding: 40px 24px 36px !important; }
       .programs-intro-label { white-space: normal !important; text-align: center; letter-spacing: .1em !important; }
     }
+
+    /* ── TABLET (861px – 1024px) ── */
+    @media (min-width: 861px) and (max-width: 1024px) {
+      /* 6-col prog-table is unreadable at tablet widths — collapse to 1-col */
+      .prog-table { grid-template-columns: 1fr !important; }
+      .prog-table-cell,
+      .prog-table-cell:nth-child(1),
+      .prog-table-cell:nth-child(2),
+      .prog-table-cell:nth-child(3),
+      .prog-table-cell:nth-child(4),
+      .prog-table-cell:nth-child(5) {
+        grid-column: 1 / -1 !important; border-right: none !important; padding: 16px 0 !important;
+      }
+      /* 5-col pb-subjects → 3-col */
+      .pb-subjects { grid-template-columns: repeat(3, 1fr) !important; }
+      /* 3-col ta-partners → 2-col */
+      .ta-partners { grid-template-columns: repeat(2, 1fr) !important; }
+      /* 3-col lm-img-grid-top → 2-col */
+      .lm-img-grid-top { grid-template-columns: repeat(2, 1fr) !important; }
+      /* 3-col lm-checks → 2-col */
+      .lm-checks { grid-template-columns: repeat(2, 1fr) !important; }
+      /* section padding */
+      .prog-content, .program-block.reverse .prog-content { padding: 48px 36px !important; }
+      .programs-intro { padding: 52px 36px 44px !important; }
+    }
   </style>
 </head>
 <body>

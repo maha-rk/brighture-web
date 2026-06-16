@@ -2027,6 +2027,27 @@
       /* each item has 2 <p> tags that overlap on desktop; on mobile hide the first to avoid repetition */
       .layered-item p:first-child { display: none !important; }
     }
+
+    /* ── TABLET (861px – 1024px): intermediate layout ── */
+    @media (min-width: 861px) and (max-width: 1024px) {
+      /* 4-col htc-cards → 2-col */
+      .htc-cards { grid-template-columns: repeat(2, 1fr) !important; }
+      /* 3-col caps-grid → 2-col */
+      .caps-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      /* 5-col is-grid → 3-col */
+      .is-grid { grid-template-columns: repeat(3, 1fr) !important; }
+      /* kr-item: tighten the 3-col grid (number + title + desc) for narrower screens */
+      .kr-item { grid-template-columns: 48px 1fr !important; gap: 0 24px !important; }
+      .kr-item-desc { grid-column: 2 / -1 !important; }
+      /* reduce heavy desktop section padding */
+      .htc-section { padding: 0 36px 60px !important; }
+      .techcap-section { padding: 0 36px 60px !important; }
+      .techcap-body { padding: 32px 36px !important; }
+      .is-section { padding: 60px 36px 80px !important; }
+      .benefits-section { padding: 72px 36px !important; }
+      .industries-section { padding: 72px 36px !important; }
+      .cta-section { padding: 100px 36px !important; }
+    }
   </style>
 </head>
 
