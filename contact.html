@@ -1005,7 +1005,7 @@
           .then(function (r) { return r.json(); })
           .then(function (res) {
             if (res.success) {
-              showStatus(true, 'Thank you — your message has been sent. Our team will reach out within one business day.');
+              showStatus(true, 'Thank you — your message has been sent. Our team will reach out within 1–2 business days.');
               form.reset();
               if (window.turnstile) { try { window.turnstile.reset(); } catch (e) {} }
             } else {
