@@ -374,6 +374,10 @@
       .prog-content, .program-block.reverse .prog-content { padding: 48px 36px !important; }
       .programs-intro { padding: 52px 36px 44px !important; }
     }
+    @media (hover: none), (pointer: coarse) {
+      *, *::before, *::after { cursor: auto !important; }
+      #custom-cursor { display: none !important; }
+    }
   </style>
 </head>
 <body>

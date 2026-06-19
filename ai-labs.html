@@ -775,6 +775,10 @@
       .why-block-inner { width: 100% !important; font-size: 16px !important; padding: 20px 22px !important; }
       /* deco/orbs stay as background atmosphere — no layout impact */
     }
+    @media (hover: none), (pointer: coarse) {
+      *, *::before, *::after { cursor: auto !important; }
+      #custom-cursor { display: none !important; }
+    }
   </style>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>

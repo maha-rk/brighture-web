@@ -520,9 +520,9 @@
       position: relative;
       z-index: 10;
       background: #0a0a0c;
-      border-top: 1px solid rgba(255, 255, 255, 0.22);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-      padding: 28px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 72px 48px;
       margin-bottom: 40px;
     }
 
@@ -530,6 +530,8 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .stat-item {
@@ -537,9 +539,9 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 8px 0;
-      border-right: 1px solid rgba(255, 255, 255, 0.18);
+      gap: 14px;
+      padding: 16px 32px;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
       text-align: center;
     }
 
@@ -549,26 +551,29 @@
 
     .stat-number {
       font-family: var(--font);
-      font-size: clamp(40px, 4.5vw, 64px);
-      font-weight: 700;
+      font-size: clamp(52px, 5.5vw, 88px);
+      font-weight: 800;
       color: #fff;
       line-height: 1;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.04em;
       display: flex;
       align-items: baseline;
+      text-shadow: none;
     }
 
     .stat-suffix {
-      font-size: 0.72em;
+      font-size: 0.58em;
       font-weight: 700;
+      letter-spacing: 0;
     }
 
     .stat-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.16em;
-      color: rgba(255, 255, 255, 0.35);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: rgba(255, 255, 255, 0.5);
       text-transform: uppercase;
+      line-height: 1.5;
     }
 
     /* SCROLL WORDS */
@@ -2562,6 +2567,10 @@
 
       /* stats: 2 columns */
       .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stats-section { padding: 56px 24px; }
+      .stat-item { padding: 28px 16px; gap: 12px; }
+      .stat-item:nth-child(2n) { border-right: none; }
+      .stat-item:nth-child(1), .stat-item:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.1); }
 
       /* generic: stack common grids, kill horizontal overflow */
       .offerings-grid { grid-template-columns: 1fr !important; }
@@ -2592,7 +2601,7 @@
 
     @media (max-width: 480px) {
       .hero-title { font-size: clamp(30px, 9.2vw, 44px); }
-      .stats-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
       .scroll-words-inner { padding: 44px 16px; }
     }
 
@@ -2645,6 +2654,10 @@
       .lbp-cards-row { position: relative !important; inset: auto !important; display: flex; flex-direction: column; pointer-events: auto !important; }
       .lbp-thumb { position: relative !important; top: auto !important; left: auto !important; right: auto !important; width: 100% !important; height: 300px !important; }
       .lbp-thumb-label { font-size: clamp(26px, 7vw, 40px) !important; }
+    }
+    @media (hover: none), (pointer: coarse) {
+      *, *::before, *::after { cursor: auto !important; }
+      #custom-cursor { display: none !important; }
     }
   </style>
 </head>
@@ -3218,7 +3231,7 @@
     // STATS
     (function () {
       const items = document.querySelectorAll('.stat-item'); let done = false;
-      function run(el) { const t = parseInt(el.dataset.target), c = el.querySelector('.stat-count'), s = performance.now(); (function step(n) { const p = Math.min((n - s) / 700, 1); c.textContent = Math.floor(p * t); if (p < 1) requestAnimationFrame(step); else c.textContent = t; })(s); }
+      function run(el) { const t = parseInt(el.dataset.target), c = el.querySelector('.stat-count'), s = performance.now(); (function step(n) { const p = Math.min((n - s) / 1400, 1); c.textContent = Math.floor(p * t); if (p < 1) requestAnimationFrame(step); else c.textContent = t; })(s); }
       new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting && !done) { done = true; items.forEach(run); } }); }, { threshold: 0.2 }).observe(items[0]);
     })();
 

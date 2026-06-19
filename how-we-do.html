@@ -490,6 +490,10 @@
       .hwd-pin-card { position: static !important; transform: none !important; width: 100% !important; max-width: 440px; height: 260px !important; top: auto !important; left: auto !important; right: auto !important; }
       .hwd-p1, .hwd-p2, .hwd-p3, .hwd-p4 { transform: none !important; }
     }
+    @media (hover: none), (pointer: coarse) {
+      *, *::before, *::after { cursor: auto !important; }
+      #custom-cursor { display: none !important; }
+    }
   </style>
 </head>
 <body>

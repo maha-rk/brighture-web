@@ -278,6 +278,10 @@
       /* "Frequently Asked Questions" with nowrap overflows at ≤400px */
       .faq-title { white-space: normal !important; font-size: clamp(26px, 7vw, 44px) !important; }
     }
+    @media (hover: none), (pointer: coarse) {
+      *, *::before, *::after { cursor: auto !important; }
+      #custom-cursor { display: none !important; }
+    }
   </style>
 </head>
 
