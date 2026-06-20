@@ -2058,11 +2058,13 @@
       *, *::before, *::after { cursor: auto !important; }
       #custom-cursor { display: none !important; }
     }
+    html.touch-device #custom-cursor { display: none !important; }
+    html.touch-device *, html.touch-device *::before, html.touch-device *::after { cursor: auto !important; }
   </style>
 </head>
 
 <body>
-
+  <script>if("ontouchstart"in window||navigator.maxTouchPoints>0){document.documentElement.classList.add("touch-device");document.addEventListener('DOMContentLoaded',function(){var c=document.getElementById('custom-cursor');if(c)c.remove();});}</script>
   <div id="custom-cursor">
     <svg viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1 11 L10 2 L19 11" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />

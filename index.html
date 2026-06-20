@@ -522,7 +522,7 @@
       background: #0a0a0c;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 72px 48px;
+      padding: 44px 48px;
       margin-bottom: 40px;
     }
 
@@ -2567,7 +2567,7 @@
 
       /* stats: 2 columns */
       .stats-grid { grid-template-columns: 1fr 1fr; }
-      .stats-section { padding: 56px 24px; }
+      .stats-section { padding: 36px 24px; }
       .stat-item { padding: 28px 16px; gap: 12px; }
       .stat-item:nth-child(2n) { border-right: none; }
       .stat-item:nth-child(1), .stat-item:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.1); }
@@ -2659,10 +2659,13 @@
       *, *::before, *::after { cursor: auto !important; }
       #custom-cursor { display: none !important; }
     }
+    html.touch-device #custom-cursor { display: none !important; }
+    html.touch-device *, html.touch-device *::before, html.touch-device *::after { cursor: auto !important; }
   </style>
 </head>
 
 <body>
+  <script>if("ontouchstart"in window||navigator.maxTouchPoints>0){document.documentElement.classList.add("touch-device");document.addEventListener('DOMContentLoaded',function(){var c=document.getElementById('custom-cursor');if(c)c.remove();});}</script>
   <div id="custom-cursor">
     <svg viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M1 11 L10 2 L19 11" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
